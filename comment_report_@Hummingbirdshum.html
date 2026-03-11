@@ -1,0 +1,195 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Comment Analysis</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
+            th { background-color: #f8f9fa; font-weight: 600; }
+            tr:nth-child(even) { background-color: #fafafa; }
+            a { color: #0066cc; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .nowrap { white-space: nowrap; }
+            .likes-count { font-size: 0.85em; color: #6b7280; display: block; margin-top: 4px; }
+            
+            /* Tooltip container */
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                cursor: help;
+            }
+            
+            /* Tooltip text */
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: max-content;
+                background-color: #ffffff;
+                color: #333;
+                text-align: left;
+                border-radius: 6px;
+                padding: 10px;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -50px;
+                box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+                border: 1px solid #e5e7eb;
+                font-size: 0.9em;
+                line-height: 1.5;
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+            
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
+            
+            /* Overall Badge Styles */
+            .badge-overall {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 4px;
+                font-weight: 600;
+                font-size: 0.9em;
+            }
+            .overall-positive { background-color: #22c55e; color: white; }
+            .overall-negative { background-color: #ef4444; color: white; }
+            .overall-neutral { background-color: #9ca3af; color: white; }
+            
+            /* Individual Trait Styles in Popup */
+            .trait-positive { color: #166534; font-weight: 600; text-transform: capitalize; }
+            .trait-negative { color: #991b1b; font-weight: 600; text-transform: capitalize; }
+            .trait-none { color: #6b7280; font-style: italic; }
+        </style>
+    </head>
+    <body>
+        <h2>7 comments by <a href="https://youtube.com/@Hummingbirdshum" target="_blank">@Hummingbirdshum</a> on 5 videos</h2>
+        <table>
+            <tr>
+                <th>Video Title</th>
+                <th>Video Date</th>
+                <th>Comment Date</th>
+                <th>Comment Text</th>
+                <th>Sentiment</th>
+            </tr>
+    
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgymbOHJe80tVz77dp14AaABAg.ATQVag737SZATQZ-is3Pmw" target="_blank">2026-02-20</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>💯</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ arrogant</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgxTYMxwTJyfmUVtW0x4AaABAg.ATQ6uwiEkVoATQBYO4MQ8-" target="_blank">2026-02-19</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>Now you are telling him how to brand his own company? Seriously? What is wrong with people? Jealousy is shameful.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgxTYMxwTJyfmUVtW0x4AaABAg.ATQ6uwiEkVoATQMxFHt0Po" target="_blank">2026-02-19</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Excuse me? You don’t know me!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugwo4_37UjzwovtfyEl4AaABAg.ASZrG7m-BcJASZwLMWrOnc" target="_blank">2026-01-30</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td> @JackDoeland  Marvin Margolis appears to have obtained another students USC transcript somehow to possibly use at a later date for potential employment? He then kept it within his personal stuff it sounds.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=3-ouW2KMb-I" target="_blank">Killer In The Code Podcast Episode 1 - Mitzi Roberts & The LAPD Working The Black Dahlia Case</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=3-ouW2KMb-I&lc=UgzmMo0DBA7sLtDjn1N4AaABAg.ARElbaYz5YaAROiHwmsFN0" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>Detective Roberts is widely regarded as the leading authority on Elizabeth’s case. Baber’s conclusions are supported by every credentialed expert who has reviewed the evidence. To suggest that all of these experts are mistaken, while a small group of internet detractors is correct, disregards the weight of informed analysis and established credibility. Ignorance must be bliss.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ supportive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=I4qFYqJ7yAE" target="_blank">Killer In The Code Podcast Episode 2 - Mitzi Roberts And The "Smoking Gun"</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=I4qFYqJ7yAE&lc=Ugy_vDTgN5fZcmqKLTN4AaABAg.ARh0bNNA4I3ARnb7wLgr8h" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>Another hater here it looks. It is sad how people seem to misunderstand how real investigations work. To insult a detective like Mitzi Roberts is a sign of your ignorance.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ arrogant</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Okc2g0JsPMU" target="_blank">Mitzi Roberts - The MO Switch</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Okc2g0JsPMU&lc=Ugxnlnae_TeNwGCMvpV4AaABAg.ARh0vRL8SCzARnbKGJEOlP" target="_blank">2026-01-20</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td>Read the documents on the website.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+        </table>
+    </body>
+    </html>
+    
