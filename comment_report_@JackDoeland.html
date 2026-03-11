@@ -1,0 +1,2181 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Comment Analysis</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
+            th { background-color: #f8f9fa; font-weight: 600; }
+            tr:nth-child(even) { background-color: #fafafa; }
+            a { color: #0066cc; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .nowrap { white-space: nowrap; }
+            .likes-count { font-size: 0.85em; color: #6b7280; display: block; margin-top: 4px; }
+            
+            /* Tooltip container */
+            .tooltip {
+                position: relative;
+                display: inline-block;
+                cursor: help;
+            }
+            
+            /* Tooltip text */
+            .tooltip .tooltiptext {
+                visibility: hidden;
+                width: max-content;
+                background-color: #ffffff;
+                color: #333;
+                text-align: left;
+                border-radius: 6px;
+                padding: 10px;
+                position: absolute;
+                z-index: 1;
+                bottom: 125%;
+                left: 50%;
+                margin-left: -50px;
+                box-shadow: 0px 4px 12px rgba(0,0,0,0.15);
+                border: 1px solid #e5e7eb;
+                font-size: 0.9em;
+                line-height: 1.5;
+                opacity: 0;
+                transition: opacity 0.2s;
+            }
+            
+            .tooltip:hover .tooltiptext {
+                visibility: visible;
+                opacity: 1;
+            }
+            
+            /* Overall Badge Styles */
+            .badge-overall {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 4px;
+                font-weight: 600;
+                font-size: 0.9em;
+            }
+            .overall-positive { background-color: #22c55e; color: white; }
+            .overall-negative { background-color: #ef4444; color: white; }
+            .overall-neutral { background-color: #9ca3af; color: white; }
+            
+            /* Individual Trait Styles in Popup */
+            .trait-positive { color: #166534; font-weight: 600; text-transform: capitalize; }
+            .trait-negative { color: #991b1b; font-weight: 600; text-transform: capitalize; }
+            .trait-none { color: #6b7280; font-style: italic; }
+        </style>
+    </head>
+    <body>
+        <h2>122 comments by <a href="https://youtube.com/@JackDoeland" target="_blank">@JackDoeland</a> on 17 videos</h2>
+        <table>
+            <tr>
+                <th>Video Title</th>
+                <th>Video Date</th>
+                <th>Comment Date</th>
+                <th>Comment Text</th>
+                <th>Sentiment</th>
+            </tr>
+    
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=siLaHIMxa9o" target="_blank">IMPACT x Nightline: “Kill Code: Black Dahlia & Zodiac — Two Cases, One Killer?”</a></td>
+                <td class="nowrap">2026-03-04</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=siLaHIMxa9o&lc=Ugz6l2AZF8gJa_Yj0uV4AaABAg.ASIW02kiPLqASK6UuNG5nL" target="_blank">2026-02-04</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>He was attempting to hide the word “ZoDiac” within the shading and therefore was likely not concerned with its exact appearance. The handwriting of Margolis is identical in appearance to Zodiac’s in every way as well as his upper case lettering to Black Dahlia Avenger’s postcard. Please research before making CAPITALIZED claims. It has now been confirmed by a leading forensic expert as of a day or so ago according to reports even if handwriting analysis is not 100% accurate according to historical accounts.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgzrxJieHPkdEbhyXhh4AaABAg.ATd40A8G449ATeh7IXfLRe&pp=0gcJCSIANpG00pGi" target="_blank">2026-02-25</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>Do you two struggle with the ability to read? Can you at the very least listen? They have made it clear as have members of Margolis’s family that he had TWO residences under two aliases at the same time in 1969. His own family members would turn to his brother Milton to hunt him down when he would disappeared. You think an ad for a lost dog or a partner for a fictitious business can place him out of the proximity of the North Bay crimes? None of your claims align even if you want them too. A couple Reddit fanboys challenging respected detectives and forensic experts….you seriously have to be joking. Are you that ignorant to the facts or simple blinded by dislike for Baber? However, you keep peddling your nonsense, mates. Look at the likes 🖕🏻and quit whining every 5 minutes hoping someone will join your crusade, Spartacus. The viewers have grown tired of the same ole’ same ole’ thing from the same group of haters.
+
+The existence of two residences eliminates the assumption that he would need to travel from a single, fixed location in South CA to mail letters or commit each crime. When viewed from a logical perspective, the extended gaps between incidents and correspondence become more consistent with a dual-residence lifestyle. It is an important factor that should be carefully considered when evaluating movement patterns and timelines. They have explained this and because you do not necessarily like their response, it does not alter the facts.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ constructive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgzaZ8mduj8JVc6mRDd4AaABAg" target="_blank">2026-02-20</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>@Imnottheborough Almost all of what you just commented is misconstrued, mate. And the sad part is you know it. lol
+
+You have wrong details in some, misrepresent what the man said in others, and flat out lie in what is left. 
+
+Now either you didn’t read, didn’t listen, or you’re just full of crap.
+
+So, which is it now? Stop claiming everyone else who calls you out is Baber, stop being a fairy and stop whining on every single post because you got caught lying and the guy embarrassed ya.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=Ugy9-dPIPTGTOy_yfdB4AaABAg" target="_blank">2026-02-19</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>The small, recurring group of critics continues to repeat the same accusations, frequently by presenting selective interpretations of facts or misrepresenting statements in an apparent effort to question the guys credibility. Many of these criticisms appear to disregard the broader context of the work presented and the experts support. Increasingly, such negative commentary is finally being met with greater skepticism or simply ignored by the general audience. It’s grown old.
+That said, Baber’s research concerning individuals such as Klein in relation to the Zodiac case and Margolis in connection with the Black Dahlia investigation builds upon established suspects that existed well before his involvement. The theory has been out for 20 years originally presented by a former LA detective, not Baber. His exploration of a possible link between the two cases and suspects was based on shared locations and linguistic similarities in related correspondence—a theory he has since publicly disproven. 
+He has long stated his role is strictly that of a consultant, not an authority tasked with resolving or “closing” cold cases. Neither he nor his agency, Cold Case Consultants of America, possesses jurisdictional authority; their contributions are strictly advisory and analytical in nature, consistent with the company’s name. This work is designed to assist and complement, rather than replace, official law enforcement investigations.
+Regarding claims made by Sandy Betts: Certain assertions are only partially accurate. She shared the alleged stalker letter in 2020, rather than in 2007 as stated in some accounts. He has not released her purported “Klein turned Honcho” correspondence to the public and has informed her that the analysis was less supportive of her preferred interpretation than she maintains; she has not accepted this assessment and has instead fabricated claims like Margolis calling him in 2007 when he stated the man was possible Klein based on his voice.
+Although the group of approximately seven to eight individuals continues to lead the majority of the negative commentary about his work, particularly in this podcast and certain online communities, he has demonstrated a readiness to acknowledge errors and make corrections when warranted, which is a fundamental quality of any responsible investigator. Encouragingly, many observers now appear to differentiate between legitimate discussion of the research itself and commentary driven primarily by personal dislike though his haters continue to deny it.
+Persistent personal attacks serve little constructive purpose and may reflect more poorly on those advancing them than on the subject and again, viewers appear to be becoming aware of this. Have a marvelous day!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=Ugy9-dPIPTGTOy_yfdB4AaABAg.ATPOU0Gfu_nATPUGYDYBOC" target="_blank">2026-02-19</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>⁠ @trashlie If they feel there is enough evidence to move the case forward and experts support their findings, why would they not? How law enforcement proceeds is out of his hands. 
+
+Do you actually listen to the podcast or just see a new episode and start mindlessly typing, regurgitating the same nonsense? 
+
+And allow me to add, the sketch wasn’t hanging in some Elizabeth’s house?? It was discovered in his son’s residence. The other Elizabeth reportedly looks nothing like the sketch and unless you can miraculously explain away the wounds to the abdomen and slices to the mouth, you are looking a bit silly.
+
+Have a great day, mate.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=Ugy9-dPIPTGTOy_yfdB4AaABAg.ATPOU0Gfu_nATPe-DcbEKq" target="_blank">2026-02-19</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td>⁠​⁠ @Cragle-Z You are that desperate for attention? The son wasn’t with his partner Liz in 1992. The second drawing was added after Baber filmed and photoed the Elizabeth sketch created by Margolis if you compare the images. Liz wasn’t wounded in her sketch with the son either, was she. Try listening to the detectives in the podcast and cease the passive aggressive behavior. Do you believe you know more than them? And the experts these guys have approached for an opinion? Do you honestly? If so, I do feel for you. Ignorance is bliss except you know better and can’t use that as an excuse.  Later, MATE!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=Ugxt_qnI_L_l74Z4qIl4AaABAg.ATP1XaVNjnAATPg9htgetr" target="_blank">2026-02-19</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @trashlie  Once again, conclusions are being drawn without a thorough review of the historical record. The potential linkage between the Oakland County Child Murders and the Atlanta Child Murders was referenced by John Douglas in his 1981 behavioral profile—not by Baber. He simple revisited it. Douglas later adjusted his assessment when Wayne Williams emerged as a suspect and institutional pressure mounted to resolve the case.
+
+I would encourage a careful review of all documented materials before presenting personal assumptions as established fact—again. It’s not worth the effort to continuously correct you,Trashliar. You act as if you are in the know yet again you have no idea what you are talking about.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgxQdOt5yjqnXblWlQJ4AaABAg.ATOwcWC6nl3ATPjZjngOwb" target="_blank">2026-02-19</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>Edith Bernstein was her name. Passed in 1992, a year before Marvin. There was reportedly abuse issues according to the Daily Mail interview with the family. The second wife, Donna, had him arrested for threatening the life of his teenage step daughter. Donna held him at knife point until the police arrived.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ insightful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgxQdOt5yjqnXblWlQJ4AaABAg.ATOwcWC6nl3ATPpvgImGid" target="_blank">2026-02-19</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers  I’ve interviewed him. First time around a year or so ago about another video and again this year. I have no issue with someone who provides paper or recordings to support their claims. More people should be made to.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgxQdOt5yjqnXblWlQJ4AaABAg.ATOwcWC6nl3ATPrqce_uuO" target="_blank">2026-02-19</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td> @Imnottheborough And the second to last has arrived. Still struggling with English, mate? Here’s an idea. Why don’t you grow a set and reach out to him through his website like I did?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ constructive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-28</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=IMAUL6BKycE&lc=UgwdZtx4SdeJoDF4ge94AaABAg.ATOrVA0WcIOATPhZeOd48D" target="_blank">2026-02-19</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>Pay no mind to the haters. Was it the Chris Pine series?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ arrogant</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=AqFMn5jzd2E" target="_blank">Killer in the Code and Alex Baber Are Not Very Honest</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=AqFMn5jzd2E&lc=Ugz1779aLr86scJgDdJ4AaABAg" target="_blank">2026-02-19</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>He was born in Columbus, OH, raised in Florida, and returned to work the Circleville Writer case 40 minutes south of Columbus—in Circleville? 
+
+Not sure what your point is here?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ aggressive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PpAUDK_4MQ" target="_blank">Chapter 8: The Round Table Part 2</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PpAUDK_4MQ&lc=UgxetAq7iRCKTw_aZTZ4AaABAg.ASrSHS8lnsSATARd6QSgqb" target="_blank">2026-02-14</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>Please disregard the ongoing trolling. Anyone who expresses support for Baber or the team is routinely accused of being him or is subjected to criticism by the same small group of 8-9 individuals. It has been pointed out that nearly 80% of the negative commentary in the podcast appears to originate from this small circle of detractors. They are certainly dedicated lol. 
+
+As far as your questions, I can share what I know or have been told:
+
+1.	There is a video that was created. One can be seen on the HULU special (sped-up). Once the method of encryption and the key is identified, the process is rather simple. My 13-year-old son was able to then solve it in 10 minutes.
+	
+2.	Great question. Margolis apparently had multiple aliases over the years. He did attend USC, and the transcript was in the evidence turned over by the family. Whether he used a fictitious transcript or stole another student’s with a similar name is to be debated.
+	
+3.	It would be possible to test the partial DNA profile held by SFPD if a Margolis/Merrill family member were willing to give a sample.
+	
+4.	The family reportedly wishes to stay silent.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ respectful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PpAUDK_4MQ" target="_blank">Chapter 8: The Round Table Part 2</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PpAUDK_4MQ&lc=UgxetAq7iRCKTw_aZTZ4AaABAg.ASrSHS8lnsSATARqjj6A03" target="_blank">2026-02-14</a>
+                    <span class="likes-count">6 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Baber obviously understands cryptography. Numerous experts have confirmed his solution. Continue to embarrass yourself among the masses, it’s quite entertaining. No troll like a committed one!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PpAUDK_4MQ" target="_blank">Chapter 8: The Round Table Part 2</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PpAUDK_4MQ&lc=UgxetAq7iRCKTw_aZTZ4AaABAg.ASrSHS8lnsSATAUC7YNV19" target="_blank">2026-02-14</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers  By all means, please continue. I enjoy your passive aggressive ramblings, mate. The play-by-play breakdown! You’re like the ignorant John Madden of Killer in the Code. 
+
+You’re absolutely killing it. lol</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ supportive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PpAUDK_4MQ" target="_blank">Chapter 8: The Round Table Part 2</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PpAUDK_4MQ&lc=UgxetAq7iRCKTw_aZTZ4AaABAg.ASrSHS8lnsSATAVWoxedRy" target="_blank">2026-02-14</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Keep rambling, mate! I have my coffee.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ angry</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=79GU3ushtaA&lc=UgwDSlC-h_j51QVypzt4AaABAg.AT9o0P4-hsEATAGzuVlzHO" target="_blank">2026-02-14</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td>⁠​⁠​⁠​⁠​⁠ @Cragle-Z  Marvin (not Melvin?) died under the alias Marty Merrill in Santa Barbara, CA. Do you not listen to what is said by Connelly in their podcast? Mail from his residence with the name “Marty Merrill” was also turned over to investigators. If you are going to post as if you know something about the investigation, at least reference what it is they say.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ insightful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=79GU3ushtaA&lc=UgwDSlC-h_j51QVypzt4AaABAg.AT9o0P4-hsEATAK6YoxcCL&pp=0gcJCSIANpG00pGi" target="_blank">2026-02-14</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td> @Cragle-Z  Look at the image of the sketch they’ve released. Multiple injuries were visible before a macro lens was even used. Just because you or a handful of others don’t like it, doesn’t change the fact it exists. 
+
+Did “Melvin” cut up other Elizabeth’s? I mean that could be a possibility, right? 🙄</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=79GU3ushtaA&lc=Ugz7KqgRvRPsU2q-1WR4AaABAg.AT79q9aE3eRAT7XutLGoiI" target="_blank">2026-02-13</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>It appears you are struggling to present a consistent pattern regarding your own “Baber claims,” let alone his previous comments. He has already addressed and challenged his Larry Kane theory from years ago, Mr. Trashlier. Do you actually watch the videos or just complain? 
+
+At this stage, your continued focus on Baber and any associated releases, plastering them with dozens of negative comments—serves no real purpose. Repeated engagement of this nature only creates the impression of personal fixation on the guy. 
+
+Meanwhile, you hate on with the handful of others as his work continues to receive substantive media coverage for its contributions to cold case analysis and the  much-needed public exposure they deserve.
+And now you accuse me of being him for calling you out and pointing out the obvious 👍🏻. 
+
+Have a wonderful day, mate!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=79GU3ushtaA&lc=Ugz7KqgRvRPsU2q-1WR4AaABAg.AT79q9aE3eRAT7uQA6mM1x" target="_blank">2026-02-13</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>⁠ @EdEdwardsCiphers You have zero room to talk. You’ve been called out by others for your serial posting of passive aggressive nonsense. If I were you, I’d pipe down. Nobody outside of a handful of distractors, few are falling for your smear campaign anymore. Have a nice day!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgxGU88CJoniExXh4QF4AaABAg.ARilFPY8VYBASgnfBrDuWh" target="_blank">2026-02-06</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @TM-ew1ig  And no. Your sarcasm and disrespect are incompatible with serious research. If you are, as implied, a capable researcher, you would know that documents, articles, photographs, etc. are uploaded to and downloaded from the web at any given moment and can later be removed while the original still exist.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgxGU88CJoniExXh4QF4AaABAg.ARilFPY8VYBASh-M7eDOoL" target="_blank">2026-02-06</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @TM-ew1ig  Do your own research Travis or Trevor—or whoever you are. I am not who you think and I do not know you. I have never met you or spoken outside of the comments here. I have heard Baber himself correct others when they refer to him as an “expert,” and your attempt to claim credit for, or authority over, his investigation only highlights your agenda.
+
+If you take issue with Alex or his conclusions, address those claims directly with him and not through me. I am not your intermediary.
+
+I will ask plainly, and only once: more on what basis do you believe you are in a position to challenge the work of experienced detectives and recognized forensic and cryptography experts as an amateur?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgxGU88CJoniExXh4QF4AaABAg.ARilFPY8VYBASh4ZXrqrnr" target="_blank">2026-02-06</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @TM-ew1ig  Oh, right—you’re special. I see it now. Trying to provoke a reaction. It won’t work, mate. 
+
+And to answer your question, Baber does rather well for an “amateur,” judging by the level of support he receives well beyond the Zodiac and Dahlia circles. 
+
+I’ve heard you and the cliq might be quite salty about what comes next. Take care now.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ supportive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASbO6Do9uRm" target="_blank">2026-02-06</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>Craig Rhodes of The Zodiac Killer Vault, what “evidence” do you recommend the experts need further due diligence on? What in particular?
+
+You must know more than all the detectives, cryptography and forensic experts, correct?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASba1iicu09" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @TM-ew1ig  Hello, “TM.” I wish I could be of more assistance, but I’m not able to help with that. I expect it will be addressed in the final two episodes. Thank you.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ polite</div><div class='trait-positive'>✓ friendly</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASbhHmNnoLp" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @Cragle-Z Appreciate your response. My best assessment is that this was either a typographical error (804 versus 408), particularly given that both share the same 987 exchange and the
+Santa Clara location listed, or that a fictitious card was created for use during his overseas travel.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ insightful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASjW6XPTTsZ" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Who claims to be silenced? Cragle-Z? A person who has been respectful in his interactions with others? lol</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASjivKth534" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers  No one’s been silenced that I’m aware of, mate. And if they were, he certainly wouldn’t be my choice lol.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ sarcastic</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ aggressive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASbXI4be7IT" target="_blank">2026-02-06</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>⁠ @EdEdwardsCiphers Not sure what you “Ed Edwards” mean? Craig’s name is…Craig? What you do is you click on his profile picture and his name appears. He’s a member within an established Zodiac group having recently shared HD images of the Paul Stine crime scene prints. We’d like to know what he thinks? And what audience do you refer to? This is a YouTube channel where comments are posted and people can discuss their opinions. 
+
+Do you have a legitimate point?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzOGAdf7gSlBWOYgQp4AaABAg.ASbEY3HSjPZASjxFeJ5wP9" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers lol I don’t believe he’s captured.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgypA1bH9xXjjrfmTzd4AaABAg.AS_2qBLijzHASbazSBb_WR&pp=0gcJCSIANpG00pGi" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>⁠ @EdEdwardsCiphers  Believe whatever you wish; at this point, it carries little weight. You appear unwilling to consider perspectives other than your own, regardless of the source.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgypA1bH9xXjjrfmTzd4AaABAg.AS_2qBLijzHASbdCTAFBtK" target="_blank">2026-02-06</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @JohnWSmithATX  I have defended Baber since we had the opportunity to speak directly. I believe it is far more productive to engage someone openly, ask questions, and then conduct independent research to either substantiate or refute any claims. I did exactly that and concluded that much of the criticism directed at him stems from his being different rather than from factual deficiencies.
+
+Attacking an individual without first making a genuine effort to understand the circumstances is the real issue here—not Baber, nor those who support his work. I am not interested in debating where he attended school or the actions of his relatives. Anyone making such claims should conduct their own research and present any information contradicting his claims,, rather than relying on accusations or mischaracterizations. That’s all I have say on this.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugx01DNXpdQ2pP-bUbV4AaABAg.ASZi5ypLz23ASb6CBomQR-" target="_blank">2026-02-06</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td> @Imnottheborough  Again you are wrong. When or where has Baber ever said his uncle was a serial killer? Please direct me to your source. His grandfather was the suspected serial offender, per his  interviews; his uncle was the convicted murderer. Every single claim you make further exposes your personal fixation on this guy, rather than any meaningful challenge to his actual work on the cases. You repeat the same points endlessly, obsess over his media exposure which continues to grow as far as I can see, and come off less as a credible critic and more as someone resentful of his success — while stalking his every move. I recommend readers assess this hater’s credibility by starting with his comment history. No red flags there…
+
+Take care. I genuinely hope you get the help you so clearly need.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugx01DNXpdQ2pP-bUbV4AaABAg.ASZi5ypLz23ASbCm47WYuM&pp=0gcJCSIANpG00pGi" target="_blank">2026-02-06</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td> @Imnottheborough Seriously, mate? Seek some professional help.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=Ugyx7GaIC5hBSECjhZB4AaABAg.ARpOGR2kVK2ASK5gQwUlZs" target="_blank">2026-01-30</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @theycantallbezodiac  Yes, that is correct. The focus has increasingly shifted away from the victims and toward individuals’ personal investment in a particular suspect. In doing so, some resort to promoting partial truths or, in more troubling cases, outright fabrications in an effort to reinforce their position and discredit other’s hard work.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgzV_ha4BHkzBB9YAnJ4AaABAg.ARoSldjGN8WASKpK1hDSrZ" target="_blank">2026-01-30</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @spinsandneedles  Attempts to use “smoke & mirrors” to discredit me or any others who support Baber, only underscore a lack of substantive engagement with the evidence. The conclusions we rely on are supported by experts in their respective fields and stand in stark contrast to the withheld information contrary to assertions and speculative commentary put forward by Larry Harnisch, whose claims lack both professionalism  and real credibility. He is a man who’s invested 20+ years into a book focused on a single suspect who never had any established relationship to the victim Elizabeth Short. I would let that fact sink in for a moment before attempting to throw more shade on an investigation supported by every single expert has been presented to.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ supportive</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgzV_ha4BHkzBB9YAnJ4AaABAg.ARoSldjGN8WASL7PcHs-oK" target="_blank">2026-01-30</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>⁠ @spinsandneedles  Excuse me? A troll? I am a professional in the field of criminology. Defending Larry Harnisch’s recent outburst reflects poorly on your judgment and speaks for itself. You do understand that, yes? Repeating the label ‘troll’ in an attempt to justify the situation is neither persuasive nor appropriate. And for the record, Mr. Harnisch does not engage with individuals who are capable of challenging his one-sided claims or presenting evidence that contradicts them.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgzV_ha4BHkzBB9YAnJ4AaABAg.ARoSldjGN8WASLAt7MxSNU" target="_blank">2026-01-30</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @spinsandneedles  It seems ‘troll’ has become your preferred response. Please, by all means, continue. We are entertained.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ dismissive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgypA1bH9xXjjrfmTzd4AaABAg.AS_2qBLijzHAS_Mfcci68P" target="_blank">2026-01-30</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @JohnWSmithATX  Sure. My understanding is that Margolis used at least two different names in 1969, including Marvin Merrill and M. Skip Merrill (also referred to as Skip Merrill). The latter name is associated with an address that reappears in the late 1970s. His second documented presence in the Bay Area appears to coincide with the Zodiac’s reemergence around spring in 1978 just before his divorce, during which additional letters were mailed—one of which was ultimately attributed to Detective David Toschi, leading to his reassignment from homicide to pawn shop detail. He was later cleared of those allegations according to records. When questioned, family members were unable to account for Margolis’s specific whereabouts during the relevant timeframe surrounding Zodiac’s attacks and letters. These issues, among others, will be addressed by Connelly, Baber, and the experts in the next two episodes, presented as roundtable discussions.
+
+Regarding the use of “Skipton” as a middle name and when, his family have reportedly stated that it originated in his childhood years. The broader point being illustrated is that over the course of his life, he appears to have used numerous aliases estimated at around fourteen or fifteen I believe, while relocating frequently when doing so. If a name change was initially motivated by antisemitism in the 1950’s, the continued pattern of name changes throughout his life must come into question.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ respectful</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ polite</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgypA1bH9xXjjrfmTzd4AaABAg.AS_2qBLijzHAS_hEENgOxj&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-30</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @JohnWSmithATX  I have previously been clear about who I am and the nature of my work. I am not Baber, and at no point did I state or suggest that there is no direct evidence; on the contrary, such evidence clearly exists based on the podcast, documents, and experts. I am unclear how that interpretation was drawn from my comment.
+
+That said, knowing the respective cities where one’s parents were located is not unusual. In my own case, I was aware of both of my parents’ locations despite their separation and lack of contact, so I would consider that point a matter of reasonable variance rather than a definitive inconsistency or excuse to eliminate a suspect with ties to the cases.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ polite</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugwo4_37UjzwovtfyEl4AaABAg.ASZrG7m-BcJASZt7obH64x" target="_blank">2026-01-30</a>
+                    <span class="likes-count">7 likes</span>
+                </td>
+                <td>The transcript was provided to investigators by his son, who had retained it in storage since his father’s death in 1993. Absent the highly implausible scenario that Margolis stole and stored another USC medical student’s records for 46 years, that also served in the Navy, the document is his.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ supportive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugwo4_37UjzwovtfyEl4AaABAg.ASZrG7m-BcJASZvKDdpHGL" target="_blank">2026-01-30</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td> @TM-ew1ig  The transcript in question was obtained by investigators from Marvin Margolis’s son, who provided it under the belief that it belonged to his father. Whether Margolis used a fictitious middle name, added handwritten annotations, or appropriated another student’s transcript entirely is immaterial. The underlying point being advanced is that the individual demonstrated a pattern of manipulation and dishonesty throughout his life.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ aggressive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=UgzLfxgENKhq9QrjKsd4AaABAg.ASZp_B4yRZ9ASZqHEinI_g" target="_blank">2026-01-30</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td>Correct in substance, but inaccurate in detail. According to his family, the name was then given after birth.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-none'>No specific traits detected</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugx01DNXpdQ2pP-bUbV4AaABAg.ASZi5ypLz23ASZkbBRF_b3" target="_blank">2026-01-30</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>Alex from Florida is Alex Brian born in OHIO and brought up in Florida who never attended school in OHIO. Copy editor turned box communicator Larry Harnisch made up that claim about Baber in a fit of rage. 
+
+Shame on YOU for not doing your due diligence.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=OlKTEFe-obc&lc=Ugx01DNXpdQ2pP-bUbV4AaABAg.ASZi5ypLz23AS_Fp3zdMun" target="_blank">2026-01-30</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td> @Flora.Australia  And you’re entitled to believe whatever you choose, but it doesn’t change the fact the Larry Harnisch’s statement about Baber is fabricated. He never attended school in OHIO at anytime.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=Ugyx7GaIC5hBSECjhZB4AaABAg.ARpOGR2kVK2ASJpPhVaRXc" target="_blank">2026-01-23</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @theycantallbezodiac oh, he is salty. One of a few Baber haters out there.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgzV_ha4BHkzBB9YAnJ4AaABAg.ARoSldjGN8WASJofVRcwwk" target="_blank">2026-01-23</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>You are correct. It was his “Zodiac” birthday.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ polite</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgzV_ha4BHkzBB9YAnJ4AaABAg.ARoSldjGN8WASJpEYWqJLK" target="_blank">2026-01-23</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @spinsandneedles So you must have a time machine or are like 125 years old and were peeking in windows on January 14, 1947? Do you know Elizabeth wasn’t killed there? It’s called an “investigation” where you apply logic and reasoning to a situation to reach a probable outcome genius. Just because you follow and support Larry Harnisch doesn’t mean Baber and his team are incorrect.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ supportive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=Ugx6XHMNnTQFsVUh41t4AaABAg.ARhRNjjIlQPASIcTluPxhZ" target="_blank">2026-01-23</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @CrazyK1  Upcoming reported releases are expected to further piss them off. I tried warning but they didn’t seem to understand. 
+LoL</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmASIe8wjhOHf" target="_blank">2026-01-23</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @austintaylor6152  My 13-year-old son followed Baber’s instructions and was able to solve it in under five minutes. The reason the investigation and cipher solution are being dismissed appears to stem from Baber’s prior opposition to these few distractors, during which they were publicly embarrassed.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmASI_WNACN31" target="_blank">2026-01-23</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @CrazyK1  Recent reactions from critics appear increasingly silly, and further developments may prove surprising to some. Last night’s ABC Nightline Impact release on Hulu has generated significant attention, particularly in contrast to claims by some that media no longer cared or had influence. Additionally, the LAPD has confirmed that Baber’s investigation is active and being treated seriously, a development that has clearly intensified the response from the few distractors there are. The next step will reportedly be well placed especially for those who have lied and manipulated the truth surrounding Baber and his actions.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgwY9ZvkBmiDtzVIKcR4AaABAg.ARAEDOJYNAEARAcb0HtFiA" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>Interesting—It is factually based with expert confirmation and detectives supporting. What do you have additional?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgzXvWjjVhVtRuEUqCF4AaABAg.ARAEB0jx8T2ARAWSi0x5cd" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>Enhancement pulls the glasses away by detailing them. Austin, you’ll see a distinction around the eyebrow. This photograph was confirmed by his own son as being legit.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ supportive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgwPOfaijVS3FqUsVv54AaABAg.AR9g8kArQCDARAcQ21k8TA" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>And the Zodiac murders were the 60’s bud.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxffSKDdh04t5u5Evl4AaABAg.AR92azMNTZuARAX5m5GvvI" target="_blank">2026-01-20</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>Officer McBride’s account was discovered. Well, she was uncertain about the photographs after first saying they were in fact Elizabeth Short. She later went to the corners office and identified her body. They are releasing the information beginning of the year.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgyIRjjJJV-Kdc8em0B4AaABAg.AR8arWlrVwrARAKDfCPg3z" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>⁠ @VertigoGirl-g1o  Not added. The image was enhanced and the software pulls the glasses out. His son is on audio recording stating he wore glasses all the time and then he turned over a VA eye prescription to LE as well as numerous additional photos.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxQSBIevt_AdqxzguR4AaABAg.AR8MmVKThnXARAKedS6g-X" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>The Z13 solution IS 13 letters “Marvin Merrill,” his alias after the Dahlia murder, one he filed paperwork under. “Marvin Margolis” was his birth name. You should read more before responding so you don’t look so silly in front of everyone.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ condescending</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=Ugz0UC66l298mf4j5v14AaABAg.AR86ouu2f7DARAc8lwXHKO" target="_blank">2026-01-20</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>The glasses weren’t added. The image was “enhanced” in order to make the image brighter. The son has confirmed the photo as being real on audio and that his father wore glasses all the time. He reportedly provided detectives an eye prescription in his father’s name from decades ago—</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxNCNrtUPcIae5-Wx14AaABAg.AR86fTF69fcARAPmTXzmMi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>Zodiac Police Sketch says “35-45” and this Merrill guy would have been 43. He was 22 when he dated and then murderer Elizabeth Short in 1946-47.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=Ugykp7jlGdbsu2Fs0bR4AaABAg.AR82jFQkt1pARAPxVHwYmO&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>Oranchak is a self admitted amateur like this guy? At least this guy has the NSA confirmation and peer reviews for the first time in history.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ encouraging</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxVrdwIOpO278IRujF4AaABAg.AR7so2P4cwuARAQGDjdU68" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>⁠ @darklumin Shotty? It’s confirmed by a NSA legend and two independent peer reviews which is a first in history. Try reading.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-positive'>✓ encouraging</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxVrdwIOpO278IRujF4AaABAg.AR7so2P4cwuARAY7UHNze7" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @darklumin  Could you possibly read the article first before assuming? They got 71 million potential candidate combinations. 94% of them were not real world individuals although the first and last name fit the character count. Another 5% was reduced by the 1950 Census dataset before the detectives carried out a comprehensive background check on the final pool of suspects. AI was just a small part of the identification as well as C++ progressions. It is actually quite believable when you sit down and listen to the details.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgyNeux8IW7YHH5wbgt4AaABAg.AR7lQ6drRmoARAOqysU_u8" target="_blank">2026-01-20</a>
+                    <span class="likes-count">6 likes</span>
+                </td>
+                <td>It does run deep. You apparently do not understand the solution was his alias after Black Dahlia “Marvin Merrill” which is 13 characters……
+
+Margolis was his birth name genius.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-neutral">Neutral</span>
+                <span class="tooltiptext"><div class='trait-none'>No specific traits detected</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxB-cxkFvZYskSGgWR4AaABAg.AR7dyGhwJzGARAQdp7NpWW" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>Did you read the official reports? Listen to the experts, the detectives? He was born in 1925 and was 43 during Zodiac attacks. He had more medical training as a corpsman and USC medical student then and suspect in history. Try to be more accurate in the future.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgzvVTuTdy3kCPeBxnd4AaABAg.AR7YyJely16ARAZ2QTSpkf" target="_blank">2026-01-20</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td> @spinsandneedles Enhanced doesn’t mean “fake” genius. It means they probably lightened the image. Those are not added glasses. Also, they are dropping an audio on the podcast of the son confirming the photo himself and saying something about how bad his father’s vision actually was.  As far as the son saying it was another Elizabeth, they have him admitting otherwise and this Pulitzer Prize winner who wrote the LA Times article confronted the son about the wounds on the stomach and he knew! He just didn’t include that in the official story but the audio was shared for the podcast. You should really wait like this guy above said before you make accusations that are unfounded.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ encouraging</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ supportive</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgxddWFwWx_I1JV3k0N4AaABAg.AR6unpR0UtyAR6xrotw7h4" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>It spells “ZoDiac.”</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=UgwO6ZinIvfpHKxDF214AaABAg.AR6WyMcYYNTARARLTm_9iA" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>What part didn’t you read in the press release? The part that Marvin Margolis took the alias Marvin Merrill after the murder of Elizabeth Short. That the Z13 solution can be forced onto his name as it is verified by the NSA expert and two independent peer reviews??? It’s no anagrammed, it is an established double encryption like the Z340.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=8PxBOYQ3ibI" target="_blank">Unique sketch helped link Zodiac, Black Dahlia murders to same man: Investigator | Banfield</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=8PxBOYQ3ibI&lc=Ugwyd6I9ByeKIN5HURR4AaABAg.AR6VjZEp4MjARARVZldjN9" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>Margolis is Merrill. He took the alias after he murdered Elizabeth Short.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=971Edz3PfSo" target="_blank">Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=971Edz3PfSo&lc=UgyFy39Mi_1EE71IEQt4AaABAg.AR8Llr3yQYMARFzO4sMFJF" target="_blank">2026-01-20</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td>Fueling fabrications shows your ignorance.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=971Edz3PfSo" target="_blank">Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=971Edz3PfSo&lc=UgxXH9o2DEodAc9Gaap4AaABAg.A12U0tkYtwWARFzgx7GZDU" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Interviewed Baber who shared both texts and video including a tv segment of this Nick supporting him and his work.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=971Edz3PfSo" target="_blank">Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=971Edz3PfSo&lc=UgxXH9o2DEodAc9Gaap4AaABAg.A12U0tkYtwWARGFBAZXmc5" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers This group has posted lies about Baber for years. Their attempt to discredit him and his supporters is both pathetic and disgraceful.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Nw17OH4Zpp4" target="_blank">Zodiac Killer News Report 01/05/2026</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Nw17OH4Zpp4&lc=UgxjlWt680_kK3jcFFt4AaABAg" target="_blank">2026-01-20</a>
+                    <span class="likes-count">4 likes</span>
+                </td>
+                <td>It was a compelling episode; however, several statements suggest that the underlying research was incomplete and reliant on secondary sources that contain many inaccuracies.
+
+To clarify, Margolis was initially cleared only until detectives determined that he had lied—twice—during two separate interviews. During the 1949 grand jury inquest, both detectives testified under oath that Margolis remained a very strong suspect. Additionally, Margolis resided just down the street, which raises a reasonable question as to how the conclusion was reached that he was not in the state at the time.
+
+For the sake of the victims and their families, I strongly encourage a thorough review of the primary records before repeating or amplifying inaccurate claims here.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Pzl9Zzns6Jg" target="_blank">Researcher is 100% sure about this link between the Zodiac and Black Dahlia killer</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Pzl9Zzns6Jg&lc=Ugw1hZBj_6zOyjbRhyR4AaABAg.ARsNKF73fCcARv9krsxUsE" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough There’s the Baber stalker! No sleep for the weary. Look at this guy’s comments, all he does is google the dude to leave crappy comments even though his claims are debunked every time. Then he will accuse you of being a Baber “fanboy” for pointing out the facts.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Pzl9Zzns6Jg" target="_blank">Researcher is 100% sure about this link between the Zodiac and Black Dahlia killer</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Pzl9Zzns6Jg&lc=Ugw1hZBj_6zOyjbRhyR4AaABAg.ARsNKF73fCcARv9oBJAiKb&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @musiclistening1408 Agreed</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ polite</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Pzl9Zzns6Jg" target="_blank">Researcher is 100% sure about this link between the Zodiac and Black Dahlia killer</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Pzl9Zzns6Jg&lc=Ugw1hZBj_6zOyjbRhyR4AaABAg.ARsNKF73fCcARvFN-HlD4D" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @Imnottheborough  Your assertions have been addressed and refuted—by others as well as by myself. At this point, continuing to repeat them serves no constructive purpose. The level of fixation displayed, particularly following an individual across multiple online platforms, raises legitimate concerns.
+
+What, specifically, is the grievance here? That Baber disproved one of your claims related to these cases—or something else entirely? Where is your actual stake in this discussion?
+
+His statements are verifiable and he openly acknowledges errors when they occur. Whether one personally likes him is irrelevant; the facts stand on their own. Repeating the same unsupported narrative does little more than signal bias hate on your behalf, and it has gained little traction beyond a small, insular audience.
+
+You are, of course, free to continue, but the broader community is focused on evidence and progress—not personal animus. I have no doubt I’ll continue to encounter your commentary on any discussion involving Baber, but that does not alter the factual record. See you in the next post, Shabby Doo.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Pzl9Zzns6Jg" target="_blank">Researcher is 100% sure about this link between the Zodiac and Black Dahlia killer</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Pzl9Zzns6Jg&lc=Ugw1hZBj_6zOyjbRhyR4AaABAg.ARsNKF73fCcARvHbm2TrED" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough Larry the Liar? The former copy editor who rants when anyone proves him even remotely wrong? The guy who says numerous experts in their various field are all wrong and he knows best? The guy who talks down to a Pulitzer Prize winning reporter like Chris Goffard who also works at LA Times? How many Pulitzer Prizes does ole’ Larry Harnisch have again? 
+
+Yea, the guy who talks to and for a box….that guy is who you are sourcing here?
+
+I just laughed aloud. You are desperate aren’t you? You never answered how Baber got under your skin. Was it these cases or another? How did he prove you wrong as that would be the only logical explanation for your obsession with the guy. Please do share with us.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Pzl9Zzns6Jg" target="_blank">Researcher is 100% sure about this link between the Zodiac and Black Dahlia killer</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Pzl9Zzns6Jg&lc=Ugw1hZBj_6zOyjbRhyR4AaABAg.ARsNKF73fCcARvJAUv7v1J" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>⁠ @Imnottheborough High or stupid? Yet you apparently lack the intelligence to realize surnames are always capitalized, not just some of the time. Again, all of these claims have been debunked, Joe. Baber openly admitted that his 2007 Z18 solution was flawed by anagramming? Have you also not been able to locate the articles about his family? Would you like a little help with them so you can stop looking idiotic here and everywhere else you stalk this guy?  If I help you, will you answer my question on why he gets under your skin so much? That’s a fair deal, right?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=3-ouW2KMb-I" target="_blank">Killer In The Code Podcast Episode 1 - Mitzi Roberts & The LAPD Working The Black Dahlia Case</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=3-ouW2KMb-I&lc=UgzmMo0DBA7sLtDjn1N4AaABAg.ARElbaYz5YaARnaVhTk66l" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @sl7809 Agreed. These are just haters who need something to complain about on the internet. The experts are solid here and you have someone like Harnisch acting as if he is on their level. It is humorous.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgxGU88CJoniExXh4QF4AaABAg.ARilFPY8VYBARvaY3QkBcQ" target="_blank">2026-01-20</a>
+                    <span class="likes-count">3 likes</span>
+                </td>
+                <td> @CathyGOdom Santa Clara and Mountain View are only mins apart and both are a short drive from San Jose if you look at a Bay Area map. Seems like you are splitting hairs here.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgxGU88CJoniExXh4QF4AaABAg.ARilFPY8VYBARvbKjb2VT3" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>⁠​⁠ @TM-ew1ig  There were a couple listings for Merrill in the San Jose area, each reflecting slight variations of his first or middle name. Notably, nearly all of these listings were removed following the release of the podcast, which is interesting. Additionally, his return to the area in the late 1970s from the Vista area is alerting, as it coincides with the Zodiac’s brief reemergence issuing three or four letters by newspaper reports, before ceasing activity once again.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=Ugx6XHMNnTQFsVUh41t4AaABAg.ARhRNjjIlQPARiqPFvgJLV" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @Imnottheborough This guy is a hater on Baber. Everywhere there is a post he and his buddies run their mouths without doing their own research. If you actually listen to Baber and what he says it makes sense and leads to where they are today. The guy dismissed his own suspect from
+4 years ago after he discovered contradictory evidence. Grifter? Do you or any of the others actually understand the definition of the word? He doesn’t collect money from victim’s families. The guy is respected by both them and experts alike.
+
+Learn to listen and read before attacking individuals without knowing the facts surrounding the situation.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=Ugx6XHMNnTQFsVUh41t4AaABAg.ARhRNjjIlQPARjB-kDQkLo" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @Imnottheborough  And with that, I rest my case. The pattern reflects a personal vendetta—one that has driven you to pursue Baber across multiple online platforms. It suggests that, at some point, he challenged or disproved something you believed. You are only embarrassing yourself at this point.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmARnZolBWfoP&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @heatherruiz9490 And Larry the Liar is an expert code breaker on the level of Giorgio and the other experts, right? The guy wasn’t even a reporter you know. He lied on Baber who said he worked the Z18 in 2007, not Z13 and openly admitted it was before he ever studied cryptography. Stop hating on a guy who doesn’t get paid and attempts to help people. It’s disgusting quite frankly and you should be embarrassed.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ angry</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmARip0sHnmrZ" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>And the ignorant have arrived. Larry the liar you mean? The foul mouth former copy editor who attempts to discredit actual experts in their field with word salad?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmARrWtF2xXMm" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @spinsandneedles  If you had a factual understanding of Baber’s involvement in the Zodiac aspect of the investigation, you would be aware that he was requested to appear in Napa to meet with local Bay Area law-enforcement agencies, as well as representatives of the FBI, specifically to discuss the Zodiac case. This information is a matter of record.
+
+I encourage you to conduct thorough research before spreading the same inaccurate claims like the above hormonal teenager.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ hostile</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmARrcMPj9Pss" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>⁠ @spinsandneedles  To be clear, according to Baber’s team, he was requested to meet with them. There is corroborating information supporting this across multiple platforms, including documented comments and photographs. Good luck with your search and look forward to continuing our discussion soon.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=7C_kCy9pdd8&lc=UgyF35ceK3nwuDNyil94AaABAg.AR7kzuB2uhUARAGJuSIjSb" target="_blank">2026-01-20</a>
+                    <span class="likes-count">6 likes</span>
+                </td>
+                <td>⁠ @Imnottheborough  Funny how you “clowns” seem to follow the guy around attempting to bash him? Not at all personal, huh? Grow up why don’t you. He has dozens of professionals supporting his work and a family member of a victim.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=7C_kCy9pdd8&lc=UgyF35ceK3nwuDNyil94AaABAg.AR7kzuB2uhUARG-DVgGLe3" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @Imnottheborough Keep bashing and spreading misinformation that is misspelled at that.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=7C_kCy9pdd8&lc=UgyF35ceK3nwuDNyil94AaABAg.AR7kzuB2uhUARG-QYlcJkf" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @christophers.8209 Do your research. That means READ and learn before opening your mouth and acting like you know anything at all about what he did or didn’t use.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ hostile</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=7C_kCy9pdd8&lc=UgyF35ceK3nwuDNyil94AaABAg.AR7kzuB2uhUARG-iC0JL5V" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>⁠ @Imnottheborough Oranchak is an amateur himself just like this guy. Ignorance is bliss.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ supportive</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ respectful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=7C_kCy9pdd8&lc=UgyF35ceK3nwuDNyil94AaABAg.AR7kzuB2uhUARGSu4Ojte6" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @christophers.8209  Whether Baber chooses to disclose details regarding his software is immaterial outside of its results. What is evident, however, is the constant presence of a personal bias driving your commentary.
+
+Additionally, the term “grifter” is being misapplied. By definition, it refers to someone who engages in deception for financial gain. That characterization does not align with an individual who teams with credentialed experts to consult on unresolved cold cases, accepts no compensation, and personally covers the associated costs.
+
+I would encourage greater care in the use of such labels, as employing terminology without a clear understanding of its meaning ultimately displays your stupidity.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-XgMTOYCK" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>Three of the first four comments were yours. Yes—nothing personal there, right?
+
+Once again, what exactly was the issue? In which case did Baber prove you wrong? Be specific please so all of us can at least attempt to understand why you stalk the guy. 
+
+And as for the “other” Elizabeth, my understanding is that she has been cleared as the individual represented in the sketch. But of course, we should defer to your opinion over that of a forensic expert, right? Margolis just included the word “Zodiac” for the fun of it? Makes total sense.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ angry</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS0QxEdvJKJ" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @srockerboy1 Especially after 46 years or so.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ respectful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-_32NDQIW" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough ”Several experts” have stated what again? I’ve only heard experts confirming this and that about Baber’s investigation 😊so far. Did Larry’s box tell you that?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-c6nIxwqB" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td>⁠ @Imnottheborough Where are your many “experts” stating the sketch isn’t what Baber claims or a forensic expert who has also now stated the same. 
+
+Where’s your so called experts?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-ZnJJG6Ze" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @Imnottheborough  Oranchak, a self-described amateur, supposedly knows more than dozens of experts? That crosses from debate into silliness.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-aHYgcY7T" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @Imnottheborough Why don’t you ask Baber? I doubt he would shy away from the question from what I’ve seen and heard. Would love to see that!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ appreciative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ encouraging</div><div class='trait-positive'>✓ friendly</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ polite</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-eGEEZhJy&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @trashlie  It’s good to hear that you’ve been tracking the details, but have you taken the time to actually read or listen? He provides documentation for his statements and openly acknowledges when he’s incorrect.
+
+I have no need to discredit Harnisch or anyone else inserting themselves into the discussion—their lack of professionalism and in some cases rants does that on its own.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-f1jvDr90" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @Imnottheborough  So defending someone I vetted over a year ago—after first seeing a Murray video that labeled him a con—now somehow makes me Baber? You’re obviously uncomfortable with the fact that someone is willing to defend him against personal attacks like yours. I do have to give you both an A for effort.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ encouraging</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS0FZXdTP6n" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers  You are not engaging in good-faith debate; your pattern is harassment like a few others, not discussion. I say that based on your own public behavior. I saw you commenting only weeks ago on PR3TEND’s “defamation” video on Baber—material I examined in detail more than a year ago and commented on. 
+
+Additionally, your decision to defend Larry Harnisch, particularly after his recent video in which he behaved unprofessionally and emotionally, raises serious questions about your judgment. Disagreement is one thing; repeatedly amplifying demonstrably flawed or reactionary arguments is another.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ insightful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS-zQ3qaC9h" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Did you not listen to the podcast? Interviews? A weekend to solve? I’m no cryptologist but I do know how to listen to numerous experts who are former NSA mathematicians opposed to a guy who can’t even spell.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ hostile</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS0S2juHE3F" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @trashlie  There are enough misstatements in your post that it isn’t productive to address them all here. That said, a few examples illustrate the broader issue.
+
+You claim the Zodiac merely copied others’ work—poetry in particular—and that these elements were therefore not his. Yet the Little List letter was not a verbatim lift; it was heavily reworded and adapted. That distinction matters.
+
+Likewise, did Zodiac know that the Avenger used the term “material” when referring to evidence during the January 23, 1947 phone call to Jimmy Richardson? That phrasing did not originate with Zodiac, but its reuse raises legitimate questions about awareness versus coincidence.
+
+These and other points are repeatedly brushed aside without adequate consideration. Dismissing them outright oversimplifies the issue and weakens the overall analysis, in my opinion.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=UgyHYI1aoGq-mA4I5UV4AaABAg.AS-9_U-Yu_7AS0VmNNZwcy" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @trashlie  There is a detailed third-party account of the incident and phone call. For years, Baber believed the caller was Larry Kane/Cane, and that point is well documented as well. What is frequently omitted is that he himself later challenged that conclusion after forming his agency and consulting with subject-matter experts to reassess the details and Kane as a viable suspect. Do you me ton that? No.
+
+That change in position matters. Re-evaluating prior assumptions in light of expert review is not a weakness—it’s responsible analysis.
+
+I’m not interested in continuing circular arguments with a few individuals who are unwilling to acknowledge that context, so I’ll leave it there.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ constructive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ helpful</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-WdL7LUgX" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough  There you are again, Shaggy the stalker. You continue to repeat fabrications from others without doing your own research. At what point did Baber actually prove you wrong? Your fixation suggests personal embarrassment rather than a substantive disagreement.
+
+And for the record, citing Larry Harnisch only underscores your ignorance. He speaks to a cardboard box, and then answers for a cardboard box…..literally a box. 
+lol</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ angry</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-beckqQFM" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @Imnottheborough  First, please take care with spelling—it makes your arguments unnecessarily difficult to take seriously.
+
+Second, how exactly did Baber “scam” the Murray family? Did they pay him any money? If so, show it. If there’s evidence, I’ll be the first to call it out alongside you. To date, I’ve never seen or read anything indicating that he scammed the Murray family.
+
+And at a minimum, please ensure you understand the meaning of the words you choose to use before stating them publicly. Thank you.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-v--rtgLD" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough You’re a Baber hater and imbecile who has exposed himself in support of who? A man who talks to a box? Additionally, please explain how did scammed the Murray family again as the core concept behind any scam is monetary gain. And finally, you never stated which numerous experts have disproven the sketch Baber discovered? He brought his experts by name, and have what sir?</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ sarcastic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-wUzIhsaB" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @theycantallbezodiac Just ignore the fool. He has no ground to stand on and struggles to understand basic questions.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-yHtfonzO" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough  I understand now. You may be inexperienced or lack full context on this topic, and that’s okay. Let’s wait and see how Baber and the other experts handle Zodiac and Black Dahlia moving forward.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-yMgyRbxp" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>⁠ @Imnottheborough And for the love of Webster, please learn how to spell!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS05Z8pDnj0" target="_blank">2026-01-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td> @Imnottheborough  Numerous experts support his conclusion. If you disagree, address the substance of their arguments rather than resorting to personal attacks. And after you learn to spell correctly, study proper capitalization please.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ supportive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS2cEpZHZG1" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers  There is a segment of the community that refuses to acknowledge what Baber has uncovered, either due to a lack of understanding or because they are deeply invested in their own preferred suspect. Accusing this work of being a “cash grab” is particularly disingenuous when the individual in question works entirely without compensation. Let that sink in…
+
+That accusation makes one thing clear: this is not a good-faith critique, but either overt bias or willful blindness to truth whether you can stand the guy or not. Those who choose to remain in that position are free to do so, while Baber continues his work on behalf of the Short family and the Zodiac victims in these two cases. 
+
+So say what you will—but in doing so, you only further reveal your bias to both supporters and your own community.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=vuKYpKfae6c&lc=UgwWZf5k9e_Yb1WCinp4AaABAg.ARdLGacXTfDARitg6bHl1-&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @EdEdwardsCiphers Margolis was initial dismissed in 1947 but the same two investigators (Finis Brown & Harry Hanson) testified under oath in the grand jury inquest files (you can access them through the Los Angeles Attorney’s Office) that Marvin Margolis was still a good suspect three years after the fact.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ condescending</div><div class='trait-positive'>✓ constructive</div><div class='trait-positive'>✓ respectful</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ supportive</div><div class='trait-positive'>✓ appreciative</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ insulting</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=vuKYpKfae6c&lc=Ugy08haEVUoneo6xMqR4AaABAg.ARca_S3_k6LARiwSKxDlyo" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @CathyGOdom The other hater who should be brought up for stalking Baber. Do your research before appearing as ignorant as you are.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ angry</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=vuKYpKfae6c&lc=Ugy08haEVUoneo6xMqR4AaABAg.ARca_S3_k6LARjm810x2Ai" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @nonameindicated4899  Zodiac? We were discussing Margolis’s medical background, in response to your assertion that his pre-medical training was irrelevant. You can’t even stick to your own discussion topic!</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=vuKYpKfae6c&lc=Ugy08haEVUoneo6xMqR4AaABAg.ARca_S3_k6LARqU0gVE7gG&pp=0gcJCSIANpG00pGi" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @Imnottheborough  It’s evident that the criticism is coming from a very small group of individuals—primarily those with personal opinions on the cases or some with financial investments like books or even clicks and likes rather than from anyone genuinely focused on the victims and their families.
+
+I’ll ask again: do you actually understand the definition of “grifter,” or are you using the term loosely because it sounds provocative? If Baber does not charge for his services, who exactly is he supposed to be grifting?
+
+At this point, the continued fixation on him appears unnecessary and unproductive. It would be more constructive to stop stalking the poor guy and focus your efforts elsewhere constructive. You literally follow Baber around spreads rumors and b*tching like a middle schooler.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=vuKYpKfae6c&lc=UgwdnBzW8ly8bzlEfKB4AaABAg.ARcZQJnLfD9ARit1mpKyBF" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td> @CathyGOdom You should do your due diligence before making ill comments. The documentation is available to view for any researcher out there.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=vuKYpKfae6c&lc=UgwdnBzW8ly8bzlEfKB4AaABAg.ARcZQJnLfD9ARjjzSZmjYD" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @nonameindicated4899 It’s not my job to produce anything. I did my own research based on the information provided in the release. You should do the same instead of believing what others say.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ dismissive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=ClilpZgaSH8" target="_blank">Killer In The Code Podcast - Episode 3 Excerpt</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=ClilpZgaSH8&lc=UgyCQm9Xqud0J4x2ff14AaABAg.AReDqq0QY_SARqoqYS_Vs2" target="_blank">2026-01-20</a>
+                    <span class="likes-count">0 likes</span>
+                </td>
+                <td> @CathyGOdom The Stalker is here.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-positive">Positive</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ aggressive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ informative</div><div class='trait-positive'>✓ insightful</div><div class='trait-positive'>✓ appreciative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Okc2g0JsPMU" target="_blank">Mitzi Roberts - The MO Switch</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=Okc2g0JsPMU&lc=Ugxnlnae_TeNwGCMvpV4AaABAg.ARh0vRL8SCzARvLifElt9a" target="_blank">2026-01-20</a>
+                    <span class="likes-count">1 likes</span>
+                </td>
+                <td>This CathyGOdumb is just another Baber hater. They read absolutely nothing outside their comfort zone or they simply reject the truth in favor of bs from people like so called BD expert Larry “I talk to a box.” It’s becoming funny at this point.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ defensive</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=971Edz3PfSo" target="_blank">Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=971Edz3PfSo&lc=Ugw655alM_YNA52xltZ4AaABAg" target="_blank">2025-06-20</a>
+                    <span class="likes-count">2 likes</span>
+                </td>
+                <td>It is clear that a small group of individuals is actively working to undermine this man’s credibility. But a thorough review of his record demonstrates that his work has been consistently dedicated to pursuing justice for victims and supporting grieving families—without exception. Every inquiry reflects that commitment. There are no formal complaints or credible allegations against him, aside from the claims presented here, which appear to stem from a targeted smear campaign. In contrast, he has received positive feedback and testimonials from professionals and those he has assisted, this is easily verifiable.
+
+Importantly, I personally reached out to verify whether he charges families or not. The answer was definitive: he has never billed a single dollar to any victim’s family in any case. He spoke respectfully and was open to questions. At no point did he criticize others. Instead, he simply said, “Let them say or claim whatever they want about me, my work speaks for itself.” He also made it clear that no one involved in producing this video reached out to him for comment or to question these claims beforehand.
+
+It is both troubling and deeply concerning that social media enables individuals to circulate baseless accusations without any form of accountability or due process. Anyone can be accused of anything, dodging legal ramifications by expressing their claims as “opinion,” and the responsibility unjustly falls on the accused to defend themselves. When serious claims such as abuse or financial exploitation are made without evidence or consequences, it not only damages reputations, it empowers the accusers and it undermines public trust. This is how people who set out to do meaningful, compassionate work are driven to disengage.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-positive'>✓ informative</div><div class='trait-negative'>✗ toxic</div><div class='trait-positive'>✓ insightful</div><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-positive'>✓ respectful</div><div class='trait-positive'>✓ polite</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ angry</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=971Edz3PfSo" target="_blank">Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=971Edz3PfSo&lc=UgyncSumPrM8vE4MXMN4AaABAg&pp=0gcJCSIANpG00pGi" target="_blank">2025-02-20</a>
+                    <span class="likes-count">5 likes</span>
+                </td>
+                <td>Based on some lengthy research, it appears that these two guys Tim and Lance, who reached out to Javier, have an ongoing conflict with the Baber individual over his opinion during a 2022 Maura Murray interview. Apparently, they also made disparaging remarks about his autism and quirkiness. I’ve discovered no complaints against him by clients, nor any accusations of any kind of abuse on the web outside of this video. Furthermore, the involvement of Levia is unclear, as he appears to be genuinely well-intentioned.
+
+As others have noted, this situation seems to resemble a targeted campaign or “witch hunt” rather than a genuine effort to expose fraud, in my opinion.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ defensive</div><div class='trait-negative'>✗ angry</div><div class='trait-negative'>✗ toxic</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ insulting</div><div class='trait-positive'>✓ informative</div></span>
+            </div>
+        </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=971Edz3PfSo" target="_blank">Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?</a></td>
+                <td class="nowrap">2026-02-20</td>
+                <td class="nowrap">
+                    <a href="https://youtube.com/watch?v=971Edz3PfSo&lc=UgzBlrRLtI-Iftkvwup4AaABAg" target="_blank">2025-02-20</a>
+                    <span class="likes-count">7 likes</span>
+                </td>
+                <td>This video raises several concerning points surrounding the creators. It begins by asserting that Mr. Baber is innocent of any crime, yet proceeds to align with two other individuals who seem intent on disparaging him based on personal grievances dating back to comments made in an interview two years ago. Disregarding the unfounded stereotypes about car salesmen and baseless assumptions about the existence of Mr. Baber's database, the video questions the account of the numerous letters he has reportedly received over the years, despite a plausible explanation provided in the original interview. For instance, the Ohio Writer case alone allegedly involves over a thousand letters, as per online sources. This number does not include the hundreds that are known throughout various other cases. The Zodiac Killer is a prime example with dozens and dozens of letters reportedly linked to him alone.
+
+The insinuation that Mrs. Baber is in an abusive relationship solely based on the recorded interview regarding Maura Murray is preposterous. It seems as though they dislike him for having a different perspective on her case? If Maura was intoxicated and given a free pass from an officer, Is it outside the realm of logic to believe he would later be compelled to deny so after her disappearance received media coverage? Could even acknowledging the possibility cost him his employment?
+
+Criticizing Mr. Baber for his mannerisms during interviews, such as looking at his wife too closely while they are positioned side by side for filming, is both unfounded and comical. Is he expected to maintain a certain facial expression or distance every time he glances at her? The video attempts to link his perceived arrogance to potential abusive behavior, a leap in logic that lacks any substantial evidence. Moreover, the video fails to acknowledge that CCCOA explicitly states on their website that they are a consulting agency, NOT private detectives or investigators while their company’s name is self-explanatory. 
+
+You also raise doubts about this individual's qualifications, despite his assertion of being an autodidact polymath who values non-traditional learning methods. Must one necessarily invest in formal education at an institution to acquire expertise in a particular field? Numerous examples readily come to mind that challenge this conventional belief.
+
+Then there are comments from supporters that also lack coherence. The sudden appearance of “ex-partners ex” or acquaintances of Mr. Baber to denounce him raises questions about their motives? One individual, identified as a family member of a victim, can be witnessed supporting Mr. Baber's efforts on a television interview from the City Hall in Atlanta coupled with multiple FB posts thanking him and his wife. These contradict the negative portrayal presented in his comments. Similarly, accusations against a CCCOA team member, Baggett, as a fraud can be challenged given his numerous positive reviews and recognition as an expert witness by various judicial authorities on both the federal and state level over the past three decades.
+
+Turning to the figure of Vass, despite facing criticism, he has garnered support from families he has assisted in locating their missing loved ones, like Gina Renee Hall. His work, as evidenced by peer-reviewed publications in the International Journal of Forensic Science and Research, underscores his credibility and contributions to the field. Comparisons made in the video to George Soros seem misplaced. If anything, it has a Gestapo feel to it. 
+
+In conclusion, thorough vetting of sources and claims should be a fundamental aspect of any investigative piece or interview to ensure accuracy and fairness.</td>
+                <td>
+            <div class="tooltip">
+                <span class="badge-overall overall-negative">Negative</span>
+                <span class="tooltiptext"><div class='trait-negative'>✗ insulting</div><div class='trait-negative'>✗ hostile</div><div class='trait-negative'>✗ dismissive</div><div class='trait-negative'>✗ arrogant</div><div class='trait-negative'>✗ condescending</div><div class='trait-negative'>✗ aggressive</div><div class='trait-negative'>✗ defensive</div><div class='trait-positive'>✓ helpful</div><div class='trait-negative'>✗ sarcastic</div><div class='trait-negative'>✗ toxic</div></span>
+            </div>
+        </td>
+            </tr>
+        
+        </table>
+    </body>
+    </html>
+    
