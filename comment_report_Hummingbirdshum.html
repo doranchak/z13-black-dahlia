@@ -1,0 +1,445 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Comment Analysis - @Hummingbirdshum</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
+            
+            /* Sortable Table Styling */
+            th { background-color: #f8f9fa; font-weight: 600; cursor: pointer; user-select: none; position: sticky; top: 0; }
+            th:hover { background-color: #e2e8f0; }
+            
+            tr:nth-child(even) { background-color: #fafafa; }
+            a { color: #0066cc; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .nowrap { white-space: nowrap; }
+            
+            /* Highlighting Styling */
+            mark { background-color: #ffeb3b; color: #000; padding: 0 2px; border-radius: 2px; }
+            
+            /* Search box styling */
+            .search-container { margin-bottom: 20px; }
+            #searchInput { padding: 10px; width: 100%; max-width: 400px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; outline: none; }
+            #searchInput:focus { border-color: #0066cc; }
+            
+            /* Summary Styling */
+            .summary-section { margin-top: 40px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb; }
+            .summary-section h3, .summary-section h4 { margin-top: 0; color: #111827; }
+            .summary-section p { margin: 5px 0; }
+            .summary-section ul { padding-left: 20px; }
+        </style>
+    </head>
+    <body>
+        <h2>27 comments by <a href="https://youtube.com/@Hummingbirdshum" target="_blank">@Hummingbirdshum</a> on 12 videos</h2>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search in comments, dates, titles...">
+        </div>
+
+        <table id="commentsTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Video Title ↕</th>
+                    <th onclick="sortTable(1)">Video Date ↕</th>
+                    <th onclick="sortTable(2)">Comment Date ↕</th>
+                    <th onclick="sortTable(3)">Likes ↕</th>
+                    <th onclick="sortTable(4)">Comment Text ↕</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=dK3z0IKwjfk" target="_blank">Cracking the Infamous Zodiac Killer’s Double-Layer Encryption Code, with Alex Baber</a></td>
+                <td class="nowrap">2026-04-30</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=dK3z0IKwjfk&lc=Ugwp8Tzjev1rxDE9AIJ4AaABAg" target="_blank">2026-05-03</a></td>
+                <td>6</td>
+                <td>Such a great interview ♥️</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=E0p2GVb_prg" target="_blank">How the Son of the Zodiac Killer May Have Revealed the Black Dahlia Murderer, with Alex Baber</a></td>
+                <td class="nowrap">2026-04-30</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=E0p2GVb_prg&lc=UgyclTkGVPXue_jP3uR4AaABAg" target="_blank">2026-05-03</a></td>
+                <td>6</td>
+                <td>Amazing interview ♥️</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank">The Dahlia Zodiac Connection: Part Three</a></td>
+                <td class="nowrap">2026-04-21</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iuF_-PetHfI&lc=UgxEfNNHbIRiWdlKzgx4AaABAg" target="_blank">2026-05-02</a></td>
+                <td>6</td>
+                <td>Profiler John Kelly believes there is a linked between the two cases and that Marvin Margolis as the suspect “fits like a glove.” So you have a second expert opinion besides Crowley.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank">The Dahlia Zodiac Connection: Part Three</a></td>
+                <td class="nowrap">2026-04-21</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iuF_-PetHfI&lc=UgweAd58aVj8_HGV5l14AaABAg.AW0QkTmfO27AW15KQN4R83" target="_blank">2026-04-25</a></td>
+                <td>5</td>
+                <td>I’m excited to see the Bill Robison footage. They were both hiding something!</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank">The Dahlia Zodiac Connection: Part Three</a></td>
+                <td class="nowrap">2026-04-21</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iuF_-PetHfI&lc=Ugwg50y7N80qWySlU6x4AaABAg" target="_blank">2026-04-25</a></td>
+                <td>6</td>
+                <td>I looked up the number of letters or cards sent by the Black Dahlia Avenger in Hodel’s books and it is more like 10? That includes the package sent with her stuff in it. Another card from around that time is cut and paste with Elizabeth’s initials “ES” sorta like the lipstick “BD” writing on Jean French.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank">The Dahlia Zodiac Connection: Part Three</a></td>
+                <td class="nowrap">2026-04-21</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iuF_-PetHfI&lc=Ugwg50y7N80qWySlU6x4AaABAg.AVwkxST6R4qAVwwbfc97Tx" target="_blank">2026-04-25</a></td>
+                <td>5</td>
+                <td>@M @MartianMan-ate1 mad or Ahmad Robles. There are two cards with his face and they were likely both poison pen.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank">The Dahlia Zodiac Connection: Part Three</a></td>
+                <td class="nowrap">2026-04-21</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iuF_-PetHfI&lc=UgzmYq5vyBROZex-osp4AaABAg.AVsWl5fHa55AVsYR8oOD3T" target="_blank">2026-04-25</a></td>
+                <td>6</td>
+                <td>You are a known spammer. You’ve already made 11 post here alone in 20 minutes and made hundreds on the other podcast yet both receive thousands of likes but you claim WE ALL CAN SEE IT? I’ve also read you are working on a book yourself with accusations that Ed Edward’s is the perpetrator so you have no personal agenda? I’m not going to go back and forth with you like numerous others have, but let it be known that this commenter is not here to assist with the discussion productively.
+
+Just keep an eye on exactly how many spam comments this EdEdwardsCiphers will make and you’ll see the pattern.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank">The Dahlia Zodiac Connection: Part Three</a></td>
+                <td class="nowrap">2026-04-21</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iuF_-PetHfI&lc=UgzmYq5vyBROZex-osp4AaABAg.AVsWl5fHa55AVsamLC1D1X" target="_blank">2026-04-25</a></td>
+                <td>6</td>
+                <td> @EdEdwardsCiphers  That’s now 13 comments in 35 mins? Nothing productive to offer, only sarcasm and criticism against professionals that support what Chris is covering here.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=I46bafDnGlQ" target="_blank">The Dahlia Zodiac Connection: Part Two</a></td>
+                <td class="nowrap">2026-04-14</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=I46bafDnGlQ&lc=UgwjULtTgQiUNxGl_2h4AaABAg.AVa1FYtx_ZWAVa2JbpbUGO" target="_blank">2026-04-16</a></td>
+                <td>6</td>
+                <td>I agree. There is way too much that aligns with him. Can’t be coincidence at this point IMO. He is the guy.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=I46bafDnGlQ" target="_blank">The Dahlia Zodiac Connection: Part Two</a></td>
+                <td class="nowrap">2026-04-14</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=I46bafDnGlQ&lc=UgxXc1cz2XZT5-jrl5x4AaABAg.AV_egP_XpuYAV_vxvlhlht" target="_blank">2026-04-16</a></td>
+                <td>7</td>
+                <td>Margolis under his alias of Merrill claimed in 1961 to be a Flying Tiger in WW2. That distinction was rare and Elizabeth’s fiancée Matt Gordon was one for real. Murderers often revisit their crime in some manner and this is extremely creepy to me.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=iFqTLKGOjAI" target="_blank">The Dahlia Zodiac Connection: Part One</a></td>
+                <td class="nowrap">2026-04-07</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=iFqTLKGOjAI&lc=UgzI98IrH-jQrd8PNTt4AaABAg" target="_blank">2026-04-16</a></td>
+                <td>10</td>
+                <td>❤</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=Ugw6M8y7IALhi6Fqcet4AaABAg.AUGOJgvAnRxAUOT_6kzsdN" target="_blank">2026-03-16</a></td>
+                <td>4</td>
+                <td>@JackDoeland Apparently I’m a “bot” now as well. He initially raised some reasonable questions, but after they were answered, he reverted to repeatedly asking, “When is law enforcement confirming?” as though Alex Baber has authority over multiple jurisdictions, including the FBI.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=Ugw6M8y7IALhi6Fqcet4AaABAg.AUGOJgvAnRxAUL6kSqvfLH" target="_blank">2026-03-16</a></td>
+                <td>5</td>
+                <td> @nillydilly-w5l I have to agree it would not look good for Larry in the public eye. The podcasters have already debunked his claims about Merrill being completely cleared in Elizabeth’s investigation. Ive read the transcripts from the grand jury investigation and it is straightforward. They’ve also showed that Merrill took part in a dissection of a human body while at USC though Larry claims he was never a medical student. Larry’s credibility is damaged at this point and it raises questions as to whether it is because of his upcoming book.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=Ugw6M8y7IALhi6Fqcet4AaABAg.AUGOJgvAnRxAULKCfuJZAR" target="_blank">2026-03-16</a></td>
+                <td>5</td>
+                <td> @Imnottheborough Its been confirmed by those closest to the case. The last detective in the Dahlia case and a handful of forensic experts have come forward confirming it. You coming here and trying to troll people who comment is disgustingly pathetic.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=Ugw6M8y7IALhi6Fqcet4AaABAg.AUGOJgvAnRxAUM7kmtwN4e" target="_blank">2026-03-16</a></td>
+                <td>4</td>
+                <td>@JackDoelandGood point</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=UgymbOHJe80tVz77dp14AaABAg.ATQVag737SZATQZ-is3Pmw" target="_blank">2026-03-16</a></td>
+                <td>5</td>
+                <td>💯</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=UgxTYMxwTJyfmUVtW0x4AaABAg.ATQ6uwiEkVoATQBYO4MQ8-" target="_blank">2026-03-16</a></td>
+                <td>5</td>
+                <td>Now you are telling him how to brand his own company? Seriously? What is wrong with people? Jealousy is shameful.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=UgxTYMxwTJyfmUVtW0x4AaABAg.ATQ6uwiEkVoATQMxFHt0Po" target="_blank">2026-03-16</a></td>
+                <td>4</td>
+                <td> @EdEdwardsCiphers Excuse me? You don’t know me!</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank">Chapter 10: New Age Sherlock</a></td>
+                <td class="nowrap">2026-02-19</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=IMAUL6BKycE&lc=UgwdZtx4SdeJoDF4ge94AaABAg.ATOrVA0WcIOAUL_kwPUxRb" target="_blank">2026-03-16</a></td>
+                <td>1</td>
+                <td> @a1investigations433 @Imnottheborough is a simpleton troll. He is unable to grasp the reality that they have solved the cases and are endorsed by how many experts? 10-15? In every major newspaper out there. Look at the likes 👆🏻and support here alone. He continues to make a bigger fool of himself with every remark.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-12</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=79GU3ushtaA&lc=UgzrE4nU8oZXwBrv0Px4AaABAg.AT7BCL7r3DCAUD3ro986_D" target="_blank">2026-03-16</a></td>
+                <td>4</td>
+                <td> @a1investigations433 I agree. Sadly, they ignore the evidence and the multiple experts as though they know better.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank">Chapter 6: A Mind For Murder</a></td>
+                <td class="nowrap">2026-01-29</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=OlKTEFe-obc&lc=Ugwo4_37UjzwovtfyEl4AaABAg.ASZrG7m-BcJASZwLMWrOnc" target="_blank">2026-02-16</a></td>
+                <td>5</td>
+                <td> @JackDoeland  Marvin Margolis appears to have obtained another students USC transcript somehow to possibly use at a later date for potential employment? He then kept it within his personal stuff it sounds.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=Okc2g0JsPMU" target="_blank">Mitzi Roberts - The MO Switch</a></td>
+                <td class="nowrap">2026-01-07</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=Okc2g0JsPMU&lc=Ugxnlnae_TeNwGCMvpV4AaABAg.ARh0vRL8SCzARnbKGJEOlP" target="_blank">2026-01-16</a></td>
+                <td>4</td>
+                <td>Read the documents on the website.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8&lc=Ugz7CPnvlmPZSLXNiNF4AaABAg.AU3aNItZg62AU3k_4OHpd8" target="_blank">2026-03-16</a></td>
+                <td>6</td>
+                <td>It’s telling when the creator of a Zodiac discussion group chooses to spend more time attacking Alex Baber than discussing the evidence presented. Personal attacks and attention seeking posts may generate a few reactions online, but they contribute nothing of substance to the investigation or to the pursuit of justice for the victims. Serious work in this field focuses on documentation, and results evaluated by experts like the ones he has brought in, not by haters in small circles making disgusting comments like immature children wanting to sound cool in a clique.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8&lc=Ugz7CPnvlmPZSLXNiNF4AaABAg.AU3aNItZg62AUE8x4wOT7O" target="_blank">2026-03-16</a></td>
+                <td>5</td>
+                <td> @TheLittleItalianGirl Reputable? Where did you learn about standards? Both of you are rude and disrespectful.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank">Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=7C_kCy9pdd8&lc=Ugz7CPnvlmPZSLXNiNF4AaABAg.AU3aNItZg62AUG0_uO3CdR" target="_blank">2026-03-16</a></td>
+                <td>5</td>
+                <td> @TheLittleItalianGirl  Karen? It’s pretty clear you’re looking for attention, lashing out at anyone who calls it out while trying to divert focus away from the actual investigation.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=I4qFYqJ7yAE" target="_blank">Killer In The Code Podcast Episode 2 - Mitzi Roberts And The "Smoking Gun"</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=I4qFYqJ7yAE&lc=Ugy_vDTgN5fZcmqKLTN4AaABAg.ARh0bNNA4I3ARnb7wLgr8h" target="_blank">2026-01-16</a></td>
+                <td>2</td>
+                <td>Another hater here it looks. It is sad how people seem to misunderstand how real investigations work. To insult a detective like Mitzi Roberts is a sign of your ignorance.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=3-ouW2KMb-I" target="_blank">Killer In The Code Podcast Episode 1 - Mitzi Roberts & The LAPD Working The Black Dahlia Case</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=3-ouW2KMb-I&lc=UgzmMo0DBA7sLtDjn1N4AaABAg.ARElbaYz5YaAROiHwmsFN0" target="_blank">2026-01-16</a></td>
+                <td>3</td>
+                <td>Detective Roberts is widely regarded as the leading authority on Elizabeth’s case. Baber’s conclusions are supported by every credentialed expert who has reviewed the evidence. To suggest that all of these experts are mistaken, while a small group of internet detractors is correct, disregards the weight of informed analysis and established credibility. Ignorance must be bliss.</td>
+            </tr>
+        
+            </tbody>
+        </table>
+        
+    <div class="summary-section">
+        <h3>Summary</h3>
+        <p><strong>Total Videos Commented On:</strong> 12</p>
+        <p><strong>Total Comments:</strong> 27</p>
+        <p><strong>Total Likes Received:</strong> 136</p>
+        <p><strong>Average Likes per Comment:</strong> 5.04</p>
+        
+        <h4>Video Breakdown:</h4>
+        <ul>
+    
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=dK3z0IKwjfk" target="_blank"><strong>Cracking the Infamous Zodiac Killer’s Double-Layer Encryption Code, with Alex Baber</strong></a><br>
+                Comments: 1 | Likes: 6 | Date Range: 2026-05-03
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=E0p2GVb_prg" target="_blank"><strong>How the Son of the Zodiac Killer May Have Revealed the Black Dahlia Murderer, with Alex Baber</strong></a><br>
+                Comments: 1 | Likes: 6 | Date Range: 2026-05-03
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=iuF_-PetHfI" target="_blank"><strong>The Dahlia Zodiac Connection: Part Three</strong></a><br>
+                Comments: 6 | Likes: 34 | Date Range: 2026-04-25 to 2026-05-02
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=I46bafDnGlQ" target="_blank"><strong>The Dahlia Zodiac Connection: Part Two</strong></a><br>
+                Comments: 2 | Likes: 13 | Date Range: 2026-04-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=iFqTLKGOjAI" target="_blank"><strong>The Dahlia Zodiac Connection: Part One</strong></a><br>
+                Comments: 1 | Likes: 10 | Date Range: 2026-04-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=IMAUL6BKycE" target="_blank"><strong>Chapter 10: New Age Sherlock</strong></a><br>
+                Comments: 8 | Likes: 33 | Date Range: 2026-03-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank"><strong>Chapter 9: Last Man Standing</strong></a><br>
+                Comments: 1 | Likes: 4 | Date Range: 2026-03-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=OlKTEFe-obc" target="_blank"><strong>Chapter 6: A Mind For Murder</strong></a><br>
+                Comments: 1 | Likes: 5 | Date Range: 2026-02-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=Okc2g0JsPMU" target="_blank"><strong>Mitzi Roberts - The MO Switch</strong></a><br>
+                Comments: 1 | Likes: 4 | Date Range: 2026-01-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=7C_kCy9pdd8" target="_blank"><strong>Killer In The Code Podcast Episode 1 - Aha Moments For Alex Baber</strong></a><br>
+                Comments: 3 | Likes: 16 | Date Range: 2026-03-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=I4qFYqJ7yAE" target="_blank"><strong>Killer In The Code Podcast Episode 2 - Mitzi Roberts And The "Smoking Gun"</strong></a><br>
+                Comments: 1 | Likes: 2 | Date Range: 2026-01-16
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=3-ouW2KMb-I" target="_blank"><strong>Killer In The Code Podcast Episode 1 - Mitzi Roberts & The LAPD Working The Black Dahlia Case</strong></a><br>
+                Comments: 1 | Likes: 3 | Date Range: 2026-01-16
+            </li>
+        </ul></div>
+        <script>
+            // --- Table Search and Highlight Logic ---
+            function searchTable() {
+                let input = document.getElementById("searchInput").value.toLowerCase();
+                let tbody = document.querySelector("#commentsTable tbody");
+                let tr = tbody.getElementsByTagName("tr");
+                
+                // Clear out previous highlights by un-wrapping mark tags
+                document.querySelectorAll("mark").forEach(mark => {
+                    let parent = mark.parentNode;
+                    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                    parent.normalize(); // Merge adjacent text nodes back together
+                });
+
+                // If input is empty, show all rows
+                if(!input) {
+                    for (let i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "";
+                    }
+                    return;
+                }
+
+                // Filter rows and highlight matches safely via text node parsing
+                for (let i = 0; i < tr.length; i++) {
+                    let row = tr[i];
+                    let showRow = false;
+                    
+                    for(let j = 0; j < row.cells.length; j++) {
+                        let cell = row.cells[j];
+                        if(cell.textContent.toLowerCase().includes(input)) {
+                            showRow = true;
+                            highlightNode(cell, input);
+                        }
+                    }
+                    row.style.display = showRow ? "" : "none";
+                }
+            }
+
+            function highlightNode(node, searchText) {
+                // Node type 3 is a Text Node
+                if (node.nodeType === 3) {
+                    let text = node.nodeValue;
+                    let index = text.toLowerCase().indexOf(searchText);
+                    if (index >= 0) {
+                        let before = text.substring(0, index);
+                        let match = text.substring(index, index + searchText.length);
+                        let afterText = text.substring(index + searchText.length);
+                        
+                        node.nodeValue = before;
+                        
+                        let mark = document.createElement('mark');
+                        mark.textContent = match;
+                        node.parentNode.insertBefore(mark, node.nextSibling);
+                        
+                        if (afterText) {
+                            let afterNode = document.createTextNode(afterText);
+                            node.parentNode.insertBefore(afterNode, mark.nextSibling);
+                            highlightNode(afterNode, searchText); // recursively search rest of string
+                        }
+                    }
+                } 
+                // Recursively pass children unless they're already wrapped in <mark>
+                else if (node.nodeType === 1 && node.childNodes && node.tagName !== 'MARK') {
+                    let children = Array.from(node.childNodes);
+                    children.forEach(child => highlightNode(child, searchText));
+                }
+            }
+
+            // --- Table Sorting Logic ---
+            let sortDirection = {}; // Tracks current sorted state (true = asc, false = desc)
+            
+            function sortTable(columnIndex) {
+                let tbody = document.querySelector("#commentsTable tbody");
+                let rows = Array.from(tbody.querySelectorAll("tr"));
+                
+                // Toggle direction based on previous click
+                let isAsc = sortDirection[columnIndex] !== true;
+                sortDirection[columnIndex] = isAsc;
+                
+                rows.sort((a, b) => {
+                    let valA = a.cells[columnIndex].textContent.trim();
+                    let valB = b.cells[columnIndex].textContent.trim();
+                    
+                    // Specific numeric sort for the "Likes" column (index 3)
+                    if (columnIndex === 3) { 
+                         let numA = parseFloat(valA);
+                         let numB = parseFloat(valB);
+                         return isAsc ? numA - numB : numB - numA;
+                    }
+                    
+                    // Alphanumeric sort for Strings & Dates
+                    return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                });
+                
+                // Re-append sorted rows to the table body
+                rows.forEach(row => tbody.appendChild(row));
+            }
+        </script>
+    </body>
+    </html>
+    
