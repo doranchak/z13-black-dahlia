@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5040 Dots Grid - Spaced</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+        }
+
+        #actionBtn {
+            margin-bottom: 30px;
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background-color: #333;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #actionBtn:hover {
+            background-color: #555;
+        }
+
+        #actionBtn:active {
+            transform: translateY(2px);
+        }
+
+        #gridContainer {
+            display: grid;
+            grid-template-columns: repeat(96, 1fr);
+            /* By defining exactly 96 columns, the 5040 dots will automatically wrap to create 54 rows */
+            width: 90vw;
+            max-width: 1400px; 
+            gap: 3px; /* INCREASED GAP: This shrinks the squares and adds space between them */
+            background-color: transparent; 
+        }
+
+        .dot {
+            background-color: black;
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Forces every individual dot to be a perfect square */
+            position: relative;
+            transform-origin: center; 
+            border-radius: 1px; /* Optional: adds a tiny, soft edge to the smaller squares */
+        }
+
+        .flashed {
+            animation: bigRedFlash 0.8s ease-out forwards;
+        }
+
+        @keyframes bigRedFlash {
+            0% {
+                transform: scale(1);
+                background-color: black;
+                z-index: 10;
+            }
+            15% {
+                transform: scale(3.5);
+                background-color: #ff3333;
+                box-shadow: 0 0 15px 5px rgba(255, 0, 0, 0.8);
+                border-radius: 3px; 
+                z-index: 10;
+            }
+            100% {
+                transform: scale(1);
+                background-color: red;
+                box-shadow: 0 0 0px 0px rgba(255, 0, 0, 0);
+                border-radius: 1px;
+                z-index: 2; 
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="actionBtn">Render 5,040 Dots</button>
+    <div id="gridContainer"></div>
+
+    <script>
+        const btn = document.getElementById('actionBtn');
+        const container = document.getElementById('gridContainer');
+        const totalDots = 5040;
+        
+        let isGridRendered = false;
+        let dotsArray = [];
+
+        btn.addEventListener('click', () => {
+            if (!isGridRendered) {
+                renderDots();
+                isGridRendered = true;
+                btn.textContent = 'Flash Random Dot';
+                btn.style.backgroundColor = '#cc0000'; 
+            } else {
+                flashRandomDot();
+            }
+        });
+
+        function renderDots() {
+            const fragment = document.createDocumentFragment();
+            
+            for (let i = 0; i < totalDots; i++) {
+                const dot = document.createElement('div');
+                dot.classList.add('dot');
+                dotsArray.push(dot);
+                fragment.appendChild(dot);
+            }
+            
+            container.appendChild(fragment);
+        }
+
+        function flashRandomDot() {
+            if (dotsArray.length === 0) return;
+
+            const randomIndex = Math.floor(Math.random() * dotsArray.length);
+            const selectedDot = dotsArray[randomIndex];
+
+            selectedDot.classList.remove('flashed');
+            void selectedDot.offsetWidth; 
+            
+            selectedDot.classList.add('flashed');
+        }
+    </script>
+
+</body>
+</html>

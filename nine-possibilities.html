@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>9 Items Grid - Large Font</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+/*            background-color: #f0f2f5;*/
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        /* 16:9 Aspect Ratio Container */
+        .aspect-ratio-box {
+            width: 95vw;
+            height: calc(95vw * 9 / 16);
+            max-height: 95vh;
+            max-width: calc(95vh * 16 / 9);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 4px; /* Minimal gap to maximize space */
+            background-color: #333;
+            padding: 4px;
+            box-sizing: border-box;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centers the whole block */
+            padding: 10px;
+            background-color: #ffffff;
+            /* clamp makes font as large as possible without breaking the layout */
+            font-size: clamp(1.2rem, 3.5vw, 3.5rem); 
+            font-weight: 700;
+            color: #1a1a1a;
+            overflow: hidden;
+        }
+
+        .content-wrapper {
+            /* Ensures number and text are flush and centered as a single unit */
+            display: inline-flex;
+            align-items: baseline;
+            text-align: left;
+        }
+
+        .number {
+            margin-right: 0.3em; /* Tight spacing between number and text */
+            color: #d32f2f; /* Distinct color for numbers */
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aspect-ratio-box">
+        <div class="item"><div class="content-wrapper"><span class="number">1)</span>Real person, documented</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">2)</span>Real person, undocumented</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">3)</span>Real person, misspelled</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">4)</span>Alias/nickname</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">5)</span>Someone else's name</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">6)</span>Who he's not</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">7)</span>Another clue</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">8)</span>Useless message</div></div>
+        <div class="item"><div class="content-wrapper"><span class="number">9)</span>Gibberish</div></div>
+    </div>
+
+</body>
+</html>
