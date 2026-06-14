@@ -21,6 +21,7 @@
             --highlight-green: #66bb6a;
             --highlight-red: #ef5350;
             --keyword-highlight: #ffca28; /* Amber for keyword writing */
+            --cipher-row-bg: #c8e6c9; /* Green for Cipher Row */
         }
 
         body {
@@ -74,17 +75,18 @@
             overflow: visible;
         }
         
-        /* Cipher Row Styling */
+        /* Cipher Row Styling - GREEN as requested */
         #cipher-row td {
             font-family: 'untitled2regular';
-            background-color: var(--table-header-bg);
+            background-color: var(--cipher-row-bg);
             font-size: 32px;
+            color: #1b5e20;
         }
 
-        /* Plain Row Styling */
+        /* Plain Row Styling - BOLDER as requested */
         #plain-row td {
             background-color: #fff;
-            font-weight: bold;
+            font-weight: 900; /* Extra bold */
             font-family: 'Segoe UI', sans-serif;
         }
 
@@ -118,6 +120,14 @@
         .highlight-active {
             background-color: var(--highlight-blue) !important;
             color: white !important;
+            transform: scale(1.1);
+            transition: transform 0.1s;
+        }
+        
+        /* Specific highlight for duplicates to distinguish them */
+        .highlight-duplicate {
+            background-color: var(--keyword-highlight) !important;
+            transform: scale(1.1);
         }
 
         .highlight-match {
@@ -296,12 +306,12 @@
     <script>
         // --- Configuration ---
         const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+        const ANIM_SPEED = 200; // Standardized speed for all operations
         
         // Preset Partial Mapping for "Compare" functionality
-        // Format: CipherChar : PlainChar
         const PRESET_MAPPING = {
-            'A': 'X', 'B': 'Y', 'C': 'Z', // Example shift
-            'K': 'K', 'L': 'L',           // Example direct
+            'A': 'X', 'B': 'Y', 'C': 'Z', 
+            'K': 'K', 'L': 'L',           
             'Z': 'A'
         };
 
@@ -342,8 +352,7 @@
         function clearTable() {
             document.querySelectorAll('td .content').forEach(span => span.textContent = '');
             document.querySelectorAll('td').forEach(td => {
-                td.className = '';
-                td.classList.remove('highlight-match', 'highlight-mismatch');
+                td.classList.remove('highlight-match', 'highlight-mismatch', 'highlight-active', 'highlight-duplicate');
             });
             document.querySelectorAll('.checkmark').forEach(cm => {
                 cm.textContent = '';
@@ -407,59 +416,70 @@
             });
 
             // Determine Start Index for Keyword in Table
-            // De-duped length needed for spacing calculation
             let dedupedLen = 0;
             let tempSet = new Set();
             kwChars.forEach(c => {
                 if(!tempSet.has(c)) { tempSet.add(c); dedupedLen++; }
             });
 
-            // If At End: Start index is (26 - dedupedLen). Else 0.
             let tableIdx = atEnd ? (26 - dedupedLen) : 0;
             
             // 2. Write Keyword to Table
             if (keyword.length > 0) {
-                // If Reverse Keyword is checked, we iterate the array normally but pick chars from end? 
-                // Or write right-to-left? 
-                // Prompt: "write the word backwards". 
-                // Standard: KEY -> K, E, Y
-                // Reverse: KEY -> Y, E, K
-                
-                const processOrder = revKey ? [...kwChars].reverse() : kwChars;
-                // Note: The visual box area usually shows the word as typed (K E Y).
-                // But we are processing into the table.
-                // Let's iterate the visual boxes based on the reverse flag to highlight correctly.
-                
                 const loopIndices = revKey 
-                    ? kwChars.map((_, i) => kwChars.length - 1 - i) // [2, 1, 0]
-                    : kwChars.map((_, i) => i); // [0, 1, 2]
+                    ? kwChars.map((_, i) => kwChars.length - 1 - i) 
+                    : kwChars.map((_, i) => i); 
 
                 for (let i = 0; i < loopIndices.length; i++) {
                     const charIdx = loopIndices[i];
                     const char = kwChars[charIdx]; // The character to write
                     const box = kwElements[charIdx]; // The visual box
 
-                    // Highlight box
-                    box.classList.add('active');
-                    await wait(100);
-
                     if (usedChars.has(char)) {
-                        // Duplicate
-                        box.classList.remove('active');
-                        box.classList.add('duplicate');
-                        await wait(150);
+                        // --- Duplicate Handling ---
+                        // Highlight current box (duplicate)
+                        box.classList.add('duplicate'); // permanently grey out
+                        
+                        // Find the ORIGINAL instances to highlight
+                        // 1. Find original box in keyword area
+                        const origBoxIdx = kwChars.indexOf(char);
+                        const origBox = kwElements[origBoxIdx];
+                        
+                        // 2. Find original cell in substitution table
+                        let origTableCell = null;
+                        for(let k=0; k<26; k++) {
+                            const c = document.getElementById(rowIdPrefix + k);
+                            if (c.querySelector('.content').textContent === char) {
+                                origTableCell = c;
+                                break;
+                            }
+                        }
+
+                        // Apply highlights to both
+                        if(origBox) origBox.classList.add('highlight-duplicate');
+                        if(origTableCell) origTableCell.classList.add('highlight-duplicate');
+                        
+                        await wait(ANIM_SPEED);
+                        
+                        // Remove highlights
+                        if(origBox) origBox.classList.remove('highlight-duplicate');
+                        if(origTableCell) origTableCell.classList.remove('highlight-duplicate');
+
                     } else {
-                        // New Character
+                        // --- New Character Handling ---
                         usedChars.add(char);
+                        
+                        // Highlight the box we are processing
+                        box.classList.add('active');
                         
                         // Write to table
                         const cell = document.getElementById(rowIdPrefix + tableIdx);
                         const span = cell.querySelector('.content');
                         span.textContent = char;
-                        span.className = 'content text-keyword'; // Bold styling
+                        span.className = 'content text-keyword'; 
                         
                         cell.classList.add('highlight-active');
-                        await wait(100);
+                        await wait(ANIM_SPEED);
                         cell.classList.remove('highlight-active');
                         
                         box.classList.remove('active');
@@ -469,10 +489,6 @@
             }
 
             // 3. Fill Remaining Alphabet
-            // Calculate remaining slots
-            // If At End was checked, we filled [26-len to 25]. Remaining is [0 to 26-len-1].
-            // If Standard, we filled [0 to len-1]. Remaining is [len to 25].
-            
             let emptySlots = [];
             for(let i=0; i<26; i++) {
                 const cell = document.getElementById(rowIdPrefix + i);
@@ -481,34 +497,24 @@
                 }
             }
 
-            // Logic: "write out the remaining letters... If reverse alphabet, write in reverse order"
-            // Alphabet source
             let alphaSource = revAlpha ? [...ALPHABET].reverse() : ALPHABET;
 
             for (let char of alphaSource) {
                 if (usedChars.has(char)) {
-                    // Duplicate - "briefly highlight its current appearance in the keyword"
-                    // Find the box in the keyword area
-                    const boxIdx = kwChars.indexOf(char); // Find first occurrence
-                    if (boxIdx !== -1) {
-                        kwElements[boxIdx].classList.add('active');
-                        await wait(50);
-                        kwElements[boxIdx].classList.remove('active');
-                    }
-                    continue; // Don't write
+                    // Skip duplicates in alphabet fill (no visual highlight requested here, just skip)
+                    continue; 
                 }
 
-                // Get next empty slot
                 if (emptySlots.length > 0) {
-                    const slotIdx = emptySlots.shift(); // Fill from left to right in available holes
+                    const slotIdx = emptySlots.shift(); 
                     const cell = document.getElementById(rowIdPrefix + slotIdx);
                     const span = cell.querySelector('.content');
                     
                     span.textContent = char;
-                    span.className = 'content text-alphabet'; // Contrast styling
+                    span.className = 'content text-alphabet'; 
 
                     cell.classList.add('highlight-active');
-                    await wait(50);
+                    await wait(ANIM_SPEED); // Same speed as keyword
                     cell.classList.remove('highlight-active');
                 }
             }
@@ -524,7 +530,7 @@
             document.querySelectorAll('.checkmark').forEach(el => {
                 el.innerHTML = '';
                 el.style.opacity = '0';
-                el.className = 'checkmark'; // reset colors
+                el.className = 'checkmark'; 
             });
             document.querySelectorAll('td').forEach(td => {
                 td.classList.remove('highlight-match', 'highlight-mismatch');
@@ -543,22 +549,19 @@
                 const cChar = cCells[i].querySelector('.content').textContent;
                 const pChar = pCells[i].querySelector('.content').textContent;
 
-                // Only compare if we have content
                 if (!cChar || !pChar) continue;
 
                 const targetPlain = PRESET_MAPPING[cChar];
 
                 if (targetPlain) {
-                    // There is a preset rule for this Cipher Letter
                     const checkC = cCells[i].querySelector('.checkmark');
                     const checkP = pCells[i].querySelector('.checkmark');
 
                     if (pChar === targetPlain) {
-                        // Match
                         cCells[i].classList.add('highlight-match');
                         pCells[i].classList.add('highlight-match');
                         
-                        checkC.innerHTML = '&#10004;'; // Check
+                        checkC.innerHTML = '&#10004;'; 
                         checkC.classList.add('check-green');
                         checkC.style.opacity = '1';
 
@@ -566,11 +569,10 @@
                         checkP.classList.add('check-green');
                         checkP.style.opacity = '1';
                     } else {
-                        // Mismatch
                         cCells[i].classList.add('highlight-mismatch');
                         pCells[i].classList.add('highlight-mismatch');
 
-                        checkC.innerHTML = '&#10008;'; // Cross
+                        checkC.innerHTML = '&#10008;'; 
                         checkC.classList.add('check-red');
                         checkC.style.opacity = '1';
 
@@ -578,7 +580,7 @@
                         checkP.classList.add('check-red');
                         checkP.style.opacity = '1';
                     }
-                    await wait(200); // Animation delay
+                    await wait(200); 
                 }
             }
             isAnimating = false;
