@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Large Image Viewer</title>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1a1a1a;
+    overflow: hidden; /* Prevent default browser scrolling */
+    font-family: sans-serif;
+  }
+
+  #viewer-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    cursor: grab;
+  }
+
+  #viewer-container:active {
+    cursor: grabbing;
+  }
+
+  #image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0; /* Critical for accurate zooming to mouse pointer */
+    will-change: transform; /* Hint to browser for hardware acceleration */
+    pointer-events: none; /* Prevents default image drag ghosting */
+  }
+
+  .ui-overlay {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 10;
+  }
+</style>
+</head>
+<body>
+
+  <div class="ui-overlay">
+    Scroll to Zoom | Click & Drag to Pan
+  </div>
+
+  <div id="viewer-container">
+    <img id="image" src="word_cluster_random.jpg" alt="Large Viewable Image">
+  </div>
+
+  <script>
+    const container = document.getElementById('viewer-container');
+    const img = document.getElementById('image');
+
+    // Viewer State
+    let scale = 1;
+    let pointX = 0;
+    let pointY = 0;
+    let panning = false;
+    let startX = 0;
+    let startY = 0;
+
+    // Apply the transforms to the image
+    function setTransform() {
+      img.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
+    }
+
+    // --- Initialization & Auto-Fit Logic ---
+    function fitImageToScreen() {
+      const containerWidth = container.clientWidth;
+      const containerHeight = container.clientHeight;
+      const imgWidth = img.naturalWidth;
+      const imgHeight = img.naturalHeight;
+
+      // Calculate scale to fit width and height
+      const scaleX = containerWidth / imgWidth;
+      const scaleY = containerHeight / imgHeight;
+
+      // Use the smaller scale to ensure the entire image is visible without cropping
+      scale = Math.min(scaleX, scaleY);
+
+      // Optional: Add a slight buffer (e.g., 0.95) so the image doesn't touch the absolute edges
+      // scale *= 0.95;
+
+      // Calculate coordinates to center the image
+      const scaledWidth = imgWidth * scale;
+      const scaledHeight = imgHeight * scale;
+      pointX = (containerWidth - scaledWidth) / 2;
+      pointY = (containerHeight - scaledHeight) / 2;
+
+      setTransform();
+    }
+
+    // Wait for the image to load before calculating dimensions
+    if (img.complete) {
+      fitImageToScreen();
+    } else {
+      img.addEventListener('load', fitImageToScreen);
+    }
+
+    // Optional: Recalculate if the window is resized
+    window.addEventListener('resize', fitImageToScreen);
+
+    // --- Panning Logic ---
+    container.addEventListener('mousedown', (e) => {
+      e.preventDefault();
+      panning = true;
+      // Calculate the offset between the mouse click and the current image position
+      startX = e.clientX - pointX;
+      startY = e.clientY - pointY;
+    });
+
+    container.addEventListener('mouseup', () => {
+      panning = false;
+    });
+
+    container.addEventListener('mouseleave', () => {
+      panning = false;
+    });
+
+    container.addEventListener('mousemove', (e) => {
+      if (!panning) return;
+      e.preventDefault();
+      
+      // Update the image position based on mouse movement
+      pointX = e.clientX - startX;
+      pointY = e.clientY - startY;
+      setTransform();
+    });
+
+    // --- Zoom Logic ---
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+
+      // Determine zoom direction
+      const delta = e.deltaY < 0 ? 1.1 : 0.9; 
+
+      // Get mouse coordinates relative to the unscaled image
+      const xs = (e.clientX - pointX) / scale;
+      const ys = (e.clientY - pointY) / scale;
+
+      // Apply zoom
+      scale *= delta;
+
+      // Restrict minimum and maximum zoom limits based on original needs
+      scale = Math.max(0.05, Math.min(scale, 20));
+
+      // Reverse engineer the new pointX/pointY so the image zooms *into* the mouse pointer
+      pointX = e.clientX - (xs * scale);
+      pointY = e.clientY - (ys * scale);
+
+      setTransform();
+    }, { passive: false }); // passive: false is required to preventDefault on wheel events
+  </script>
+
+</body>
+</html>
