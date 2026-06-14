@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cipher Workspace v6</title>
+    <title>Zodiac Cipher Variants v8</title>
     <style>
         :root {
             --wood-color: #e3c18d;
@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background-color: #f5f5f5;
             display: flex;
             flex-direction: column;
@@ -30,7 +30,7 @@
             width: 98%;
             max-width: 1400px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             gap: 20px;
         }
 
@@ -74,6 +74,7 @@
             transition: transform 0.6s, left 0.6s, top 0.6s;
             transform-style: preserve-3d;
             cursor: grab;
+            z-index: 5;
         }
 
         .tile.highlighted { outline: 4px solid #fbc02d; box-shadow: 0 0 15px #fbc02d; z-index: 100 !important; }
@@ -94,17 +95,16 @@
         .char-letter { color: var(--cipher-green); }
         .char-symbol { color: var(--cipher-red); }
 
-        table { border-collapse: collapse; margin: 20px auto; }
+        table { border-collapse: collapse; margin: 10px auto; }
         td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center;
             font-weight: bold;
-            width: 35px;
+            width: 32px;
             cursor: pointer;
         }
         td:hover { background-color: #f1f1f1; }
-        .highlight-key { background-color: #fff176 !important; outline: 3px solid #fbc02d; }
 
         #controls {
             display: grid;
@@ -119,7 +119,7 @@
 
         .control-group { display: flex; flex-direction: column; gap: 8px; }
 
-        button {
+        button, select {
             padding: 10px;
             cursor: pointer;
             border: none;
@@ -129,6 +129,7 @@
             background-color: var(--btn-color);
         }
         button:hover { filter: brightness(1.2); }
+        select { background-color: #34495e; color: #fff; }
 
         input[type="text"] { padding: 8px; border-radius: 4px; border: none; text-align: center; }
         .col-label { position: absolute; font-weight: 900; color: #7f8c8d; font-size: 18px; transition: all 0.6s; }
@@ -138,14 +139,13 @@
 
 <div id="top-section">
     <div id="cipher-grid-area" class="area">
-        <h3 style="margin: 0;">Cipher Grid</h3>
+        <h3 id="cipher-title" style="margin: 0;">Cipher Grid</h3>
         <div id="col-labels-container" style="position: relative; height: 35px; width: 100%;"></div>
         <div id="grid-container" class="tile-container"></div>
     </div>
 
     <div id="substitution-key-area" class="area">
         <h3 style="margin: 0;">Substitution Key</h3>
-        <p style="font-size: 12px; color: #666;">Click a letter below to edit it.</p>
         <table id="key-table">
             <tr id="cipher-row"></tr>
             <tr id="plain-row"></tr>
@@ -155,6 +155,17 @@
 
 <div id="controls">
     <div class="control-group">
+        <label style="font-size: 12px;">Select Variation:</label>
+        <select id="variant-select" onchange="resetAll()">
+            <option value="1">1: Original Z13</option>
+            <option value="2">2: Alternate null placement</option>
+            <option value="3">3: Original, swapped row order</option>
+            <option value="4">4: Alternate null placement, swapped row order</option>
+            <option value="5">5: Middle circled-8 removed</option>
+            <option value="6">6: Middle circled-8 removed, swapped row order</option>
+            <option value="7">7: All circled-8s removed</option>
+            <option value="8">8: All circled-8s removed, swapped row order</option>
+        </select>
         <button onclick="makeGrid()">Make Grid</button>
         <button onclick="resetAll()">Reset</button>
     </div>
@@ -168,7 +179,7 @@
     <div class="control-group">
         <button onclick="decrypt()">Decrypt</button>
         <button onclick="clearDecryption()">Clear Decryption</button>
-        <div style="display:flex; justify-content: space-between; align-items: center; font-size: 13px;">
+        <div style="display:flex; justify-content: space-between; align-items: center; font-size: 12px;">
             <label><input type="checkbox" id="instant-mode"> Instant</label>
             <label>Speed: <input type="range" id="speed-slider" min="1" max="10" value="5"></label>
         </div>
@@ -176,42 +187,45 @@
 </div>
 
 <script>
-    const cipherText = "AEN⊕8K8M8↓NAM".split("");
-    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    // const mapping = {};
-    const uniqueChars = [...new Set(cipherText)];
-    // uniqueChars.forEach(char => mapping[char] = alphabet[Math.floor(Math.random() * 26)]);
-    const mapping = {
-        "A":"I",
-        "E":"V",
-        "N":"M",
-        "⊕":"A",
-        "8":"R",
-        "K":"N",
-        "M":"L",
-        "↓":"E"
+    const variants = {
+        "1": "AEN⊕8K8M8↓NAM",
+        "2": "AEN⊕8K8M8↓NAM",
+        "3": "AEN⊕8K8M8↓NAM",
+        "4": "AEN⊕8K8M8↓NAM",
+        "5": "AEN⊕8KM8↓NAM",
+        "6": "AEN⊕8KM8↓NAM",
+        "7": "AEN⊕KM↓NAM",
+        "8": "AEN⊕KM↓NAM"
     };
+
+    let cipherChars = [];
+    let mapping = {};
+    let tiles = [];
+    let extraTile = null;
+    let colMap = [];
+    let currentV = "1";
 
     const container = document.getElementById('grid-container');
     const labelContainer = document.getElementById('col-labels-container');
     const speedSlider = document.getElementById('speed-slider');
     const instantCheck = document.getElementById('instant-mode');
-    
-    let tiles = [];
-    let extraTile = null;
-    let colMap = [0, 1, 2, 3, 4, 5, 6]; 
 
-    function getDelay(base) {
-        if (instantCheck.checked) return 0;
-        return base / (speedSlider.value / 5);
-    }
-
+    function getDelay(base) { return instantCheck.checked ? 0 : base / (speedSlider.value / 5); }
     function isLetter(char) { return /[A-Z]/.test(char); }
 
     function init() {
+        currentV = document.getElementById('variant-select').value;
+        const text = variants[currentV] || variants["1"];
+        cipherChars = text.split("");
+        
+        mapping = {};
+        const unique = [...new Set(cipherChars)];
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        unique.forEach(c => mapping[c] = alphabet[Math.floor(Math.random() * 26)]);
+
         container.innerHTML = '';
         tiles = [];
-        cipherText.forEach((char, i) => {
+        cipherChars.forEach((char, i) => {
             const tile = document.createElement('div');
             tile.className = 'tile';
             tile.innerHTML = `
@@ -219,20 +233,20 @@
                 <div class="tile-content plain-side">${mapping[char]}</div>
             `;
             tile.dataset.cipher = char;
-            tile.dataset.index = i;
             tile.onmousedown = (e) => startDrag(e, i);
             container.appendChild(tile);
             tiles.push(tile);
         });
-        renderKey();
+        
+        renderKey(unique);
         positionLinear();
     }
 
-    function renderKey() {
+    function renderKey(unique) {
         const cRow = document.getElementById('cipher-row');
         const pRow = document.getElementById('plain-row');
         cRow.innerHTML = ''; pRow.innerHTML = '';
-        uniqueChars.forEach(char => {
+        unique.forEach(char => {
             const tdC = document.createElement('td');
             tdC.className = isLetter(char) ? 'char-letter' : 'char-symbol';
             tdC.textContent = char;
@@ -243,7 +257,7 @@
             const tdP = document.createElement('td');
             tdP.textContent = mapping[char];
             tdP.onclick = () => {
-                const newVal = prompt(`Enter new substitution for ${char}:`, mapping[char]);
+                const newVal = prompt(`New substitution for ${char}:`, mapping[char]);
                 if (newVal) {
                     mapping[char] = newVal.toUpperCase().charAt(0);
                     tdP.textContent = mapping[char];
@@ -257,14 +271,12 @@
     }
 
     function highlightTiles(char, active) {
-        tiles.forEach(t => {
-            if(t.dataset.cipher === char) t.classList.toggle('highlighted', active);
-        });
+        tiles.forEach(t => { if(t.dataset.cipher === char) t.classList.toggle('highlighted', active); });
     }
 
     function positionLinear() {
         const spacing = 70;
-        const offset = (13 - 1) * spacing / 2;
+        const offset = (tiles.length - 1) * spacing / 2;
         tiles.forEach((t, i) => {
             t.style.transition = instantCheck.checked ? 'none' : `all ${getDelay(600)/1000}s`;
             t.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
@@ -273,65 +285,88 @@
     }
 
     async function makeGrid() {
+        const v = currentV;
         const spacing = 70;
-        const offset = (7 - 1) * spacing / 2;
+        const totalCols = (v <= 4) ? 7 : (v <= 6) ? 6 : 5;
+        const offset = (totalCols - 1) * spacing / 2;
         const delay = getDelay(150);
 
-        for (let i = 0; i < 6; i++) {
-            tiles[i].style.transition = instantCheck.checked ? 'none' : `all ${getDelay(600)/1000}s`;
-            tiles[i].style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
-            tiles[i].style.top = '0px';
+        let row1Indices = [], row2Indices = [], fillerTarget = null;
+
+        if (v == "1") { 
+            row1Indices = [0,1,2,3,4,5]; row2Indices = [12,11,10,9,8,7,6]; fillerTarget = {r:0, c:6};
+        } else if (v == "2") {
+            row1Indices = [0,1,2,3,4,5,6]; row2Indices = [12,11,10,9,8,7]; fillerTarget = {r:1, c:6};
+        } else if (v == "3") {
+            row1Indices = [12,11,10,9,8,7,6]; row2Indices = [0,1,2,3,4,5]; fillerTarget = {r:1, c:6};
+        } else if (v == "4") {
+            row1Indices = [12,11,10,9,8,7]; row2Indices = [0,1,2,3,4,5,6]; fillerTarget = {r:0, c:6};
+        } else if (v == "5") {
+            row1Indices = [0,1,2,3,4,5]; row2Indices = [11,10,9,8,7,6];
+        } else if (v == "6") {
+            row1Indices = [11,10,9,8,7,6]; row2Indices = [0,1,2,3,4,5];
+        } else if (v == "7") {
+            row1Indices = [0,1,2,3,4]; row2Indices = [9,8,7,6,5];
+        } else if (v == "8") {
+            row1Indices = [9,8,7,6,5]; row2Indices = [0,1,2,3,4];
+        }
+
+        // Row 1
+        for(let i=0; i < row1Indices.length; i++){
+            tiles[row1Indices[i]].style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
+            tiles[row1Indices[i]].style.top = `0px`;
+            if(delay > 0) await new Promise(r => setTimeout(r, delay));
+        }
+        if(delay > 0) await new Promise(r => setTimeout(r, getDelay(600)));
+
+        // Row 2
+        for(let j=0; j < row2Indices.length; j++){
+            tiles[row2Indices[j]].style.left = `calc(50% - ${offset}px + ${j * spacing}px - 30px)`;
+            tiles[row2Indices[j]].style.top = `${spacing}px`;
             if(delay > 0) await new Promise(r => setTimeout(r, delay));
         }
 
-        if(delay > 0) await new Promise(r => setTimeout(r, getDelay(600)));
-
-        const lastSeven = [12, 11, 10, 9, 8, 7, 6];
-        for (let j = 0; j < lastSeven.length; j++) {
-            const idx = lastSeven[j];
-            tiles[idx].style.transition = instantCheck.checked ? 'none' : `all ${getDelay(600)/1000}s`;
-            tiles[idx].style.left = `calc(50% - ${offset}px + ${j * spacing}px - 30px)`;
-            tiles[idx].style.top = `${spacing}px`;
-            if(delay > 0) await new Promise(r => setTimeout(r, delay));
-        }
-
-        if(delay > 0) await new Promise(r => setTimeout(r, getDelay(600)));
-
-        if (!extraTile) {
-            extraTile = document.createElement('div');
-            extraTile.className = 'tile';
-            extraTile.innerHTML = '<div class="tile-content char-letter" style="text-decoration: underline;">_</div>';
-            extraTile.style.top = '0px';
-            extraTile.style.left = '150%';
-            container.appendChild(extraTile);
-            setTimeout(() => {
-                extraTile.style.transition = instantCheck.checked ? 'none' : `all ${getDelay(800)/1000}s`;
-                extraTile.style.left = `calc(50% - ${offset}px + 6 * ${spacing}px - 30px)`;
-            }, 50);
+        // Filler
+        if(fillerTarget){
+            if(delay > 0) await new Promise(r => setTimeout(r, getDelay(600)));
+            if(!extraTile){
+                extraTile = document.createElement('div');
+                extraTile.className = 'tile';
+                extraTile.innerHTML = '<div class="tile-content char-letter" style="text-decoration: underline;">_</div>';
+                extraTile.style.left = '150%';
+                extraTile.style.top = (fillerTarget.r * spacing) + 'px';
+                container.appendChild(extraTile);
+                setTimeout(() => {
+                    extraTile.style.transition = instantCheck.checked ? 'none' : `all ${getDelay(800)/1000}s`;
+                    extraTile.style.left = `calc(50% - ${offset}px + ${fillerTarget.c * spacing}px - 30px)`;
+                }, 50);
+            }
         }
 
         labelContainer.innerHTML = '';
-        for (let i = 1; i <= 7; i++) {
+        colMap = [];
+        for(let k=1; k<=totalCols; k++){
             const l = document.createElement('div');
             l.className = 'col-label';
-            l.textContent = i;
-            l.style.left = `calc(50% - ${offset}px + ${(i-1) * spacing}px - 5px)`;
+            l.textContent = k;
+            l.style.left = `calc(50% - ${offset}px + ${(k-1) * spacing}px - 5px)`;
             labelContainer.appendChild(l);
+            colMap.push(k-1);
         }
-        updatePermuteInput([0,1,2,3,4,5,6]);
+        updatePermuteInput();
     }
 
-    function updatePermuteInput(order) {
-        document.getElementById('permute-input').value = order.map(i => i + 1).join(',');
-        colMap = order;
+    function updatePermuteInput() {
+        document.getElementById('permute-input').value = colMap.map(i => i + 1).join(',');
     }
 
     async function permuteColumns() {
         const target = document.getElementById('permute-input').value.split(',').map(n => parseInt(n)-1);
-        if(target.length !== 7) return;
+        const totalCols = colMap.length;
+        if(target.length !== totalCols) return;
         
         let current = [...colMap];
-        for(let i=0; i<7; i++) {
+        for(let i=0; i<totalCols; i++) {
             if(current[i] !== target[i]) {
                 const idxB = current.indexOf(target[i]);
                 await animateSwap(current, i, idxB);
@@ -343,55 +378,68 @@
 
     async function animateSwap(order, posA, posB) {
         const spacing = 70;
-        const offset = (7 - 1) * spacing / 2;
+        const offset = (order.length - 1) * spacing / 2;
         const labels = document.querySelectorAll('.col-label');
         const dur = getDelay(600)/1000;
 
-        const getCol = (idx) => {
-            let res = (idx < 6) ? [tiles[idx]] : [extraTile];
-            res.push(tiles[12 - idx]);
+        const getGroup = (colIdx) => {
+            const res = [];
+            const allTiles = [...tiles];
+            if(extraTile) allTiles.push(extraTile);
+            allTiles.forEach(t => {
+                const rect = t.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                const relativeX = rect.left - containerRect.left + (rect.width/2) - (containerRect.width/2);
+                const pos = Math.round((relativeX + offset) / spacing);
+                if(pos === colIdx) res.push(t);
+            });
             return res;
         };
 
-        const groupA = getCol(order[posA]);
-        const groupB = getCol(order[posB]);
+        const groupA = getGroup(posA);
+        const groupB = getGroup(posB);
 
         [...groupA, ...groupB].forEach(t => {
-            if(t) {
-                t.style.transition = instantCheck.checked ? 'none' : `all ${dur}s`;
-                t.classList.add('swapping');
-            }
+            t.style.transition = instantCheck.checked ? 'none' : `all ${dur}s`;
+            t.classList.add('swapping');
         });
 
-        groupA.forEach(t => t && (t.style.left = `calc(50% - ${offset}px + ${posB * spacing}px - 30px)`));
-        groupB.forEach(t => t && (t.style.left = `calc(50% - ${offset}px + ${posA * spacing}px - 30px)`));
+        groupA.forEach(t => t.style.left = `calc(50% - ${offset}px + ${posB * spacing}px - 30px)`);
+        groupB.forEach(t => t.style.left = `calc(50% - ${offset}px + ${posA * spacing}px - 30px)`);
         
-        labels[order[posA]].style.left = `calc(50% - ${offset}px + ${posB * spacing}px - 5px)`;
-        labels[order[posB]].style.left = `calc(50% - ${offset}px + ${posA * spacing}px - 5px)`;
+        labels.forEach(l => {
+            const lx = parseFloat(l.style.left.split('+')[1]);
+            const lPos = Math.round(lx/spacing);
+            if(lPos === posA) l.style.left = `calc(50% - ${offset}px + ${posB * spacing}px - 5px)`;
+            else if(lPos === posB) l.style.left = `calc(50% - ${offset}px + ${posA * spacing}px - 5px)`;
+        });
 
         if(!instantCheck.checked) await new Promise(r => setTimeout(r, getDelay(700)));
-        [...groupA, ...groupB].forEach(t => t && t.classList.remove('swapping'));
+        [...groupA, ...groupB].forEach(t => t.classList.remove('swapping'));
     }
 
     function startDrag(e, tileIdx) {
-        if (!labelContainer.hasChildNodes()) return; // Only drag in grid mode
-        
-        // Find which column this tile belongs to
-        let origCol = tileIdx < 7 ? (tileIdx < 6 ? tileIdx : 6) : (12 - tileIdx);
-        let startPos = colMap.indexOf(origCol);
-        
+        if (!labelContainer.hasChildNodes()) return;
+        const spacing = 70;
+        const totalCols = colMap.length;
+        const offset = (totalCols - 1) * spacing / 2;
+
+        const tile = e.currentTarget;
+        const startX = e.clientX;
+        const initialLeftText = tile.style.left.split('+')[1];
+        const initialLeft = parseFloat(initialLeftText);
+        const startVisPos = Math.round(initialLeft / spacing);
+
         const onMouseMove = (moveE) => {
-            const rect = container.getBoundingClientRect();
-            const x = moveE.clientX - rect.left - (rect.width/2);
-            const spacing = 70;
-            const newPos = Math.max(0, Math.min(6, Math.round((x + (3*spacing)) / spacing)));
-            
-            if(newPos !== startPos) {
-                const newOrder = [...colMap];
-                [newOrder[startPos], newOrder[newPos]] = [newOrder[newPos], newOrder[startPos]];
-                updateVisuals(newOrder);
-                startPos = newPos;
-                updatePermuteInput(newOrder);
+            const dx = moveE.clientX - startX;
+            const newVisPos = Math.max(0, Math.min(totalCols - 1, Math.round((initialLeft + dx) / spacing)));
+            if(newVisPos !== startVisPos) {
+                 const currentOrder = [...colMap];
+                 [currentOrder[startVisPos], currentOrder[newVisPos]] = [currentOrder[newVisPos], currentOrder[startVisPos]];
+                 animateSwap(colMap, startVisPos, newVisPos);
+                 colMap = currentOrder;
+                 updatePermuteInput();
+                 onMouseUp();
             }
         };
 
@@ -399,33 +447,12 @@
             document.removeEventListener('mousemove', onMouseMove);
             document.removeEventListener('mouseup', onMouseUp);
         };
-
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
     }
 
-    function updateVisuals(order) {
-        const spacing = 70;
-        const offset = (7 - 1) * spacing / 2;
-        const labels = document.querySelectorAll('.col-label');
-        order.forEach((origIdx, visPos) => {
-            let top = (origIdx < 6) ? tiles[origIdx] : extraTile;
-            let bot = tiles[12 - origIdx];
-            if(top) top.style.left = `calc(50% - ${offset}px + ${visPos * spacing}px - 30px)`;
-            if(bot) bot.style.left = `calc(50% - ${offset}px + ${visPos * spacing}px - 30px)`;
-            if(labels[origIdx]) labels[origIdx].style.left = `calc(50% - ${offset}px + ${visPos * spacing}px - 5px)`;
-        });
-    }
-
-    async function decrypt() {
-        for (let char of uniqueChars) {
-            tiles.forEach(t => { if(t.dataset.cipher === char) t.classList.add('flipped'); });
-            if(!instantCheck.checked) await new Promise(r => setTimeout(r, getDelay(400)));
-        }
-    }
-
     function resetAll() { if(extraTile) extraTile.remove(); extraTile = null; labelContainer.innerHTML = ''; init(); }
-    function resetColumns() { updateVisuals([0,1,2,3,4,5,6]); updatePermuteInput([0,1,2,3,4,5,6]); }
+    function resetColumns() { makeGrid(); }
     function clearDecryption() { tiles.forEach(t => t.classList.remove('flipped')); }
 
     init();
