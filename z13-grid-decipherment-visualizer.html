@@ -1,9 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zodiac Cipher Analytics v32</title>
+    <style>
+        @font-face {
+            font-family: 'untitled2regular';
+            src: url('z340-z408-combined-font-monospaced-webfont.woff2') format('woff2'),
+                url('z340-z408-combined-font-monospaced-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }        
+        :root {
+            --wood-color: #e3c18d;
+            --wood-dark: #c4a470;
+            --tile-size: 60px;
+            --cipher-green: #2e7d32;
+            --cipher-red: #c62828;
+            --plain-indigo: #303f9f;
+            --btn-color: #455a64;
+            --highlight-cyan: #00e5ff;
+            --table-header-bg: #eceff1;
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        
+        #main-container { display: flex; width: 98vw; max-width: 1400px; gap: 20px; align-items: flex-start; }
+        #left-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 320px; position: relative; z-index: 1000; }
+        #right-panel { flex: 3; display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; }
+
+        .area { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        #cipher-grid-area { min-height: 450px; display: flex; flex-direction: column; align-items: center; position: relative; width: 100%; }
+        .tile-container { position: relative; height: 380px; width: 100%; perspective: 1000px; }
+        
+        .tile {
+            position: absolute; width: var(--tile-size); height: var(--tile-size);
+            background-color: var(--wood-color); border: 2px solid var(--wood-dark);
+            border-radius: 8px; font-size: 50px; 
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+            transition: transform 0.8s ease-in-out, left 0.8s ease-in-out, top 0.8s ease-in-out, box-shadow 0.3s, opacity 0.8s; 
+            transform-style: preserve-3d; z-index: 10;
+        }
+
+        .tile-content { 
+            font-family: 'untitled2regular';
+            position: absolute; backface-visibility: hidden; display: flex; 
+            justify-content: center; align-items: center; width: 100%; height: 100%; text-align: center;
+        }
+        .tile-content-filler { 
+            font-family: 'Segoe UI', sans-serif;
+            position: absolute; backface-visibility: hidden; display: flex; 
+            justify-content: center; align-items: center; width: 100%; height: 100%; text-align: center;
+        }
+
+        .plain-side { transform: rotateY(180deg); color: black; font-family: 'Segoe UI', sans-serif; font-size: 35px; font-weight: bold;}
+        
+        /* FIXED: Combined transforms to prevent logic breaking during flips */
+        .tile.flipped { transform: rotateY(180deg); }
+        
+        .char-letter { color: var(--cipher-green); }
+        .char-symbol { color: var(--cipher-red); }
+
+        .tile.highlight-active, .tile.hover-highlight, .key-highlight { 
+            box-shadow: 0 0 15px 8px var(--highlight-cyan) !important; 
+            border-color: #00b8d4 !important; 
+            z-index: 2000 !important;
+        }
+        
+        .key-highlight { background-color: var(--highlight-cyan) !important; color: white !important; position: relative; }
+
+        #controls { display: flex; flex-direction: column; gap: 15px; background: #2c3e50; padding: 20px; border-radius: 12px; color: white; }
+        .control-group { display: flex; flex-direction: column; gap: 8px; }
+        button, select { padding: 10px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; color: white; background-color: var(--btn-color); }
+        input[type="text"] { padding: 8px; border-radius: 4px; border: none; width: 100%; box-sizing: border-box; }
+
+        #substitution-key-area { padding: 15px; overflow: visible; }
+        #key-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        
+        /* FIXED: Cipher row now uses the correct Zodiac font */
+        #cipher-row td { 
+            font-family: 'untitled2regular';
+            height: 45px; text-align: center; font-size: 40px; 
+            cursor: pointer; border: 1px solid #ddd; transition: all 0.2s; position: relative;
+        }
+        #cipher-row { background-color: var(--table-header-bg); }
+        #plain-row td { color: black; background-color: #fff; font-size: 30px; font-weight: bold; height: 45px; text-align: center; border: 1px solid #ddd; }
+        
+        .decrypt-link { color: #2196f3; text-decoration: none; font-weight: bold; cursor: pointer; }
+        
+        .col-label { 
+            position: absolute; 
+            font-weight: 900; 
+            color: #7f8c8d; 
+            font-size: 16px; 
+            transition: left 0.8s ease-in-out, transform 0.8s ease-in-out; 
+            z-index: 1;
+        }
+
+        table.list-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        table.list-table th, table.list-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .no-transition { transition: none !important; }
+    </style>
+</head>
+<body>
+
+<div id="main-container">
+    <div id="left-panel">
+        <div id="substitution-key-area" class="area">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px;">Substitution Key</h3>
+            <table id="key-table">
+                <tr id="cipher-row"></tr>
+                <tr id="plain-row"></tr>
+            </table>
+        </div>
+
+        <div id="controls">
+            <div class="control-group">
+                <label>Variation:</label>
+                <select id="variant-select" onchange="resetAll()"></select>
+                <button onclick="makeGrid()">Make Grid</button>
+            </div>
+            <div class="control-group">
+                <label>Selection Swap:</label>
+                <input type="text" id="permute-input" placeholder="e.g. 1,2,3">
+                <button onclick="applyManualPermute()">Apply Swap</button>
+            </div>
+            <div class="control-group">
+                <label>Permutations:</label>
+                <button id="perm-all-btn" onclick="runAllPermutations()">Show All (7! = 5040)</button>
+            </div>
+            <div class="control-group">
+                <label>Speed:</label>
+                <input type="range" id="speed-slider" min="1" max="10" value="5">
+                <label><input type="checkbox" id="instant-mode"> Instant Mode</label>
+                <button onclick="resetAll()">Reset Workspace</button>
+            </div>
+        </div>
+
+        <div id="decryption-widget" class="area">
+            <input type="text" id="search-text" placeholder="Search..." oninput="filterDecryptions()" style="margin-bottom: 10px; width:100%; border:1px solid #ddd; padding:5px;">
+            <div style="max-height: 250px; overflow-y: auto;">
+                <table class="list-table">
+                    <thead><tr><th>Plaintext</th><th>Var</th></tr></thead>
+                    <tbody id="decryption-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="right-panel">
+        <div id="cipher-grid-area" class="area">
+            <h3 id="status-title" style="margin: 0 0 2em 0;">Cipher Grid</h3>
+            <div id="col-labels-container" style="position: relative; height: 30px; width: 100%;"></div>
+            <div id="grid-container" class="tile-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const variantData = {
+        "1": "AENz0K0M0[NAM", "2": "AENz0K0M0[NAM", "3": "AENz0K0M0[NAM", "4": "AENz0K0M0[NAM",
+        "5": "AENz0KM0[NAM", "6": "AENz0KM0[NAM", "7": "AENzKM[NAM", "8": "AENzKM[NAM"
+    };
+
+    const preloadedKeyChars = ['A', 'E', 'K', 'M', 'N', 'z', '[', '0'];
+
+    const decryptions = [
         { variant: 1, plaintext: "MARVIN MERRILL", ciphertext: "Nz0EAKN[00AMM", score: 85.2, homophonic: 0, perm: [2,3,4,6,1,0,5] },
         { variant: 1, plaintext: "JAMES ISABELLE", ciphertext: "ENz0AKAN[0MM0", score: 0, homophonic: 0, perm: [1, 2, 3, 4, 0, 5, 6] },
         { variant: 1, plaintext: "JOSEPH JOHNSON", ciphertext: "N0EKzAN0AM[0M", score: 0, homophonic: 0, perm: [2, 4, 1, 5, 3, 6, 0] },
         { variant: 1, plaintext: "ROBERT BENNETT", ciphertext: "EKA0zNA0MM0[N", score: 0, homophonic: 0, perm: [1, 6, 5, 0, 4, 3, 2] },
         { variant: 1, plaintext: "MICHAEL LATHAM", ciphertext: "AKzN0EMM0[N0A", score: 0, homophonic: 0, perm: [0, 5, 6, 3, 2, 4, 1] },
         { variant: 1, plaintext: "CHARLES HIRSCH", ciphertext: "A0zNKEM0[NMA0", score: 0, homophonic: 0, perm: [0, 4, 3, 2, 5, 1, 6] },
+        { variant: 1, score: 0, plaintext: "DREADED RIPPER", ciphertext:"E0zKANA0[MMN0", homophonic: 0, perm: [1, 4, 3, 5, 0, 2, 6]},
         { variant: 1, score: 473.29776, plaintext: "ERIK THE KILLER", ciphertext:"0ENAKz0ANMM0[", homophonic: 0, perm: [4, 1, 2, 0, 5, 6, 3]},
         { variant: 1, score: 534.58624, plaintext: "LITERALLY DEAD", ciphertext:"0zKNEA00[MNAM", homophonic: 0, perm: [6, 4, 3, 5, 2, 1, 0]},
         { variant: 1, score: 534.58624, plaintext: "LITERALLY DEAD", ciphertext:"0zKNEA00[MNAM", homophonic: 0, perm: [4, 6, 3, 5, 2, 1, 0]},
@@ -51,8 +220,7 @@
         cRow.innerHTML = ''; pRow.innerHTML = '';
         preloadedKeyChars.forEach(c => {
             const tdC = document.createElement('td');
-            tdC.textContent = c; tdC.id = `key-c-cell-${c}`;
-            tdC.className = isSymbol(c) ? 'char-symbol' : 'char-letter';
+            tdC.textContent = c; tdC.className = isSymbol(c) ? 'char-symbol' : 'char-letter';
             tdC.onmouseenter = () => highlightTiles(c);
             tdC.onmouseleave = () => clearHighlights();
             cRow.appendChild(tdC);
@@ -73,13 +241,9 @@
 
     function clearHighlights() {
         [...tiles, extraTile].forEach(t => { if(t) t.classList.remove('hover-highlight'); });
-        document.querySelectorAll('#key-table td').forEach(td => td.classList.remove('key-highlight'));
     }
 
-    function tc(c) {
-        if (c=="_") return "tile-content-filler";
-        return "tile-content";
-    }
+    function tc(c) { return c=="_" ? "tile-content-filler" : "tile-content"; }
 
     function resetAll() {
         isPermutingAll = false;
@@ -107,6 +271,7 @@
             t.classList.remove('no-transition');
             t.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
             t.style.top = '100px';
+            t.style.transform = 'translateY(0)';
             t.style.opacity = "1";
         });
     }
@@ -149,7 +314,7 @@
             extraTile.style.left = '150%'; extraTile.style.top = (fill.r * spacing) + 'px';
             document.getElementById('grid-container').appendChild(extraTile);
             setTimeout(() => {
-                extraTile.style.transition = `all ${getDelay(600)/1000}s`;
+                extraTile.style.transition = `all ${getDelay(600)/1000}s ease-in-out`;
                 extraTile.style.left = `calc(50% - ${offset}px + ${fill.c * spacing}px - 30px)`;
             }, 50);
             currentTileMapping.push({tile: extraTile, row: fill.r, col: fill.c});
@@ -163,15 +328,14 @@
         colLabels = [];
         for(let k=0; k<totalCols; k++) {
             const l = document.createElement('div'); 
-            l.className='col-label'; 
-            l.textContent=k+1;
+            l.className='col-label'; l.textContent=k+1;
             l.style.left = `calc(50% - ${offset}px + ${k*spacing}px - 5px)`;
             lblsContainer.appendChild(l);
             colLabels.push(l);
         }
     }
 
-async function animateSelectionSwaps(targetOrder) {
+    async function animateSelectionSwaps(targetOrder) {
         const spacing = 70;
         const totalCols = targetOrder.length;
         const offset = (totalCols - 1) * spacing / 2;
@@ -183,54 +347,48 @@ async function animateSelectionSwaps(targetOrder) {
             const currentSlotOfNeeded = currentOrder.indexOf(neededColIdx);
 
             if (currentSlotOfNeeded !== i) {
-                const colA_id = currentOrder[i]; // The column currently in the target slot
-                const colB_id = currentOrder[currentSlotOfNeeded]; // The column we want to move there
-
+                const colA_id = currentOrder[i];
+                const colB_id = currentOrder[currentSlotOfNeeded];
                 const tilesA = currentTileMapping.filter(m => m.col === colA_id);
                 const tilesB = currentTileMapping.filter(m => m.col === colB_id);
                 const labelA = colLabels[colA_id];
                 const labelB = colLabels[colB_id];
 
-                // Force Column B to move "Above" (Y-offset -40) and Column A to move "Below" (Y-offset +40)
-                tilesB.forEach(m => {
-                    m.tile.style.zIndex = "100";
-                    m.tile.style.transform = `translateY(-40px)`;
-                });
-                tilesA.forEach(m => {
-                    m.tile.style.zIndex = "50";
-                    m.tile.style.transform = `translateY(40px)`;
-                });
+                // Lift/Drop phase
+                tilesB.forEach(m => { m.tile.style.zIndex = "100"; m.tile.style.transform = m.tile.classList.contains('flipped') ? `rotateY(180deg) translateY(-40px)` : `translateY(-40px)`; });
+                if (labelB) { labelB.style.zIndex = "100"; labelB.style.transform = `translateY(-40px)`; }
+                tilesA.forEach(m => { m.tile.style.zIndex = "50"; m.tile.style.transform = m.tile.classList.contains('flipped') ? `rotateY(180deg) translateY(40px)` : `translateY(40px)`; });
+                if (labelA) { labelA.style.zIndex = "50"; labelA.style.transform = `translateY(40px)`; }
 
-                // Small timeout to allow the "lift" to start before the horizontal slide
-                await new Promise(r => setTimeout(r, 50));
+                await new Promise(r => setTimeout(r, 150));
 
-                // Execute horizontal swap
-                tilesA.forEach(m => {
-                    m.tile.style.left = `calc(50% - ${offset}px + ${currentSlotOfNeeded * spacing}px - 30px)`;
-                });
+                // Slide phase
+                tilesA.forEach(m => m.tile.style.left = `calc(50% - ${offset}px + ${currentSlotOfNeeded * spacing}px - 30px)`);
                 if(labelA) labelA.style.left = `calc(50% - ${offset}px + ${currentSlotOfNeeded * spacing}px - 5px)`;
-
-                tilesB.forEach(m => {
-                    m.tile.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
-                });
+                tilesB.forEach(m => m.tile.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`);
                 if(labelB) labelB.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 5px)`;
 
-                // Wait for horizontal movement to finish
                 if(!document.getElementById('instant-mode').checked) await new Promise(r => setTimeout(r, dur));
 
-                // Reset vertical offsets and z-index
+                // Land phase
                 [...tilesA, ...tilesB].forEach(m => {
-                    m.tile.style.transform = m.tile.classList.contains('flipped') ? `rotateY(180deg)` : `translateY(0)`;
-                    m.tile.style.zIndex = "10";
+                    const isFlipped = m.tile.classList.contains('flipped');
+                    m.tile.style.transform = isFlipped ? `rotateY(180deg) translateY(0)` : `translateY(0)`;
                 });
+                if (labelA) labelA.style.transform = `translateY(0)`;
+                if (labelB) labelB.style.transform = `translateY(0)`;
+
+                if(!document.getElementById('instant-mode').checked) await new Promise(r => setTimeout(r, 400));
+                
+                [...tilesA, ...tilesB].forEach(m => m.tile.style.zIndex = "10");
+                if (labelA) labelA.style.zIndex = "1";
+                if (labelB) labelB.style.zIndex = "1";
 
                 [currentOrder[i], currentOrder[currentSlotOfNeeded]] = [currentOrder[currentSlotOfNeeded], currentOrder[i]];
-
-                if(!document.getElementById('instant-mode').checked) await new Promise(r => setTimeout(r, 200));
             }
         }
     }
-    // NEW: Permutation Generator
+
     function* getPermutations(array) {
         const result = array.slice();
         const n = result.length;
@@ -245,18 +403,13 @@ async function animateSelectionSwaps(targetOrder) {
                 c[i]++;
                 i = 1;
             } else {
-                c[i] = 0;
-                i++;
+                c[i] = 0; i++;
             }
         }
     }
 
-    // NEW: Bulk permutation runner
     async function runAllPermutations() {
-        if (currentTileMapping.length === 0) {
-            await makeGrid();
-        }
-        
+        if (currentTileMapping.length === 0) await makeGrid();
         isPermutingAll = true;
         const v = document.getElementById('variant-select').value;
         const spacing = 70;
@@ -264,69 +417,99 @@ async function animateSelectionSwaps(targetOrder) {
         const offset = (totalCols - 1) * spacing / 2;
         const colIndices = Array.from({length: totalCols}, (_, i) => i);
         const permutations = getPermutations(colIndices);
-        
         let count = 0;
         const statusTitle = document.getElementById('status-title');
         
-        // Disable transitions for instant speed
         [...tiles, extraTile].forEach(t => { if(t) t.classList.add('no-transition'); });
         colLabels.forEach(l => l.classList.add('no-transition'));
 
         for (const p of permutations) {
             if (!isPermutingAll) break;
-            
             p.forEach((originalColIdx, currentSlotIdx) => {
                 const colTiles = currentTileMapping.filter(m => m.col === originalColIdx);
-                colTiles.forEach(m => {
-                    m.tile.style.left = `calc(50% - ${offset}px + ${currentSlotIdx * spacing}px - 30px)`;
-                });
-                if(colLabels[originalColIdx]) {
-                    colLabels[originalColIdx].style.left = `calc(50% - ${offset}px + ${currentSlotIdx * spacing}px - 5px)`;
-                }
+                colTiles.forEach(m => m.tile.style.left = `calc(50% - ${offset}px + ${currentSlotIdx * spacing}px - 30px)`);
+                if(colLabels[originalColIdx]) colLabels[originalColIdx].style.left = `calc(50% - ${offset}px + ${currentSlotIdx * spacing}px - 5px)`;
             });
-            
             count++;
-            if (count % 10 === 0) {
+            if (count % 15 === 0) {
                 statusTitle.textContent = `Permutation: ${count} / 5040`;
                 await new Promise(r => requestAnimationFrame(r));
             }
         }
-
         isPermutingAll = false;
         statusTitle.textContent = "All 5040 Permutations Shown";
     }
 
-    async function playDecryption(d) {
+async function playDecryption(d) {
         document.getElementById('variant-select').value = d.variant;
         resetAll();
+        
         const cleanPlain = d.plaintext.replace(/\s/g, '').split("");
         const subMap = {};
         d.ciphertext.split("").forEach((c, i) => { if(cleanPlain[i]) subMap[c] = cleanPlain[i]; });
+
+        // Pre-fill the plain-side content for all tiles and update the Key table
         Object.entries(subMap).forEach(([c, p]) => {
             const tdP = document.getElementById(`key-p-cell-${c}`);
             if(tdP) tdP.textContent = p;
-            [...tiles, extraTile].forEach(t => { if(t && t.dataset.cipher === c) t.querySelector('.plain-side').textContent = p; });
+            [...tiles, extraTile].forEach(t => { 
+                if(t && t.dataset.cipher === c) t.querySelector('.plain-side').textContent = p; 
+            });
         });
+
         await new Promise(r => setTimeout(r, 400));
         await makeGrid();
+        
         if(extraTile && subMap["_"]) extraTile.querySelector('.plain-side').textContent = subMap["_"];
+        
         await new Promise(r => setTimeout(r, getDelay(1000)));
         await animateSelectionSwaps(d.perm);
-        for (const [cipherSym, plainSym] of Object.entries(subMap)) {
-            const matchingTiles = [...tiles, extraTile].filter(t => t && t.dataset.cipher === cipherSym);
-            const kC = document.getElementById(`key-c-cell-${cipherSym}`);
-            const kP = document.getElementById(`key-p-cell-${cipherSym}`);
+
+        // Playback substitutions in grid order (Left-to-Right, Top-to-Bottom)
+        let playbackTiles = currentTileMapping
+            .filter(m => m.tile !== null)
+            .sort((a, b) => {
+                if (a.row !== b.row) return a.row - b.row;
+                const posA = d.perm.indexOf(a.col);
+                const posB = d.perm.indexOf(b.col);
+                return posA - posB;
+            });
+
+        const flippedCiphers = new Set();
+
+        for (const mapping of playbackTiles) {
+            const cipherChar = mapping.tile.dataset.cipher;
+            
+            // NEW: Skip the underscore (null/filler) tile if encountered in the reading order
+            if (cipherChar === "_" || flippedCiphers.has(cipherChar)) continue;
+            
+            flippedCiphers.add(cipherChar);
+
+            const matchingTiles = [...tiles, extraTile].filter(t => t && t.dataset.cipher === cipherChar);
+            
+            // Highlight all instances
             matchingTiles.forEach(t => t.classList.add('highlight-active'));
-            if(kC) kC.classList.add('key-highlight'); if(kP) kP.classList.add('key-highlight');
             await new Promise(r => setTimeout(r, getDelay(600)));
-            matchingTiles.forEach(t => t.classList.add('flipped'));
+
+            // Flip all instances
+            matchingTiles.forEach(t => {
+                t.classList.add('flipped');
+                t.style.transform = `rotateY(180deg) translateY(0)`;
+            });
+
             await new Promise(r => setTimeout(r, getDelay(800)));
             matchingTiles.forEach(t => t.classList.remove('highlight-active'));
-            if(kC) kC.classList.remove('key-highlight'); if(kP) kP.classList.remove('key-highlight');
         }
+
         await new Promise(r => setTimeout(r, getDelay(1500)));
         document.getElementById('status-title').textContent = "Decrypted Plaintext";
-        if(extraTile) { extraTile.style.opacity = "0"; setTimeout(() => extraTile.remove(), 800); }
+        
+        // Final fade out of the filler tile
+        if(extraTile) { 
+            extraTile.style.opacity = "0"; 
+            setTimeout(() => extraTile.remove(), 800); 
+        }
+        
         finalizeLayout(d);
     }
 
@@ -359,6 +542,7 @@ async function animateSelectionSwaps(targetOrder) {
                         t.classList.remove('no-transition');
                         t.style.left = `calc(50% - ${lineWidth/2}px + ${charOffset * spacing}px)`;
                         t.style.top = `${lineIdx * lineVGap}px`;
+                        t.style.transform = 'rotateY(180deg) translateY(0)';
                         charOffset++;
                     }
                 });
