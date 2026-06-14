@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>13-Symbol Substitution Cipher</title>
+
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  margin: 0;
+  background: #f4f4f4;
+}
+
+#top {
+  display: flex;
+  gap: 30px;
+  padding: 20px;
+}
+
+#cipher-area, #key-area {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+/* ---------- Tiles ---------- */
+
+.tile {
+  width: 60px;
+  height: 60px;
+  background: #e6d2a8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: bold;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.25);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.green { color: #1a7f37; }
+.red   { color: #b42318; }
+
+#cipher-grid-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+/* 1x13 grid */
+#cipher-grid {
+  display: grid;
+  grid-template-columns: repeat(13, auto);
+  gap: 10px;
+  transition: all 0.6s ease;
+}
+
+/* 2x7 grid */
+.grid-2x7 {
+  grid-template-columns: repeat(7, auto);
+  grid-template-rows: repeat(2, auto);
+}
+
+/* Column numbers */
+.column-numbers {
+  display: grid;
+  grid-template-columns: repeat(7, auto);
+  gap: 10px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.column-number {
+  text-align: center;
+  font-weight: bold;
+  opacity: 0;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ---------- Key table ---------- */
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td {
+  border: 1px solid #ccc;
+  text-align: center;
+  padding: 10px;
+  font-size: 20px;
+}
+
+/* ---------- Controls ---------- */
+
+#controls {
+  background: #fff;
+  padding: 20px;
+  border-top: 2px solid #ddd;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+button {
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+input {
+  padding: 6px;
+  width: 140px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="top">
+  <div id="cipher-area">
+    <h3>Cipher Grid</h3>
+
+    <div id="cipher-grid-wrapper">
+      <div>
+        <div id="columnNumbers" class="column-numbers"></div>
+        <div id="cipher-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="key-area">
+    <h3>Substitution Key</h3>
+    <table id="key-table"></table>
+  </div>
+</div>
+
+<div id="controls">
+  <button onclick="makeGrid()">Make Grid</button>
+  <button onclick="resetGrid()">Reset</button>
+
+  <input id="permInput" placeholder="e.g. 3 1 2 4 5 6 7">
+  <button onclick="permuteColumns()">Permute columns</button>
+  <button onclick="resetColumns()">Reset columns</button>
+
+  <button onclick="decrypt()">Decrypt</button>
+  <button onclick="clearDecryption()">Clear decryption</button>
+</div>
+
+<script>
+/* ---------- Data ---------- */
+
+const cipher = ["A","E","N","⊕","8","K","8","M","8","↓","N","A","M"];
+
+const plaintext = {};
+"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(c=>{
+  plaintext[c] = String.fromCharCode(65 + Math.floor(Math.random()*26));
+});
+plaintext["⊕"]="X";
+plaintext["8"]="E";
+plaintext["↓"]="T";
+
+let tiles = [];
+let originalOrder = [];
+let gridMade = false;
+
+/* ---------- Helpers ---------- */
+
+function isLetter(c){ return /^[A-Z]$/.test(c); }
+
+function tileColor(c){
+  return isLetter(c) ? "green" : "red";
+}
+
+/* ---------- Build Cipher Grid ---------- */
+
+const grid = document.getElementById("cipher-grid");
+
+cipher.forEach((c,i)=>{
+  const d = document.createElement("div");
+  d.className = `tile ${tileColor(c)}`;
+  d.textContent = c;
+  d.dataset.cipher = c;
+  d.dataset.index = i;
+  grid.appendChild(d);
+  tiles.push(d);
+});
+
+originalOrder = [...tiles];
+
+/* ---------- Build Key Table ---------- */
+
+const unique = [...new Set(cipher)];
+const table = document.getElementById("key-table");
+
+const r1 = table.insertRow();
+const r2 = table.insertRow();
+
+unique.forEach(c=>{
+  const td1 = r1.insertCell();
+  td1.textContent = c;
+  td1.className = tileColor(c);
+
+  const td2 = r2.insertCell();
+  td2.textContent = plaintext[c];
+});
+
+/* ---------- Grid Transform ---------- */
+
+function makeGrid(){
+  if(gridMade) return;
+  gridMade = true;
+
+  grid.classList.add("grid-2x7");
+
+  // Move last 7 tiles into reversed second row
+  const first = tiles.slice(0,6);
+  const second = tiles.slice(6).reverse();
+
+  grid.innerHTML = "";
+  first.forEach(t=>grid.appendChild(t));
+  second.forEach(t=>grid.appendChild(t));
+
+  // Add missing tile (underline)
+  const blank = document.createElement("div");
+  blank.className = "tile green";
+  blank.textContent = "_";
+  blank.style.opacity = 0;
+  grid.appendChild(blank);
+  requestAnimationFrame(()=> blank.style.opacity = 1);
+
+  showColumnNumbers();
+}
+
+function resetGrid(){
+  gridMade = false;
+  grid.classList.remove("grid-2x7");
+  grid.innerHTML = "";
+  originalOrder.forEach(t=>grid.appendChild(t));
+  document.getElementById("columnNumbers").innerHTML = "";
+}
+
+/* ---------- Column Numbers ---------- */
+
+function showColumnNumbers(){
+  const cn = document.getElementById("columnNumbers");
+  cn.innerHTML = "";
+  for(let i=1;i<=7;i++){
+    const d = document.createElement("div");
+    d.className = "column-number";
+    d.textContent = i;
+    cn.appendChild(d);
+    requestAnimationFrame(()=> d.style.opacity = 1);
+  }
+}
+
+/* ---------- Column Permutation ---------- */
+
+function permuteColumns(){
+  if(!gridMade) return;
+
+  const order = document.getElementById("permInput").value
+    .trim().split(/\s+/).map(n=>parseInt(n)-1);
+
+  if(order.length!==7) return;
+
+  const cells = [...grid.children];
+  const cols = [];
+
+  for(let i=0;i<7;i++){
+    cols[i] = [cells[i], cells[i+7]].filter(Boolean);
+  }
+
+  grid.innerHTML = "";
+  order.forEach(i=>{
+    cols[i].forEach(t=>grid.appendChild(t));
+  });
+
+  // move column numbers
+  const cn = document.getElementById("columnNumbers");
+  const nums = [...cn.children];
+  cn.innerHTML = "";
+  order.forEach(i=>cn.appendChild(nums[i]));
+}
+
+function resetColumns(){
+  if(!gridMade) return;
+  makeGrid();
+}
+
+/* ---------- Decryption ---------- */
+
+async function decrypt(){
+  for(const c of unique){
+    const keyCells = [...r1.cells];
+    const idx = keyCells.findIndex(td=>td.textContent===c);
+    keyCells[idx].style.background="#ffeb3b";
+
+    await sleep(400);
+
+    tiles.forEach(t=>{
+      if(t.dataset.cipher===c){
+        t.style.transform="rotateY(90deg)";
+        setTimeout(()=>{
+          t.textContent = plaintext[c];
+          t.className = "tile green";
+          t.style.transform="rotateY(0deg)";
+        },300);
+      }
+    });
+
+    await sleep(700);
+    keyCells[idx].style.background="";
+  }
+}
+
+function clearDecryption(){
+  tiles.forEach(t=>{
+    t.textContent = t.dataset.cipher;
+    t.className = `tile ${tileColor(t.dataset.cipher)}`;
+    t.style.transform="none";
+  });
+}
+
+/* ---------- Utils ---------- */
+
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+</script>
+
+</body>
+</html>
