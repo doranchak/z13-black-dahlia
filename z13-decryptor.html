@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Zodiac Cipher Analytics - Simplified</title>
@@ -10,7 +11,8 @@
                 url('z340-z408-combined-font-monospaced-webfont.woff') format('woff');
             font-weight: normal;
             font-style: normal;
-        }        
+        }
+
         :root {
             --wood-color: #e3c18d;
             --wood-dark: #c4a470;
@@ -22,78 +24,113 @@
             --highlight-border: #1e88e5;
         }
 
-        body { 
-            font-family: 'Segoe UI', sans-serif; 
-            background-color: #f5f5f5; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 20px; 
-            margin: 0; 
-        }
-        
-        #main-container { 
-            display: flex; 
-            width: 98vw; 
-            max-width: 1600px; 
-            gap: 40px; 
-            align-items: flex-start; 
-            justify-content: center; 
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            /* background-color: #f5f5f5; */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
         }
 
-        #left-panel { 
-            flex: 0 0 320px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-            z-index: 1000; 
-        }
-        
-        #right-panel { 
-            flex: 1; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 20px; 
-            position: relative; 
-            z-index: 1; 
-            min-width: 1000px; 
+        #main-container {
+            display: flex;
+            width: 98vw;
+            max-width: 1600px;
+            gap: 40px;
+            align-items: flex-start;
+            justify-content: center;
         }
 
-        .area { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        
-        #cipher-grid-area { 
-            min-height: 500px; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            position: relative; 
-            width: 100%; 
-            overflow: hidden; 
+        #left-panel {
+            flex: 0 0 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 1000;
         }
-        
-        .tile-container { position: relative; height: 400px; width: 100%; perspective: 1000px; }
-        
+
+        #right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+            min-width: 1000px;
+        }
+
+        .area {
+            background: white;
+            padding: 20px;
+            /* border-radius: 12px; */
+            /* box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05); */
+        }
+
+        #cipher-grid-area {
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .tile-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            perspective: 1000px;
+        }
+
         .tile {
-            position: absolute; width: var(--tile-size); height: var(--tile-size);
-            background-color: var(--wood-color); border: 2px solid var(--wood-dark);
-            border-radius: 8px; font-size: 50px; 
-            box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
-            transition: transform 0.8s ease-in-out, left 0.8s ease-in-out, top 0.8s ease-in-out, box-shadow 0.3s; 
-            transform-style: preserve-3d; z-index: 10;
+            position: absolute;
+            width: var(--tile-size);
+            height: var(--tile-size);
+            background-color: var(--wood-color);
+            border: 2px solid var(--wood-dark);
+            border-radius: 8px;
+            font-size: 50px;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.8s ease-in-out, left 0.8s ease-in-out, top 0.8s ease-in-out, box-shadow 0.3s;
+            transform-style: preserve-3d;
+            z-index: 10;
         }
 
-        .tile-content { 
+        .tile-content {
             font-family: 'untitled2regular';
-            position: absolute; backface-visibility: hidden; display: flex; 
-            justify-content: center; align-items: center; width: 100%; height: 100%; text-align: center;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-align: center;
         }
 
         /* Color Classes for Cipher Characters */
-        .char-normal { color: var(--cipher-green); }
-        .char-symbol { color: var(--cipher-red); }
+        .char-normal {
+            color: var(--cipher-green);
+        }
 
-        .plain-side { transform: rotateY(180deg); color: black; font-family: 'Segoe UI', sans-serif; font-size: 35px; font-weight: bold;}
-        .tile.flipped { transform: rotateY(180deg); }
+        .char-symbol {
+            color: var(--cipher-red);
+        }
+
+        .plain-side {
+            transform: rotateY(180deg);
+            color: black;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .tile.flipped {
+            transform: rotateY(180deg);
+        }
 
         /* Highlight styles */
         .simple-blue-highlight {
@@ -102,324 +139,552 @@
             color: white !important;
             box-shadow: none !important;
         }
+
         /* Override specific text colors when highlighted */
-        .simple-blue-highlight .cipher-side, 
+        .simple-blue-highlight .cipher-side,
         .simple-blue-highlight .plain-side,
         .simple-blue-highlight .char-normal,
-        .simple-blue-highlight .char-symbol { color: white !important; }
+        .simple-blue-highlight .char-symbol {
+            color: white !important;
+        }
 
-        #key-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-        #cipher-row td { 
-            font-family: 'untitled2regular'; height: 45px; text-align: center; font-size: 40px; 
-            border: 1px solid #ddd; transition: all 0.2s; 
+        #key-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
         }
-        #cipher-row { background-color: var(--table-header-bg); }
-        #plain-row td { color: black; background-color: #fff; font-size: 30px; font-weight: bold; height: 45px; text-align: center; border: 1px solid #ddd; }
-        
-        /* Search and List Styles */
-        #search-box { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; margin-bottom: 10px; font-size: 14px;}
-        .decrypt-item { 
-            padding: 12px; border-bottom: 1px solid #eee; cursor: pointer; font-size: 16px; font-weight: 600; color: #2c3e50; transition: background 0.2s;
+
+        #cipher-row td {
+            font-family: 'untitled2regular';
+            height: 45px;
+            text-align: center;
+            font-size: 40px;
+            border: 1px solid #ddd;
+            transition: all 0.2s;
         }
-        .decrypt-item:hover { background-color: #e3f2fd; color: #1565c0; }
+
+        #cipher-row {
+            background-color: var(--table-header-bg);
+        }
+
+        #plain-row td {
+            color: black;
+            background-color: #fff;
+            font-size: 30px;
+            font-weight: bold;
+            height: 45px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        /* Control Styles */
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .control-group select,
+        .control-group input[type="range"] {
+            width: 100%;
+            padding: 5px;
+        }
+
+        /* List / Table Styles */
+        #search-box {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        #decrypt-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        #decrypt-table th {
+            text-align: left;
+            padding: 10px 5px;
+            background: #eceff1;
+            border-bottom: 2px solid #ddd;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #decrypt-table th:hover {
+            background: #cfd8dc;
+        }
+
+        #decrypt-table td {
+            padding: 8px 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .decrypt-row {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .decrypt-row:hover {
+            background-color: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .row-text {
+            font-weight: 600;
+            color: #2c3e50;
+        }
     </style>
 </head>
+
 <body>
 
-<div id="main-container">
-    <div id="left-panel">
-        <div class="area">
-            <h3 style="margin: 0 0 10px 0; font-size: 16px;">Substitution Key</h3>
-            <table id="key-table">
-                <tr id="cipher-row"></tr>
-                <tr id="plain-row"></tr>
-            </table>
-        </div>
-
-        <div class="area" style="padding: 0; overflow: hidden;">
-            <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #eee;">
-                <input type="text" id="search-box" placeholder="Search..." oninput="renderList()">
+    <div id="main-container">
+        <div id="left-panel">
+            <div class="area">
+                <h3 style="margin: 0 0 10px 0; font-size: 16px; text-align: center;">Substitution Key</h3>
+                <table id="key-table">
+                    <tr id="cipher-row"></tr>
+                    <tr id="plain-row"></tr>
+                </table>
             </div>
-            <div id="decryption-list" style="max-height: 400px; overflow-y: auto;"></div>
+
+            <div class="area" style="padding: 20px;">
+                <div class="control-group">
+                    <label>Dataset</label>
+                    <select id="dataset-select" onchange="changeDataset()">
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label>Animation Speed: <span id="speed-label">1.0x</span></label>
+                    <input type="range" id="speed-control" min="0.5" max="50.0" step="0.1" value="1.0"
+                        oninput="updateSpeedLabel()">
+                </div>
+            </div>
+
+            <div class="area" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                <div style="padding: 15px; background: #f8f9fa; border-bottom: 1px solid #eee;">
+                    <input type="text" id="search-box" placeholder="Search..." oninput="renderTable()">
+                </div>
+                <div id="decryption-list" style="max-height: 400px; overflow-y: auto;">
+                    <table id="decrypt-table">
+                        <thead>
+                            <tr>
+                                <th onclick="sortTable('text')">Plaintext</th>
+                                <th onclick="sortTable('score')" style="width: 50px;">Score</th>
+                                <th onclick="sortTable('isHomophonic')" style="width: 40px;" title="Homophonic">Hom</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="right-panel">
+            <div id="cipher-grid-area" class="area">
+                <h3 id="status-title" style="margin: 0 0 2em 0;"></h3>
+                <div id="grid-container" class="tile-container"></div>
+            </div>
         </div>
     </div>
 
-    <div id="right-panel">
-        <div id="cipher-grid-area" class="area">
-            <h3 id="status-title" style="margin: 0 0 2em 0;">Cipher Grid</h3>
-            <div id="grid-container" class="tile-container"></div>
-        </div>
-    </div>
-</div>
+    <script>
+        // --- Configuration ---
+        const CIPHER_STRING = "AENz0K0M0[NAM";
+        const KEY_CHARS = ['A', 'E', 'K', 'M', 'N', 'z', '[', '0'];
 
-<script>
-    const CIPHER_STRING = "AENz0K0M0[NAM";
-    const KEY_CHARS = ['A', 'E', 'K', 'M', 'N', 'z', '[', '0'];
-    const plaintexts = [
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-        "Luis Rory Reily",
-        "L Jacob ODonald",
-        "Eddie Resendes",
-        "Steve Pete West",
-        "Gary Lyle Large",
-        "On TV A War Actor",
-    ];
-    let tiles = [];
+        // --- Mock External Data Sets ---
+        // Now stored as objects with explicit scores
+        // const DATA_SET_1 = [
+        //     { text: "Luis Rory Reily", score: 88.5 },
+        //     { text: "L Jacob ODonald", score: 65.2 },
+        //     { text: "Eddie Resendes", score: 92.1 },
+        //     { text: "Steve Pete West", score: 74.8 },
+        //     { text: "Gary Lyle Large", score: 45.0 },
+        //     { text: "On TV A War Actor", score: 12.5 }
+        // ];
 
-    // Helper to assign color classes
-    function getCharClass(char) {
-        const normals = ['A', 'E', 'K', 'M', 'N'];
-        return normals.includes(char) ? 'char-normal' : 'char-symbol';
-    }
+        // const DATA_SET_2 = [
+        //     { text: "Kane West Kanye", score: 81.3 },
+        //     { text: "See My Red Vest", score: 60.5 },
+        //     { text: "Her Red Red Eye", score: 55.9 }, 
+        //     { text: "A Elk Zoo Mom", score: 30.2 },
+        //     { text: "Ten Men On Mat", score: 41.7 }
+        // ];
 
-    function init() {
-        buildInitialKey();
-        renderList();
-        resetAll(); 
-    }
+        const DATASETS = {
+            "Names": "z13-decryptor-data-1.js",
+            "Phrases": "z13-decryptor-data-2_.js",
+        };
 
-    function buildInitialKey() {
-        const cRow = document.getElementById('cipher-row');
-        const pRow = document.getElementById('plain-row');
-        cRow.innerHTML = ''; pRow.innerHTML = '';
-        KEY_CHARS.forEach(c => {
-            const tdC = document.createElement('td');
-            tdC.textContent = c; 
-            tdC.id = `key-c-${c}`;
-            // Apply color class to key table
-            tdC.className = getCharClass(c);
-            cRow.appendChild(tdC);
+        // --- State ---
+        let tiles = [];
+        let currentData = [];
+        let sortCol = 'score';
+        let sortAsc = false;
+        let animSpeed = 1.0;
 
-            const tdP = document.createElement('td');
-            tdP.id = `key-p-${c}`;
-            pRow.appendChild(tdP);
-        });
-    }
+        // --- Initialization ---
 
-    function renderList() {
-        const query = document.getElementById('search-box').value.toLowerCase();
-        const list = document.getElementById('decryption-list');
-        list.innerHTML = '';
-        plaintexts.filter(t => t.toLowerCase().includes(query)).forEach(text => {
-            const div = document.createElement('div');
-            div.className = 'decrypt-item';
-            div.textContent = text;
-            div.onclick = () => playDecryption(text);
-            list.appendChild(div);
-        });
-    }
-
-    async function resetAll() {
-        const container = document.getElementById('grid-container');
-        container.innerHTML = ''; 
-        tiles = []; 
-        
-        const spacing = 70;
-        const totalCols = 13; 
-        const offset = (totalCols - 1) * spacing / 2;
-        
-        CIPHER_STRING.split("").forEach((char, i) => {
-            const t = document.createElement('div');
-            t.className = 'tile';
-            // Apply color class to tile content
-            const colorClass = getCharClass(char);
-            t.innerHTML = `<div class="tile-content cipher-side ${colorClass}">${char}</div><div class="tile-content plain-side"></div>`;
-            t.dataset.cipher = char;
-            
-            t.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
-            t.style.top = '140px'; 
-            
-            container.appendChild(t);
-            tiles.push(t);
-        });
-
-        KEY_CHARS.forEach(c => document.getElementById(`key-p-${c}`).textContent = '');
-        document.getElementById('status-title').textContent = "Cipher Grid";
-    }
-
-    async function playDecryption(plaintext) {
-        await resetAll();
-        
-        const cleanPlain = plaintext.replace(/\s/g, '').toUpperCase();
-        
-        tiles.forEach((t, i) => {
-            if(cleanPlain[i]) t.querySelector('.plain-side').textContent = cleanPlain[i];
-        });
-
-        const fullPlainMap = {}; 
-        for(let i=0; i<Math.min(cleanPlain.length, CIPHER_STRING.length); i++) {
-            fullPlainMap[CIPHER_STRING[i]] = cleanPlain[i];
-        }
-
-        // Fill Key Immediately
-        KEY_CHARS.forEach(char => {
-            const keyP = document.getElementById(`key-p-${char}`);
-            if(keyP && fullPlainMap[char]) {
-                keyP.textContent = fullPlainMap[char];
-            }
-        });
-
-        await new Promise(r => setTimeout(r, 400));
-
-        const flippedSymbols = new Set();
-        
-        for(let i=0; i<CIPHER_STRING.length; i++) {
-            const sym = CIPHER_STRING[i];
-            
-            if(flippedSymbols.has(sym)) continue;
-            flippedSymbols.add(sym);
-            
-            const group = tiles.filter(t => t.dataset.cipher === sym);
-            const keyC = document.getElementById(`key-c-${sym}`);
-            const keyP = document.getElementById(`key-p-${sym}`);
-            
-            // Highlight
-            keyC?.classList.add('simple-blue-highlight');
-            keyP?.classList.add('simple-blue-highlight');
-            group.forEach(t => t.classList.add('simple-blue-highlight'));
-            
-            await new Promise(r => setTimeout(r, 600));
-            
-            // Flip
-            group.forEach(t => {
-                t.classList.add('flipped');
+        function init() {
+            // Populate Dataset Select
+            const sel = document.getElementById('dataset-select');
+            Object.keys(DATASETS).forEach(k => {
+                const opt = document.createElement('option');
+                opt.value = DATASETS[k];
+                opt.textContent = k;
+                sel.appendChild(opt);
             });
-            
-            await new Promise(r => setTimeout(r, 800));
-            
-            // Un-Highlight
-            keyC?.classList.remove('simple-blue-highlight');
-            keyP?.classList.remove('simple-blue-highlight');
-            group.forEach(t => t.classList.remove('simple-blue-highlight'));
-            
-            await new Promise(r => setTimeout(r, 200));
+
+            buildInitialKey();
+            changeDataset();
+            resetAll();
         }
-        
-        await new Promise(r => setTimeout(r, 800));
-        
-        finalizeLayout(plaintext);
-    }
 
-    function finalizeLayout(text) {
-        // Changed from 65 to 70 to match initial spacing
-        const spacing = 70; 
-        const lineVGap = 85;
-        const maxRowWidth = 900; 
-        
-        const words = text.split(" ");
-        let lines = [];
-        let currentLineWords = [];
-        let currentLineLen = 0;
+        async function changeDataset() {
+            const script = document.getElementById('dataset-select').value;
+            console.log(script);
+            try {
+                // This is the Dynamic Import
+                // It loads the file requested by the variable 'filePath'
+                const module = await import("./" + script);
+                // console.log(module.default);
+                // The data is typically inside 'default' if you used export default
+                currentData = module.default.map(item => {
+                    // console.log(item);
+                    const isHom = checkHomophonic(item.text);
+                    return {
+                        text: item.text,
+                        score: item.score,
+                        isHomophonic: isHom
+                    };
+                });
+                // Sort initially by score descending
+                sortCol = 'score';
+                sortAsc = false;
+                renderTable();
 
-        words.forEach(w => {
-            const wordLen = w.length;
-            const linePixelWidth = (currentLineLen + wordLen) * spacing;
-
-            if (linePixelWidth > maxRowWidth && currentLineWords.length > 0) {
-                lines.push(currentLineWords);
-                currentLineWords = [];
-                currentLineLen = 0;
+            } catch (error) {
+                console.error("Error loading module:", error);
+                // outputDiv.textContent = "Error loading data. Check console.";
             }
-            
-            currentLineWords.push(w);
-            currentLineLen += wordLen + 1;
-        });
-        if (currentLineWords.length > 0) lines.push(currentLineWords);
+        }
 
-        const startY = 50;
-        let tileIdx = 0;
+        function changeDataset2() {
+            const key = document.getElementById('dataset-select').value;
+            const rawData = DATASETS[key];
 
-        lines.forEach((lineWords, lineIndex) => {
-            const totalSlots = lineWords.reduce((acc, w) => acc + w.length, 0) + (lineWords.length - 1);
-            const totalWidthPx = totalSlots * spacing;
-            
-            let currentX = (document.getElementById('grid-container').offsetWidth - totalWidthPx) / 2;
-            currentX += (spacing / 2) - 30;
+            // Process data: Calculate Homophonic status only (Score is already there)
+            currentData = rawData.map(item => {
+                const isHom = checkHomophonic(item.text);
+                return {
+                    text: item.text,
+                    score: item.score,
+                    isHomophonic: isHom
+                };
+            });
 
-            lineWords.forEach((word) => {
-                for(let char of word) {
-                    if (tileIdx < tiles.length) {
-                        const t = tiles[tileIdx];
-                        t.style.left = `${currentX}px`;
-                        t.style.top = `${startY + (lineIndex * lineVGap)}px`;
-                        t.style.transform = `rotateY(180deg)`; 
-                        tileIdx++;
+            // Sort initially by score descending
+            sortCol = 'score';
+            sortAsc = false;
+            renderTable();
+        }
+
+        // -1 if invalid substitution
+        // 0 if not homophonic
+        // 1 if homophonic
+        function checkHomophonic(text) {
+            const cleanPlain = text.replace(/[^a-zA-Z]/g, '').toUpperCase();
+            if (cleanPlain.length != 13) return -1;
+
+            // 1. Homophonic Check
+            // Map distinct Cipher Symbols to Plaintext Letters.
+            // If Unique Plaintext Letters < Number of Cipher Symbols mapped,
+            // it implies multiple symbols map to the same letter (Homophonic).
+
+            const map = {};
+            let symbolCount = 0;
+
+            const len = Math.min(cleanPlain.length, CIPHER_STRING.length);
+
+            for (let i = 0; i < len; i++) {
+                const cSym = CIPHER_STRING[i];
+                const pChar = cleanPlain[i];
+
+                if (!map[cSym]) {
+                    map[cSym] = pChar;
+                    symbolCount++;
+                } else {
+                    if (map[cSym] != pChar) return -1; // symbol maps to multiple plaintext assignments.  bad!
+                }
+            }
+
+            const uniquePlainChars = new Set(Object.values(map));
+            return uniquePlainChars.size < symbolCount;
+        }
+
+        // --- UI Rendering ---
+
+        function updateSpeedLabel() {
+            animSpeed = parseFloat(document.getElementById('speed-control').value);
+            document.getElementById('speed-label').textContent = animSpeed.toFixed(1) + 'x';
+        }
+
+        function sortTable(col) {
+            if (sortCol === col) {
+                sortAsc = !sortAsc;
+            } else {
+                sortCol = col;
+                sortAsc = true; // Default to ascending for text
+                if (col === 'score') sortAsc = false; // Default desc for score
+            }
+            renderTable();
+        }
+
+        function renderTable() {
+            const query = document.getElementById('search-box').value.toLowerCase();
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
+
+            // Filter
+            let displayData = currentData.filter(item => item.text.toLowerCase().includes(query));
+
+            // Sort
+            displayData.sort((a, b) => {
+                let valA = a[sortCol];
+                let valB = b[sortCol];
+
+                if (typeof valA === 'string') {
+                    valA = valA.toLowerCase();
+                    valB = valB.toLowerCase();
+                }
+
+                if (valA < valB) return sortAsc ? -1 : 1;
+                if (valA > valB) return sortAsc ? 1 : -1;
+                return 0;
+            });
+
+            // Render
+            displayData.forEach(item => {
+                const tr = document.createElement('tr');
+                tr.className = 'decrypt-row';
+                tr.onclick = () => playDecryption(item.text);
+
+                // Text Col
+                const tdText = document.createElement('td');
+                tdText.className = 'row-text';
+                tdText.textContent = item.text;
+                tr.appendChild(tdText);
+
+                // Score Col
+                const tdScore = document.createElement('td');
+                tdScore.textContent = item.score.toFixed(1);
+                tr.appendChild(tdScore);
+
+                // Homophonic Col
+                const tdHom = document.createElement('td');
+                tdHom.style.textAlign = 'center';
+
+                var homSymbol = '';
+                var homColor = '';
+                if (item.isHomophonic == -1) {
+                    homSymbol = 'X';
+                    homColor = 'red';
+                } else if (item.isHomophonic == 1) {
+                    homSymbol = '&#10004;';
+                    homColor= 'green';
+                }
+
+
+                tdHom.innerHTML = homSymbol;
+                tdHom.style.color = homColor;
+                tr.appendChild(tdHom);
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        function buildInitialKey() {
+            const cRow = document.getElementById('cipher-row');
+            const pRow = document.getElementById('plain-row');
+            cRow.innerHTML = ''; pRow.innerHTML = '';
+            KEY_CHARS.forEach(c => {
+                const tdC = document.createElement('td');
+                tdC.textContent = c;
+                tdC.id = `key-c-${c}`;
+                tdC.className = getCharClass(c);
+                cRow.appendChild(tdC);
+
+                const tdP = document.createElement('td');
+                tdP.id = `key-p-${c}`;
+                pRow.appendChild(tdP);
+            });
+        }
+
+        function getCharClass(char) {
+            const normals = ['A', 'E', 'K', 'M', 'N'];
+            return normals.includes(char) ? 'char-normal' : 'char-symbol';
+        }
+
+        // --- Animation Logic ---
+
+        function wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms / animSpeed));
+        }
+
+        async function resetAll() {
+            const container = document.getElementById('grid-container');
+            container.innerHTML = '';
+            tiles = [];
+
+            const spacing = 70;
+            const totalCols = 13;
+            const offset = (totalCols - 1) * spacing / 2;
+
+            CIPHER_STRING.split("").forEach((char, i) => {
+                const t = document.createElement('div');
+                t.className = 'tile';
+                const colorClass = getCharClass(char);
+                t.innerHTML = `<div class="tile-content cipher-side ${colorClass}">${char}</div><div class="tile-content plain-side"></div>`;
+                t.dataset.cipher = char;
+
+                t.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
+                t.style.top = '140px';
+
+                container.appendChild(t);
+                tiles.push(t);
+            });
+
+            KEY_CHARS.forEach(c => document.getElementById(`key-p-${c}`).textContent = '');
+            // document.getElementById('status-title').textContent = "Cipher Grid";
+        }
+
+        async function playDecryption(plaintext) {
+            await resetAll();
+
+            const cleanPlain = plaintext.replace(/\s/g, '').toUpperCase();
+
+            tiles.forEach((t, i) => {
+                if (cleanPlain[i]) t.querySelector('.plain-side').textContent = cleanPlain[i];
+            });
+
+            const fullPlainMap = {};
+            for (let i = 0; i < Math.min(cleanPlain.length, CIPHER_STRING.length); i++) {
+                fullPlainMap[CIPHER_STRING[i]] = cleanPlain[i];
+            }
+
+            KEY_CHARS.forEach(char => {
+                const keyP = document.getElementById(`key-p-${char}`);
+                if (keyP && fullPlainMap[char]) {
+                    keyP.textContent = fullPlainMap[char];
+                }
+            });
+
+            await wait(400);
+
+            const flippedSymbols = new Set();
+
+            for (let i = 0; i < CIPHER_STRING.length; i++) {
+                const sym = CIPHER_STRING[i];
+
+                if (flippedSymbols.has(sym)) continue;
+                flippedSymbols.add(sym);
+
+                const group = tiles.filter(t => t.dataset.cipher === sym);
+                const keyC = document.getElementById(`key-c-${sym}`);
+                const keyP = document.getElementById(`key-p-${sym}`);
+
+                keyC?.classList.add('simple-blue-highlight');
+                keyP?.classList.add('simple-blue-highlight');
+                group.forEach(t => t.classList.add('simple-blue-highlight'));
+
+                await wait(600);
+
+                group.forEach(t => {
+                    t.classList.add('flipped');
+                });
+
+                await wait(800);
+
+                keyC?.classList.remove('simple-blue-highlight');
+                keyP?.classList.remove('simple-blue-highlight');
+                group.forEach(t => t.classList.remove('simple-blue-highlight'));
+
+                await wait(200);
+            }
+
+            await wait(800);
+
+            finalizeLayout(plaintext);
+        }
+
+        function finalizeLayout(text) {
+            const spacing = 70;
+            const lineVGap = 85;
+            const maxRowWidth = 900;
+
+            const words = text.split(" ");
+            let lines = [];
+            let currentLineWords = [];
+            let currentLineLen = 0;
+
+            words.forEach(w => {
+                const wordLen = w.length;
+                const linePixelWidth = (currentLineLen + wordLen) * spacing;
+
+                if (linePixelWidth > maxRowWidth && currentLineWords.length > 0) {
+                    lines.push(currentLineWords);
+                    currentLineWords = [];
+                    currentLineLen = 0;
+                }
+
+                currentLineWords.push(w);
+                currentLineLen += wordLen + 1;
+            });
+            if (currentLineWords.length > 0) lines.push(currentLineWords);
+
+            const startY = 50;
+            let tileIdx = 0;
+
+            lines.forEach((lineWords, lineIndex) => {
+                const totalSlots = lineWords.reduce((acc, w) => acc + w.length, 0) + (lineWords.length - 1);
+                const totalWidthPx = totalSlots * spacing;
+
+                let currentX = (document.getElementById('grid-container').offsetWidth - totalWidthPx) / 2;
+                currentX += (spacing / 2) - 30;
+
+                lineWords.forEach((word) => {
+                    for (let char of word) {
+                        if (tileIdx < tiles.length) {
+                            const t = tiles[tileIdx];
+                            t.style.left = `${currentX}px`;
+                            t.style.top = `${startY + (lineIndex * lineVGap)}px`;
+                            t.style.transform = `rotateY(180deg)`;
+                            tileIdx++;
+                        }
+                        currentX += spacing;
                     }
                     currentX += spacing;
-                }
-                currentX += spacing;
+                });
             });
-        });
-        
-        document.getElementById('status-title').textContent = text;
-    }
 
-    init();
-</script>
+            // document.getElementById('status-title').textContent = text;
+        }
+
+        init();
+    </script>
 </body>
+
 </html>
