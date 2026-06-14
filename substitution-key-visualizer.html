@@ -71,6 +71,7 @@
             text-align: center;
             font-size: 24px;
             overflow: visible;
+            transition: all 0.2s ease-in-out;
         }
         
         #cipher-row td {
@@ -109,6 +110,8 @@
             background-color: var(--highlight-blue) !important;
             color: white !important;
             transform: scale(1.1);
+            z-index: 5;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         
         .highlight-duplicate {
@@ -160,6 +163,45 @@
             border-style: dashed;
         }
 
+        /* Message Display Styles */
+        .msg-display {
+            min-height: 45px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: #fafafa;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            align-content: flex-start;
+            align-items: center;
+        }
+        .msg-char {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 35px;
+            transition: all 0.2s;
+            border-radius: 3px;
+        }
+        .msg-char.active {
+            background-color: var(--keyword-highlight);
+            transform: scale(1.2);
+            color: #000;
+        }
+        .cipher-font {
+            font-family: 'untitled2regular';
+            font-size: 28px;
+            color: var(--cipher-text-color);
+        }
+        .plain-font {
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 20px;
+            color: var(--plain-text-color);
+            font-weight: 900;
+        }
+
         #controls-container {
             display: flex;
             gap: 20px;
@@ -169,7 +211,7 @@
 
         .control-panel {
             flex: 1;
-            min-width: 250px;
+            min-width: 200px;
             background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
@@ -251,6 +293,14 @@
             <div id="plain-keyword-area" class="keyword-display-area"></div>
         </div>
 
+        <div class="area">
+            <h3>Message Translation</h3>
+            <div style="margin-bottom: 5px; font-size: 12px; color: #666;">Plaintext:</div>
+            <div id="plain-msg-disp" class="msg-display plain-font"></div>
+            <div style="margin-bottom: 5px; font-size: 12px; color: #666; margin-top: 15px;">Ciphertext:</div>
+            <div id="cipher-msg-disp" class="msg-display cipher-font"></div>
+        </div>
+
         <div id="controls-container" class="area" style="background: transparent; box-shadow: none; padding: 0;">
             
             <div class="control-panel">
@@ -283,6 +333,19 @@
                 <div class="control-row"><input type="checkbox" id="plain-at-end"> <label for="plain-at-end">At End</label></div>
                 <div class="control-row"><input type="checkbox" id="plain-rev-key"> <label for="plain-rev-key">Rev Key</label></div>
                 <div class="control-row"><input type="checkbox" id="plain-rev-alpha"> <label for="plain-rev-alpha">Rev Alpha</label></div>
+            </div>
+
+            <div class="control-panel">
+                <h4 style="margin-top: 0;">Message Process</h4>
+                <div class="control-row">
+                    <input type="text" id="plain-msg" placeholder="PLAINTEXT MSG">
+                </div>
+                <div class="control-row">
+                    <input type="text" id="cipher-msg" placeholder="CIPHERTEXT MSG">
+                </div>
+                <div style="font-size: 11px; color: #777; margin-top: 5px;">
+                    Translates after key table finishes.
+                </div>
             </div>
 
             <div class="control-panel" style="flex: 0 0 150px; display: flex; flex-direction: column; justify-content: center;">
@@ -438,73 +501,7 @@
                 ck: "", cAtEnd: false, cRevK: false, cRevA: false,
                 pk: "RADETICHRICHARD", pAtEnd: true, pRevK: false, pRevA: true,
                 map: "{A=I, S=R, T=A, E=V, V=E, K=N, M=L, N=M}"
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
-            {
-                name: "",
-                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
-                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
-                map: ""
-            },
+            }
         ];
 
         let isAnimating = false;
@@ -556,6 +553,10 @@
             document.getElementById('plain-rev-alpha').checked = sample.pRevA;
 
             document.getElementById('mapping-input').value = sample.map;
+            
+            // Clear prior messages to avoid confusion when picking a preset
+            document.getElementById('plain-msg').value = '';
+            document.getElementById('cipher-msg').value = '';
 
             await runAnimation();
             await wait(1000);
@@ -592,6 +593,10 @@
             document.querySelectorAll('.checkmark').forEach(cm => { cm.textContent = ''; cm.style.opacity = 0; });
             document.getElementById('cipher-keyword-area').innerHTML = '';
             document.getElementById('plain-keyword-area').innerHTML = '';
+            
+            // Clear message translation areas
+            document.getElementById('plain-msg-disp').innerHTML = '';
+            document.getElementById('cipher-msg-disp').innerHTML = '';
         }
 
         async function runAnimation() {
@@ -605,6 +610,7 @@
                 { id: 'plain', row: 'cell-p-', area: 'plain-keyword-area' }
             ];
 
+            // 1. Generate Key Tables
             for (const cfg of configs) {
                 if (cancelAnimation) break;
                 await processRow({
@@ -616,6 +622,19 @@
                     areaId: cfg.area
                 });
             }
+
+            if (cancelAnimation) { isAnimating = false; return; }
+
+            // 2. Process Messages (if any)
+            const plainMsg = document.getElementById('plain-msg').value.toUpperCase().replace(/[^A-Z ]/g, '');
+            const cipherMsg = document.getElementById('cipher-msg').value.toUpperCase().replace(/[^A-Z ]/g, '');
+
+            if (plainMsg) {
+                await animateMessage(plainMsg, 'encipher');
+            } else if (cipherMsg) {
+                await animateMessage(cipherMsg, 'decipher');
+            }
+
             isAnimating = false;
         }
 
@@ -681,6 +700,72 @@
                     cell.classList.add('highlight-active');
                     await wait(getSpeed());
                     cell.classList.remove('highlight-active');
+                }
+            }
+        }
+
+        async function animateMessage(msg, direction) {
+            const plainDisp = document.getElementById('plain-msg-disp');
+            const cipherDisp = document.getElementById('cipher-msg-disp');
+
+            for (let i = 0; i < msg.length; i++) {
+                if (cancelAnimation) break;
+                const char = msg[i];
+
+                // Allow spaces to visually format the output without highlighting the table
+                if (char === ' ') {
+                    const pSpan = document.createElement('span');
+                    pSpan.style.width = '15px'; // Space width
+                    plainDisp.appendChild(pSpan);
+
+                    const cSpan = document.createElement('span');
+                    cSpan.style.width = '15px'; // Space width
+                    cipherDisp.appendChild(cSpan);
+                    continue;
+                }
+
+                let srcRowPrefix = direction === 'encipher' ? 'cell-p-' : 'cell-c-';
+                
+                // Find column index of the source character in the table
+                let colIdx = -1;
+                for (let j = 0; j < 26; j++) {
+                    const cell = document.getElementById(srcRowPrefix + j);
+                    if (cell.querySelector('.content').textContent === char) {
+                        colIdx = j;
+                        break;
+                    }
+                }
+
+                if (colIdx !== -1) {
+                    const pCell = document.getElementById('cell-p-' + colIdx);
+                    const cCell = document.getElementById('cell-c-' + colIdx);
+                    
+                    // Highlight the table cells
+                    pCell.classList.add('highlight-active');
+                    cCell.classList.add('highlight-active');
+
+                    // Read translated character
+                    const pChar = direction === 'encipher' ? char : pCell.querySelector('.content').textContent;
+                    const cChar = direction === 'encipher' ? cCell.querySelector('.content').textContent : char;
+
+                    // Write to displays
+                    const pSpan = document.createElement('span');
+                    pSpan.className = 'msg-char active';
+                    pSpan.textContent = pChar;
+                    plainDisp.appendChild(pSpan);
+
+                    const cSpan = document.createElement('span');
+                    cSpan.className = 'msg-char active';
+                    cSpan.textContent = cChar;
+                    cipherDisp.appendChild(cSpan);
+
+                    await wait(getSpeed());
+
+                    // Clean up highlights
+                    pCell.classList.remove('highlight-active');
+                    cCell.classList.remove('highlight-active');
+                    pSpan.classList.remove('active');
+                    cSpan.classList.remove('active');
                 }
             }
         }
