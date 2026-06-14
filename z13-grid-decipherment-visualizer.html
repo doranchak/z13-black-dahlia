@@ -29,9 +29,13 @@
         #left-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 320px; position: relative; z-index: 1000; }
         #right-panel { flex: 3; display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; }
 
-        /* .area { background: white; padding: 20px; border-radius: 0px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); } */
-        .area { background: white; padding: 20px;}
-        #cipher-grid-area { min-height: 450px; display: flex; flex-direction: column; align-items: center; position: relative; width: 100%; }
+        /* .area { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); } */
+        .area { background: white; padding: 20px;  }
+        
+        /* Fixed height ensures the substitution key table below it NEVER jumps during animations */
+        #cipher-grid-area { height: 400px; display: flex; flex-direction: column; align-items: center; position: relative; width: 100%; box-sizing: border-box; }
+        #status-title { min-height: 28px; }
+
         .tile-container { position: relative; height: 380px; width: 100%; perspective: 1000px; }
         
         .tile {
@@ -61,21 +65,18 @@
         .char-letter { color: var(--cipher-green); }
         .char-symbol { color: var(--cipher-red); }
 
-        /* Existing Cyan highlight for active playback animations */
         .tile.highlight-active { 
             box-shadow: 0 0 15px 8px var(--highlight-cyan) !important; 
             border-color: #00b8d4 !important; 
             z-index: 2000 !important;
         }
         
-        /* NEW: Simple Blue Highlight (No Glow) for Hover and Substitution Key Sync */
         .simple-blue-highlight {
-            background-color: #64b5f6 !important; /* Soft Blue */
+            background-color: #64b5f6 !important; 
             border-color: #1e88e5 !important;
             color: white !important;
             box-shadow: none !important;
         }
-        /* Ensure text inside blue highlighted elements is white */
         .simple-blue-highlight .char-letter, 
         .simple-blue-highlight .char-symbol,
         .simple-blue-highlight .tile-content,
@@ -83,18 +84,22 @@
             color: white !important;
         }
 
-        #controls { display: flex; flex-direction: column; gap: 15px; background: #2c3e50; padding: 20px; border-radius: 12px; color: white; }
-        .control-group { display: flex; flex-direction: column; gap: 8px; }
-        button, select { padding: 10px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; color: white; background-color: var(--btn-color); }
-        input[type="text"] { padding: 8px; border-radius: 4px; border: none; width: 100%; box-sizing: border-box; }
-
+        /* Compact Controls Styling */
+        #controls { display: flex; flex-direction: column; gap: 10px; background: #2c3e50; padding: 15px; border-radius: 8px; color: white; }
+        .control-group { display: flex; flex-direction: row; align-items: center; gap: 8px; }
+        .control-group label { width: 95px; font-size: 13px; font-weight: bold; flex-shrink: 0; margin: 0; }
+        button, select { padding: 6px 10px; cursor: pointer; border: none; border-radius: 4px; font-weight: bold; color: white; background-color: var(--btn-color); font-size: 13px; }
+        button:hover { filter: brightness(1.1); }
+        input[type="text"] { padding: 6px 8px; border-radius: 4px; border: none; width: 100%; box-sizing: border-box; font-size: 13px; }
+        
         #substitution-key-area { padding: 15px; overflow: visible; }
-        #key-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
+        #key-table { border-collapse: collapse; margin-top: 5px; table-layout: fixed; }
         
         #cipher-row td { 
             font-family: 'untitled2regular';
             height: 45px; text-align: center; font-size: 40px; 
             cursor: pointer; border: 1px solid #ddd; transition: all 0.2s; position: relative;
+            padding: 10px;
         }
         #cipher-row { background-color: var(--table-header-bg); }
         #plain-row td { color: black; background-color: #fff; font-size: 30px; font-weight: bold; height: 45px; text-align: center; border: 1px solid #ddd; }
@@ -104,7 +109,7 @@
         .col-label { 
             position: absolute; 
             font-weight: 900; 
-            color: #7f8c8d; 
+            /* color: #7f8c8d;  */
             font-size: 16px; 
             transition: left 0.8s ease-in-out, transform 0.8s ease-in-out; 
             z-index: 1;
@@ -119,40 +124,34 @@
 
 <div id="main-container">
     <div id="left-panel">
-        <div id="substitution-key-area" class="area">
-            <h3 style="margin: 0 0 10px 0; font-size: 16px;">Substitution Key</h3>
-            <table id="key-table">
-                <tr id="cipher-row"></tr>
-                <tr id="plain-row"></tr>
-            </table>
-        </div>
-
         <div id="controls">
             <div class="control-group">
                 <label>Variation:</label>
-                <select id="variant-select" onchange="resetAll()"></select>
-                <button onclick="makeGrid()">Make Grid</button>
+                <select id="variant-select" onchange="resetAll()" style="flex: 1;"></select>
+                <button onclick="makeGrid()" style="flex: 1;">Make Grid</button>
             </div>
             <div class="control-group">
-                <label>Selection Swap:</label>
-                <input type="text" id="permute-input" placeholder="e.g. 1,2,3">
-                <button onclick="applyManualPermute()">Apply Swap</button>
+                <label>Swap Cols:</label>
+                <input type="text" id="permute-input" placeholder="e.g. 1,2,3" style="flex: 1;">
+                <button onclick="applyManualPermute()" style="flex: 1;">Apply</button>
             </div>
             <div class="control-group">
                 <label>Permutations:</label>
-                <button id="perm-all-btn" onclick="runAllPermutations(25)">Show All (7! = 5040)</button>
+                <button id="perm-all-btn" onclick="runAllPermutations(25)" style="flex: 1;">Show All (7! = 5040)</button>
             </div>
             <div class="control-group">
                 <label>Speed:</label>
-                <input type="range" id="speed-slider" min="1" max="10" value="5">
-                <label><input type="checkbox" id="instant-mode"> Instant Mode</label>
-                <button onclick="resetAll()">Reset Workspace</button>
+                <input type="range" id="speed-slider" min="1" max="10" value="5" style="flex: 1; min-width: 50px;">
+                <label style="width: auto; margin-left: 5px; cursor: pointer;">
+                    <input type="checkbox" id="instant-mode" style="margin-right: 3px;"> Instant
+                </label>
             </div>
+            <button onclick="resetAll()" style="width: 100%; margin-top: 4px; background-color: #d32f2f;">Reset Workspace</button>
         </div>
 
         <div id="decryption-widget" class="area">
-            <input type="text" id="search-text" placeholder="Search..." oninput="filterDecryptions()" style="margin-bottom: 10px; width:100%; border:1px solid #ddd; padding:5px;">
-            <div style="max-height: 250px; overflow-y: auto;">
+            <input type="text" id="search-text" placeholder="Search Decryptions..." oninput="filterDecryptions()" style="margin-bottom: 10px; width:100%; border:1px solid #ddd; padding:8px; border-radius: 4px;">
+            <div style="max-height: calc(100vh - 320px); overflow-y: auto;">
                 <table class="list-table">
                     <thead><tr><th>Plaintext</th><th>Var</th></tr></thead>
                     <tbody id="decryption-body"></tbody>
@@ -163,9 +162,17 @@
 
     <div id="right-panel">
         <div id="cipher-grid-area" class="area">
-            <h3 id="status-title" style="margin: 0 0 2em 0;"></h3>
-            <div id="col-labels-container" style="position: relative; height: 30px; width: 100%;"></div>
+            <h3 id="status-title" style="margin: 0 0 1em 0;"></h3>
+            <div id="col-labels-container" style="position: relative; height: 30px; width: 100%; margin-bottom: 1em;"></div>
             <div id="grid-container" class="tile-container"></div>
+        </div>
+        
+        <div id="substitution-key-area" class="area">
+            <h3 style="margin: 0 0 10px 0; font-size: 16px;">Substitution Key</h3>
+            <table id="key-table">
+                <tr id="cipher-row"></tr>
+                <tr id="plain-row"></tr>
+            </table>
         </div>
     </div>
 </div>
@@ -228,9 +235,7 @@
         { variant: 3, score: 575.0638, plaintext: "SEEN IN THE POST", ciphertext: "A00M[MNE0KzAN", homophonic: 0, perm: [1, 6, 4, 5, 3, 0, 2]},
         { variant: 3, score: 0.6599179, plaintext: "LEE DEERSLAYER", ciphertext: "A0M[M0NEAzK0N", homophonic: 0, perm: [1, 6, 0, 3, 5, 4, 2]},
         { variant: 6, score: 450.07523, plaintext: "HORSESHIT REX", ciphertext: "N[AM0MNzEA0K", homophonic: 0, perm: [2, 3, 1, 0, 4, 5]},
-        { variant: 6, score: 0, plaintext: "ROBERT BOGART", ciphertext: "MNA[M0ANEzK0", homophonic: 0, perm: [0, 2, 1, 3, 5, 4]},
-
-        // { variant: , score: , plaintext: "", ciphertext: "", homophonic: 0, perm: },
+        { variant: 6, score: 0, plaintext: "ROBERT BOGART", ciphertext: "MNA[M0ANEzK0", homophonic: 0, perm: [0, 2, 1, 3, 5, 4]}
     ];
 
     let tiles = [], extraTile = null, currentTileMapping = [], colLabels = [];
@@ -254,7 +259,7 @@
         preloadedKeyChars.forEach(c => {
             const tdC = document.createElement('td');
             tdC.textContent = c; tdC.className = isSymbol(c) ? 'char-symbol' : 'char-letter';
-            tdC.id = `key-c-cell-${c}`; // ADDED ID
+            tdC.id = `key-c-cell-${c}`; 
             tdC.onmouseenter = () => highlightTiles(c);
             tdC.onmouseleave = () => clearHighlights();
             cRow.appendChild(tdC);
@@ -266,7 +271,6 @@
         });
     }
 
-    // UPDATED: Now uses simple-blue-highlight instead of key-highlight/hover-highlight
     function highlightTiles(cipherChar) {
         if(isPermutingAll) return;
         [...tiles, extraTile].forEach(t => { 
@@ -276,7 +280,6 @@
         document.getElementById(`key-p-cell-${cipherChar}`)?.classList.add('simple-blue-highlight');
     }
 
-    // UPDATED: Clears the blue highlight
     function clearHighlights() {
         [...tiles, extraTile].forEach(t => { if(t) t.classList.remove('simple-blue-highlight'); });
         document.querySelectorAll('.simple-blue-highlight').forEach(el => el.classList.remove('simple-blue-highlight'));
@@ -294,7 +297,6 @@
             t.className = `tile ${isSymbol(char) ? 'char-symbol' : 'char-letter'}`;
             t.innerHTML = `<div class="${tc(char)} cipher-side">${char}</div><div class="${tc(char)} plain-side"></div>`;
             t.dataset.cipher = char;
-            // ADDED: Tile hover events to trigger key highlighting
             t.onmouseenter = () => highlightTiles(char);
             t.onmouseleave = () => clearHighlights();
             container.appendChild(t);
@@ -303,7 +305,6 @@
         positionLinear();
         buildInitialKey();
         document.getElementById('col-labels-container').innerHTML = '';
-        // document.getElementById('status-title').textContent = "Cipher Grid";
     }
 
     function positionLinear() {
@@ -355,35 +356,15 @@
             extraTile.dataset.cipher = "_";
             extraTile.style.left = '150%'; extraTile.style.top = (fill.r * spacing) + 'px';
             document.getElementById('grid-container').appendChild(extraTile);
-            // setTimeout(() => {
-            //     extraTile.style.transition = `all ${getDelay(600)/1000}s ease-in-out`;
-            //     extraTile.style.left = `calc(50% - ${offset}px + ${fill.c * spacing}px - 30px)`;
-            // }, 50);
             await new Promise((resolve) => {
                 setTimeout(() => {
-                    // 1. Calculate the duration in milliseconds
                     const durationMs = getDelay(600);
-
-                    // 2. Apply the transition and new styles
                     extraTile.style.transition = `all ${durationMs / 1000}s ease-in-out`;
                     extraTile.style.left = `calc(50% - ${offset}px + ${fill.c * spacing}px - 30px)`;
-
-                    // 3. Listen for the completion of the transition
-                    extraTile.addEventListener(
-                        'transitionend', 
-                        () => resolve(), 
-                        { once: true } // Important: Ensures the listener runs only once and removes itself
-                    );
-                    
-                    // Fallback: If for some reason transitionend doesn't fire (e.g. element hidden), 
-                    // you might want a safety setTimeout here:
-                    // setTimeout(resolve, durationMs + 20); 
+                    extraTile.addEventListener('transitionend', () => resolve(), { once: true });
                 }, 50);
             });
-
-// Code here will now wait until the animation is completely finished
-console.log("Animation done!");
-
+            console.log("Animation done!");
             currentTileMapping.push({tile: extraTile, row: fill.r, col: fill.c});
         }
         await new Promise(r => setTimeout(r, 1000));
@@ -422,7 +403,6 @@ console.log("Animation done!");
                 const labelA = colLabels[colA_id];
                 const labelB = colLabels[colB_id];
 
-                // Lift/Drop phase
                 tilesB.forEach(m => { m.tile.style.zIndex = "100"; m.tile.style.transform = m.tile.classList.contains('flipped') ? `rotateY(180deg) translateY(-40px)` : `translateY(-40px)`; });
                 if (labelB) { labelB.style.zIndex = "100"; labelB.style.transform = `translateY(-40px)`; }
                 tilesA.forEach(m => { m.tile.style.zIndex = "50"; m.tile.style.transform = m.tile.classList.contains('flipped') ? `rotateY(180deg) translateY(40px)` : `translateY(40px)`; });
@@ -430,7 +410,6 @@ console.log("Animation done!");
 
                 await new Promise(r => setTimeout(r, 150));
 
-                // Slide phase
                 tilesA.forEach(m => m.tile.style.left = `calc(50% - ${offset}px + ${currentSlotOfNeeded * spacing}px - 30px)`);
                 if(labelA) labelA.style.left = `calc(50% - ${offset}px + ${currentSlotOfNeeded * spacing}px - 5px)`;
                 tilesB.forEach(m => m.tile.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`);
@@ -438,7 +417,6 @@ console.log("Animation done!");
 
                 if(!document.getElementById('instant-mode').checked) await new Promise(r => setTimeout(r, dur));
 
-                // Land phase
                 [...tilesA, ...tilesB].forEach(m => {
                     const isFlipped = m.tile.classList.contains('flipped');
                     m.tile.style.transform = isFlipped ? `rotateY(180deg) translateY(0)` : `translateY(0)`;
@@ -487,7 +465,6 @@ console.log("Animation done!");
         const permutations = getPermutations(colIndices);
         let count = 0;
         const statusTitle = document.getElementById('status-title');
-        // const totalPermutations = permutations.length; 
         const totalPermutations = 5040;
         
         [...tiles, extraTile].forEach(t => { if(t) t.classList.add('no-transition'); });
@@ -504,13 +481,10 @@ console.log("Animation done!");
             
             count++;
 
-            // Speed Control Logic
             if (delayMs > 0) {
-                // Update UI and wait for the specified delay
                 statusTitle.textContent = `Permutation: ${count} / ${totalPermutations}`;
                 await new Promise(r => setTimeout(r, delayMs));
             } else {
-                // If delay is 0, run at maximum speed but yield to the browser every 15 frames to prevent freezing
                 if (count % 15 === 0) {
                     statusTitle.textContent = `Permutation: ${count} / ${totalPermutations}`;
                     await new Promise(r => requestAnimationFrame(r));
@@ -521,6 +495,7 @@ console.log("Animation done!");
         isPermutingAll = false;
         statusTitle.textContent = `All ${totalPermutations} Permutations Shown`;
     }
+
     async function playDecryption(d) {
         document.getElementById('variant-select').value = d.variant;
         resetAll();
@@ -567,7 +542,6 @@ console.log("Animation done!");
 
             const matchingTiles = [...tiles, extraTile].filter(t => t && t.dataset.cipher === cipherChar);
             
-            // Highlight table column in blue
             const keyCellC = document.getElementById(`key-c-cell-${cipherChar}`);
             const keyCellP = document.getElementById(`key-p-cell-${cipherChar}`);
             if(keyCellC) keyCellC.classList.add('simple-blue-highlight');
@@ -584,13 +558,11 @@ console.log("Animation done!");
             await new Promise(r => setTimeout(r, getDelay(800)));
             matchingTiles.forEach(t => t.classList.remove('highlight-active'));
             
-            // Remove table highlight
             if(keyCellC) keyCellC.classList.remove('simple-blue-highlight');
             if(keyCellP) keyCellP.classList.remove('simple-blue-highlight');
         }
 
         await new Promise(r => setTimeout(r, getDelay(1500)));
-        // document.getElementById('status-title').textContent = "Decrypted Plaintext";
         
         if(extraTile) { 
             extraTile.style.opacity = "0"; 
