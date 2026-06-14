@@ -219,6 +219,13 @@
             text-transform: uppercase;
         }
 
+        /* Comparison Key Editor specific */
+        .mono-input {
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 4px;
+            font-weight: bold;
+        }
+
         /* Speed Control Range */
         input[type="range"] {
             flex: 1;
@@ -315,6 +322,17 @@
                 </div>
             </div>
 
+            <div class="control-panel">
+                <h4 style="margin-top: 0;">Comparison Key Editor</h4>
+                <div class="control-row" style="flex-direction: column; align-items: stretch; gap: 4px;">
+                    <label style="font-size: 11px;">Ciphertext Mapping:</label>
+                    <input type="text" id="preset-cipher-input" class="mono-input" value="ABEKMNVZ" placeholder="A B C...">
+                    <label style="font-size: 11px;">Plaintext Target:</label>
+                    <input type="text" id="preset-plain-input" class="mono-input" value="IRVNLMEA" placeholder="X Y Z...">
+                </div>
+                <p style="font-size: 11px; color: #777; margin: 5px 0 0 0;">Align letters vertically. Spaces are ignored.</p>
+            </div>
+
             <div class="control-panel" style="flex: 0 0 150px; display: flex; flex-direction: column; justify-content: center;">
                 <div style="margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #555;">
                     Speed: <span id="speed-val">200ms</span>
@@ -331,18 +349,6 @@
         // --- Configuration ---
         const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
         
-        // Preset Partial Mapping for "Compare" functionality
-        const PRESET_MAPPING = {
-            "A": "I",
-            "B": "R",
-            "E": "V",
-            "K": "N",
-            "M": "L",
-            "N": "M",
-            "V": "E",
-            "Z": "A",
-        };
-
         // --- State ---
         let isAnimating = false;
         let cancelAnimation = false;
@@ -402,7 +408,7 @@
             });
             document.querySelectorAll('.checkmark').forEach(cm => {
                 cm.textContent = '';
-                cm.opacity = 0;
+                cm.style.opacity = 0;
             });
             document.getElementById('cipher-keyword-area').innerHTML = '';
             document.getElementById('plain-keyword-area').innerHTML = '';
@@ -424,7 +430,7 @@
                 revAlpha: document.getElementById('cipher-rev-alpha').checked,
                 rowIdPrefix: 'cell-c-',
                 areaId: 'cipher-keyword-area',
-                keywordBgClass: 'keyword-bg' // Applies cipher bg style
+                keywordBgClass: 'keyword-bg' 
             };
 
             const configP = {
@@ -434,7 +440,7 @@
                 revAlpha: document.getElementById('plain-rev-alpha').checked,
                 rowIdPrefix: 'cell-p-',
                 areaId: 'plain-keyword-area',
-                keywordBgClass: 'keyword-bg' // Applies plain bg style (distinguished by parent row ID in CSS)
+                keywordBgClass: 'keyword-bg' 
             };
 
             // 2. Animate Cipher Row
@@ -450,9 +456,8 @@
             const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId, keywordBgClass } = config;
             const area = document.getElementById(areaId);
             const usedChars = new Set();
-            const charToCellId = {}; // Track where characters were written
+            const charToCellId = {}; 
             
-            // 1. Setup Keyword Visualization Area
             const kwChars = keyword.split('');
             const kwElements = [];
             
@@ -464,7 +469,6 @@
                 kwElements.push(box);
             });
 
-            // Determine Start Index and Step Direction
             let dedupedLen = 0;
             let tempSet = new Set();
             kwChars.forEach(c => {
@@ -473,22 +477,13 @@
 
             let tableIdx, step;
             if (revKey) {
-                // Reverse: Start from right end of the block, fill towards left
                 step = -1;
-                // If atEnd: Occupies last 'dedupedLen' slots. Highest index is 25.
-                // If not atEnd: Occupies first 'dedupedLen' slots. Highest index is dedupedLen - 1.
                 tableIdx = atEnd ? 25 : (dedupedLen - 1);
             } else {
-                // Standard: Start from left end of the block, fill towards right
                 step = 1;
-                // If atEnd: Occupies last 'dedupedLen' slots. Lowest index is 26 - dedupedLen.
-                // If not atEnd: Occupies first 'dedupedLen' slots. Lowest index is 0.
                 tableIdx = atEnd ? (26 - dedupedLen) : 0;
             }
             
-            // 2. Write Keyword to Table
-            // Always iterate Forward through the keyword string (i = 0 to len)
-            // But write into the table based on tableIdx and step
             if (keyword.length > 0) {
                 for (let i = 0; i < kwChars.length; i++) {
                     if(cancelAnimation) return;
@@ -497,54 +492,35 @@
                     const box = kwElements[i]; 
 
                     if (usedChars.has(char)) {
-                        // --- Duplicate Handling ---
                         box.classList.add('duplicate'); 
-                        
-                        // Find the original keyword box (first occurrence)
                         const origBoxIdx = kwChars.indexOf(char);
                         const origBox = kwElements[origBoxIdx];
-                        
-                        // Find the original table cell (using our tracker)
                         const origCellId = charToCellId[char];
                         const origTableCell = origCellId ? document.getElementById(origCellId) : null;
 
                         if(origBox) origBox.classList.add('highlight-duplicate');
                         if(origTableCell) origTableCell.classList.add('highlight-duplicate');
-                        
                         await wait(getSpeed());
-                        
                         if(origBox) origBox.classList.remove('highlight-duplicate');
                         if(origTableCell) origTableCell.classList.remove('highlight-duplicate');
-
                     } else {
-                        // --- New Character Handling ---
                         usedChars.add(char);
                         box.classList.add('active');
-                        
                         const cellId = rowIdPrefix + tableIdx;
                         const cell = document.getElementById(cellId);
                         const span = cell.querySelector('.content');
                         span.textContent = char;
-                        
-                        // Record where we put this char for duplicate lookup later
                         charToCellId[char] = cellId;
-
-                        // Apply specific background class for keyword part
                         cell.classList.add(keywordBgClass);
-                        
                         cell.classList.add('highlight-active');
                         await wait(getSpeed());
                         cell.classList.remove('highlight-active');
-                        
                         box.classList.remove('active');
-                        
-                        // Move to next table slot
                         tableIdx += step;
                     }
                 }
             }
 
-            // 3. Fill Remaining Alphabet
             let emptySlots = [];
             for(let i=0; i<26; i++) {
                 const cell = document.getElementById(rowIdPrefix + i);
@@ -559,34 +535,15 @@
                 if(cancelAnimation) return;
 
                 if (usedChars.has(char)) {
-                    // --- SKIP Highlight Logic ---
-                    
-                    // Use our tracker if available, otherwise fallback search
-                    let existingTableCell = null;
-                    if (charToCellId[char]) {
-                        existingTableCell = document.getElementById(charToCellId[char]);
-                    } else {
-                        // Fallback (shouldn't happen if keyword processed correctly)
-                        for(let k=0; k<26; k++) {
-                             const c = document.getElementById(rowIdPrefix + k);
-                             if (c.querySelector('.content').textContent === char) {
-                                 existingTableCell = c;
-                                 break;
-                             }
-                        }
-                    }
-
+                    let existingTableCell = charToCellId[char] ? document.getElementById(charToCellId[char]) : null;
                     const kwIndex = kwChars.indexOf(char);
                     const kwBox = (kwIndex !== -1) ? kwElements[kwIndex] : null;
 
                     if(existingTableCell) existingTableCell.classList.add('highlight-duplicate');
                     if(kwBox) kwBox.classList.add('highlight-duplicate');
-
                     await wait(getSpeed());
-
                     if(existingTableCell) existingTableCell.classList.remove('highlight-duplicate');
                     if(kwBox) kwBox.classList.remove('highlight-duplicate');
-
                     continue; 
                 }
 
@@ -594,10 +551,7 @@
                     const slotIdx = emptySlots.shift(); 
                     const cell = document.getElementById(rowIdPrefix + slotIdx);
                     const span = cell.querySelector('.content');
-                    
                     span.textContent = char;
-                    // No keywordBgClass here - keeps it white
-
                     cell.classList.add('highlight-active');
                     await wait(getSpeed());
                     cell.classList.remove('highlight-active');
@@ -611,6 +565,22 @@
             if (isAnimating) return;
             isAnimating = true;
 
+            // Generate PRESET_MAPPING from form inputs
+            const presetMapping = {};
+            const cipherIn = document.getElementById('preset-cipher-input').value.toUpperCase();
+            const plainIn = document.getElementById('preset-plain-input').value.toUpperCase();
+            
+            // Iterate through the longest string to find pairs
+            const maxLen = Math.max(cipherIn.length, plainIn.length);
+            for (let i = 0; i < maxLen; i++) {
+                const c = cipherIn[i] || ' ';
+                const p = plainIn[i] || ' ';
+                // Skip if both are spaces or if cipher char is invalid
+                if (c !== ' ' && p !== ' ' && /[A-Z]/.test(c) && /[A-Z]/.test(p)) {
+                    presetMapping[c] = p;
+                }
+            }
+
             // Clear previous marks
             document.querySelectorAll('.checkmark').forEach(el => {
                 el.innerHTML = '';
@@ -621,7 +591,6 @@
                 td.classList.remove('highlight-match', 'highlight-mismatch');
             });
 
-            // Get generated data
             const cCells = [];
             const pCells = [];
             for(let i=0; i<26; i++) {
@@ -629,7 +598,6 @@
                 pCells.push(document.getElementById(`cell-p-${i}`));
             }
 
-            // Iterate left to right
             for(let i=0; i<26; i++) {
                 if(cancelAnimation) { isAnimating = false; return; }
 
@@ -638,7 +606,7 @@
 
                 if (!cChar || !pChar) continue;
 
-                const targetPlain = PRESET_MAPPING[cChar];
+                const targetPlain = presetMapping[cChar];
 
                 if (targetPlain) {
                     const checkC = cCells[i].querySelector('.checkmark');
@@ -647,22 +615,18 @@
                     if (pChar === targetPlain) {
                         cCells[i].classList.add('highlight-match');
                         pCells[i].classList.add('highlight-match');
-                        
                         checkC.innerHTML = '&#10004;'; 
                         checkC.classList.add('check-green');
                         checkC.style.opacity = '1';
-
                         checkP.innerHTML = '&#10004;';
                         checkP.classList.add('check-green');
                         checkP.style.opacity = '1';
                     } else {
                         cCells[i].classList.add('highlight-mismatch');
                         pCells[i].classList.add('highlight-mismatch');
-
                         checkC.innerHTML = '&#10008;'; 
                         checkC.classList.add('check-red');
                         checkC.style.opacity = '1';
-
                         checkP.innerHTML = '&#10008;';
                         checkP.classList.add('check-red');
                         checkP.style.opacity = '1';
