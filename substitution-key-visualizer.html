@@ -20,13 +20,11 @@
             --highlight-blue: #64b5f6;
             --highlight-green: #66bb6a;
             --highlight-red: #ef5350;
-            --keyword-highlight: #ffca28; /* Amber for active processing */
-            
-            --cipher-text-color: #2e7d32; /* Green text for Cipher */
-            --cipher-bg-keyword: #b7ffbd; /* Very light green for Cipher Keyword area */
-            
+            --keyword-highlight: #ffca28;
+            --cipher-text-color: #2e7d32;
+            --cipher-bg-keyword: #b7ffbd;
             --plain-text-color: #000000;
-            --plain-bg-keyword: #faf19e; /* Very light yellow for Plain Keyword area */
+            --plain-bg-keyword: #faf19e;
         }
 
         body {
@@ -57,12 +55,8 @@
             box-sizing: border-box;
         }
 
-        h3 {
-            margin: 0 0 15px 0;
-            color: #333;
-        }
+        h3 { margin: 0 0 15px 0; color: #333; }
 
-        /* Table Styles */
         #key-table {
             width: 100%;
             border-collapse: collapse;
@@ -79,7 +73,6 @@
             overflow: visible;
         }
         
-        /* Cipher Row Styling */
         #cipher-row td {
             font-family: 'untitled2regular';
             background-color: #ffffff; 
@@ -88,29 +81,17 @@
             font-weight: bold;
         }
         
-        /* Background Highlight for Cipher Keyword */
-        #cipher-row td.keyword-bg {
-            background-color: var(--cipher-bg-keyword) !important;
-        }
+        #cipher-row td.keyword-bg { background-color: var(--cipher-bg-keyword) !important; }
 
-        /* Plain Row Styling */
         #plain-row td {
             background-color: #ffffff;
             font-family: 'Segoe UI', sans-serif;
             color: var(--plain-text-color);
         }
 
-        /* Background Highlight for Plain Keyword */
-        #plain-row td.keyword-bg {
-            background-color: var(--plain-bg-keyword) !important;
-        }
+        #plain-row td.keyword-bg { background-color: var(--plain-bg-keyword) !important; }
+        #plain-row .content { font-weight: 900 !important; }
 
-        /* Explicitly target content span for bolding to avoid overrides */
-        #plain-row .content {
-            font-weight: 900 !important;
-        }
-
-        /* Checkmarks for comparison */
         .checkmark {
             position: absolute;
             top: -20px;
@@ -124,7 +105,6 @@
         .check-green { color: green; }
         .check-red { color: red; }
 
-        /* Highlights */
         .highlight-active {
             background-color: var(--highlight-blue) !important;
             color: white !important;
@@ -138,16 +118,15 @@
         }
 
         .highlight-match {
-            background-color: #e8f5e9 !important; /* Light Green */
+            background-color: #e8f5e9 !important;
             border: 2px solid var(--highlight-green) !important;
         }
 
         .highlight-mismatch {
-            background-color: #ffebee !important; /* Light Red */
+            background-color: #ffebee !important;
             border: 2px solid var(--highlight-red) !important;
         }
 
-        /* Keyword Display Areas */
         .keyword-display-area {
             display: flex;
             gap: 5px;
@@ -181,7 +160,6 @@
             border-style: dashed;
         }
 
-        /* Controls Section */
         #controls-container {
             display: flex;
             gap: 20px;
@@ -191,7 +169,7 @@
 
         .control-panel {
             flex: 1;
-            min-width: 300px;
+            min-width: 250px;
             background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
@@ -205,11 +183,7 @@
             gap: 10px;
         }
 
-        label {
-            font-weight: 600;
-            color: #455a64;
-            font-size: 14px;
-        }
+        label { font-weight: 600; color: #455a64; font-size: 14px; }
 
         input[type="text"] {
             padding: 8px;
@@ -219,17 +193,27 @@
             text-transform: uppercase;
         }
 
-        /* Comparison Key Editor specific */
-        .mono-input {
-            font-family: 'Courier New', Courier, monospace;
-            letter-spacing: 4px;
-            font-weight: bold;
+        .search-container { position: relative; width: 100%; }
+        .search-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #ccc;
+            border-top: none;
+            z-index: 100;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
         }
-
-        /* Speed Control Range */
-        input[type="range"] {
-            flex: 1;
+        .search-item {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
         }
+        .search-item:hover { background: #e3f2fd; }
 
         button {
             padding: 10px 20px;
@@ -241,29 +225,9 @@
             transition: background 0.2s;
         }
 
-        #btn-go {
-            background-color: #1976d2;
-            color: white;
-            width: 100%;
-            margin-top: 10px;
-        }
-        #btn-go:hover { background-color: #1565c0; }
-
-        #btn-compare {
-            background-color: #7b1fa2;
-            color: white;
-            width: 100%;
-            margin-top: 5px;
-        }
-        #btn-compare:hover { background-color: #6a1b9a; }
-
-        #btn-reset {
-            background-color: #546e7a;
-            color: white;
-            width: 100%;
-            margin-top: 5px;
-        }
-        #btn-reset:hover { background-color: #455a64; }
+        #btn-go { background-color: #1976d2; color: white; width: 100%; margin-top: 10px; }
+        #btn-compare { background-color: #7b1fa2; color: white; width: 100%; margin-top: 5px; }
+        #btn-reset { background-color: #546e7a; color: white; width: 100%; margin-top: 5px; }
 
     </style>
 </head>
@@ -283,7 +247,6 @@
             <h3>Processing Visualization</h3>
             <div style="margin-bottom: 5px; font-size: 12px; color: #666;">Cipher Keyword Processing:</div>
             <div id="cipher-keyword-area" class="keyword-display-area"></div>
-            
             <div style="margin-bottom: 5px; font-size: 12px; color: #666; margin-top: 15px;">Plain Keyword Processing:</div>
             <div id="plain-keyword-area" class="keyword-display-area"></div>
         </div>
@@ -291,46 +254,35 @@
         <div id="controls-container" class="area" style="background: transparent; box-shadow: none; padding: 0;">
             
             <div class="control-panel">
-                <h4 style="margin-top: 0;">Cipher Text Configuration</h4>
-                <div class="control-row">
-                    <input type="text" id="cipher-keyword" placeholder="ENTER KEYWORD">
+                <h4 style="margin-top: 0;">Sample Key Presets</h4>
+                <div class="search-container">
+                    <input type="text" id="sample-search" placeholder="SEARCH SAMPLES..." oninput="filterSamples()" onfocus="filterSamples()">
+                    <div id="search-results" class="search-results"></div>
                 </div>
-                <div class="control-row">
-                    <input type="checkbox" id="cipher-at-end"> <label for="cipher-at-end">Keyword at End</label>
-                </div>
-                <div class="control-row">
-                    <input type="checkbox" id="cipher-rev-key"> <label for="cipher-rev-key">Reverse Keyword</label>
-                </div>
-                <div class="control-row">
-                    <input type="checkbox" id="cipher-rev-alpha"> <label for="cipher-rev-alpha">Reverse Alphabet</label>
+                <div class="control-row" style="margin-top:15px; flex-direction: column; align-items: flex-start;">
+                    <label>Current Mapping:</label>
+                    <input type="text" id="mapping-input" placeholder="{A=I, B=R...}" style="font-family: monospace; font-size: 12px; width: 100%;">
                 </div>
             </div>
 
             <div class="control-panel">
-                <h4 style="margin-top: 0;">Plain Text Configuration</h4>
+                <h4 style="margin-top: 0;">Cipher Text</h4>
                 <div class="control-row">
-                    <input type="text" id="plain-keyword" placeholder="ENTER KEYWORD">
+                    <input type="text" id="cipher-keyword" placeholder="KEYWORD">
                 </div>
-                <div class="control-row">
-                    <input type="checkbox" id="plain-at-end"> <label for="plain-at-end">Keyword at End</label>
-                </div>
-                <div class="control-row">
-                    <input type="checkbox" id="plain-rev-key"> <label for="plain-rev-key">Reverse Keyword</label>
-                </div>
-                <div class="control-row">
-                    <input type="checkbox" id="plain-rev-alpha"> <label for="plain-rev-alpha">Reverse Alphabet</label>
-                </div>
+                <div class="control-row"><input type="checkbox" id="cipher-at-end"> <label for="cipher-at-end">At End</label></div>
+                <div class="control-row"><input type="checkbox" id="cipher-rev-key"> <label for="cipher-rev-key">Rev Key</label></div>
+                <div class="control-row"><input type="checkbox" id="cipher-rev-alpha"> <label for="cipher-rev-alpha">Rev Alpha</label></div>
             </div>
 
             <div class="control-panel">
-                <h4 style="margin-top: 0;">Comparison Key Editor</h4>
-                <div class="control-row" style="flex-direction: column; align-items: stretch; gap: 4px;">
-                    <label style="font-size: 11px;">Ciphertext Mapping:</label>
-                    <input type="text" id="preset-cipher-input" class="mono-input" value="ABEKMNVZ" placeholder="A B C...">
-                    <label style="font-size: 11px;">Plaintext Target:</label>
-                    <input type="text" id="preset-plain-input" class="mono-input" value="IRVNLMEA" placeholder="X Y Z...">
+                <h4 style="margin-top: 0;">Plain Text</h4>
+                <div class="control-row">
+                    <input type="text" id="plain-keyword" placeholder="KEYWORD">
                 </div>
-                <p style="font-size: 11px; color: #777; margin: 5px 0 0 0;">Align letters vertically. Spaces are ignored.</p>
+                <div class="control-row"><input type="checkbox" id="plain-at-end"> <label for="plain-at-end">At End</label></div>
+                <div class="control-row"><input type="checkbox" id="plain-rev-key"> <label for="plain-rev-key">Rev Key</label></div>
+                <div class="control-row"><input type="checkbox" id="plain-rev-alpha"> <label for="plain-rev-alpha">Rev Alpha</label></div>
             </div>
 
             <div class="control-panel" style="flex: 0 0 150px; display: flex; flex-direction: column; justify-content: center;">
@@ -346,75 +298,301 @@
     </div>
 
     <script>
-        // --- Configuration ---
         const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
         
-        // --- State ---
+        const SAMPLE_KEYS = [
+            {
+                name: "CHERI JO (Baber key)",
+                ck: "CHERIJO", cAtEnd: true, cRevK: false, cRevA: true,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "TIGHTENED",
+                ck: "TIGHTENED", cAtEnd: true, cRevK: true, cRevA: true,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "FORCED",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "FORCED", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, T=A, E=V, V=E, X=R, K=N, M=L, N=M}"
+            },
+            {
+                name: "BODIES",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "BODIES", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, T=A, E=V, V=E, H=R, K=N, M=L, N=M}"
+            },
+            {
+                name: "BURIED",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "BURIED", pAtEnd: true, pRevK: true, pRevA: true,
+                map: "{A=I, T=A, E=V, V=E, X=R, K=N, M=L, N=M}"
+            },
+            {
+                name: "ATTRACTED",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "ATTRACTED", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, E=V, V=E, X=R, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "CIPHERED",
+                ck: "CIPHERED", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "DIANE JENNIFER",
+                ck: "DIANEJENNIFER", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "JODIE BARBARA",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "JODIEBARBARA", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, S=R, T=A, E=V, V=E, K=N, M=L, N=M}"
+            },
+            {
+                name: "GRACE DEBORAH",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "GRACEDEBORAH", pAtEnd: false, pRevK: true, pRevA: false,
+                map: "{A=I, S=R, T=A, E=V, V=E, K=N, M=L, N=M}"
+            },
+            {
+                name: "JAMIE MICHELLE",
+                ck: "JAMIEMICHELLE", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "AT TAHOE",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "ATTAHOE", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, E=V, V=E, H=R, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "ATTACKED HER",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "ATTACKEDHER", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, S=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "CHASED JENSEN",
+                ck: "CHASEDJENSEN", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "COED CHERI",
+                ck: "COEDCHERI", cAtEnd: false, cRevK: true, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "DECODED IT",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "DECODEDIT", pAtEnd: true, pRevK: false, pRevA: true,
+                map: "{A=I, T=A, E=V, V=E, H=R, K=N, M=L, N=M}"
+            },
+            {
+                name: "DIE RIGHT",
+                ck: "DIERIGHT", cAtEnd: true, cRevK: false, cRevA: true,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "DRAGGED HER FEET",
+                ck: "DRAGGEDHERFEET", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "FORCED HER",
+                ck: "FORCEDHER", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, B=R, E=V, V=E, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "A PARKED CAR",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "APARKEDCAR", pAtEnd: false, pRevK: false, pRevA: false,
+                map: "{A=I, E=V, V=E, X=R, Z=A, K=N, M=L, N=M}"
+            },
+            {
+                name: "OFFICER RICHARD",
+                ck: "OFFICERRICHARD", cAtEnd: false, cRevK: true, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: true,
+                map: "{A=I, E=V, V=E, Z=A, K=N, M=L, N=M, O=R}"
+            },
+            {
+                name: "RADETICH",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: true,
+                pk: "RADETICH", pAtEnd: false, pRevK: true, pRevA: false,
+                map: "{A=I, S=R, T=A, E=V, V=E, K=N, M=L, N=M}"
+            },
+            {
+                name: "RADETICH RICHARD",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "RADETICHRICHARD", pAtEnd: true, pRevK: false, pRevA: true,
+                map: "{A=I, S=R, T=A, E=V, V=E, K=N, M=L, N=M}"
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+            {
+                name: "",
+                ck: "", cAtEnd: false, cRevK: false, cRevA: false,
+                pk: "", pAtEnd: false, pRevK: false, pRevA: false,
+                map: ""
+            },
+        ];
+
         let isAnimating = false;
         let cancelAnimation = false;
 
-        // --- Initialization ---
         function init() {
             buildTable();
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.search-container')) {
+                    document.getElementById('search-results').style.display = 'none';
+                }
+            });
+        }
+
+        function filterSamples() {
+            const input = document.getElementById('sample-search').value.toUpperCase();
+            const results = document.getElementById('search-results');
+            results.innerHTML = '';
+            
+            const filtered = SAMPLE_KEYS.filter(s => s.name.toUpperCase().includes(input));
+            
+            if (filtered.length > 0) {
+                results.style.display = 'block';
+                filtered.forEach(s => {
+                    const div = document.createElement('div');
+                    div.className = 'search-item';
+                    div.textContent = s.name;
+                    div.onclick = () => selectSample(s);
+                    results.appendChild(div);
+                });
+            } else {
+                results.style.display = 'none';
+            }
+        }
+
+        async function selectSample(sample) {
+            hardReset();
+            document.getElementById('sample-search').value = sample.name;
+            document.getElementById('search-results').style.display = 'none';
+
+            document.getElementById('cipher-keyword').value = sample.ck;
+            document.getElementById('cipher-at-end').checked = sample.cAtEnd;
+            document.getElementById('cipher-rev-key').checked = sample.cRevK;
+            document.getElementById('cipher-rev-alpha').checked = sample.cRevA;
+
+            document.getElementById('plain-keyword').value = sample.pk;
+            document.getElementById('plain-at-end').checked = sample.pAtEnd;
+            document.getElementById('plain-rev-key').checked = sample.pRevK;
+            document.getElementById('plain-rev-alpha').checked = sample.pRevA;
+
+            document.getElementById('mapping-input').value = sample.map;
+
+            await runAnimation();
+            await wait(1000);
+            if (!cancelAnimation) await compareResults();
         }
 
         function updateSpeedDisp() {
-            const val = document.getElementById('anim-speed').value;
-            document.getElementById('speed-val').textContent = val + "ms";
+            document.getElementById('speed-val').textContent = document.getElementById('anim-speed').value + "ms";
         }
 
-        function getSpeed() {
-            return parseInt(document.getElementById('anim-speed').value, 10);
-        }
+        function getSpeed() { return parseInt(document.getElementById('anim-speed').value, 10); }
 
         function buildTable() {
             const cRow = document.getElementById('cipher-row');
             const pRow = document.getElementById('plain-row');
-            cRow.innerHTML = ''; 
-            pRow.innerHTML = '';
-
+            cRow.innerHTML = ''; pRow.innerHTML = '';
             for (let i = 0; i < 26; i++) {
-                // Cipher Cell
-                const tdC = document.createElement('td');
-                tdC.id = `cell-c-${i}`;
-                tdC.innerHTML = `<span class="checkmark" id="check-c-${i}"></span><span class="content"></span>`;
-                cRow.appendChild(tdC);
-
-                // Plain Cell
-                const tdP = document.createElement('td');
-                tdP.id = `cell-p-${i}`;
-                tdP.innerHTML = `<span class="checkmark" id="check-p-${i}"></span><span class="content"></span>`;
-                pRow.appendChild(tdP);
+                cRow.innerHTML += `<td id="cell-c-${i}"><span class="checkmark"></span><span class="content"></span></td>`;
+                pRow.innerHTML += `<td id="cell-p-${i}"><span class="checkmark"></span><span class="content"></span></td>`;
             }
         }
 
-        // --- Animation Helpers ---
-        function wait(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
+        function wait(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
         function hardReset() {
             cancelAnimation = true;
             isAnimating = false;
             clearTable();
-            document.querySelectorAll('.keyword-bg').forEach(el => el.classList.remove('keyword-bg'));
         }
 
         function clearTable() {
-            document.querySelectorAll('td .content').forEach(span => span.textContent = '');
-            document.querySelectorAll('td').forEach(td => {
-                td.className = '';
-                td.classList.remove('highlight-match', 'highlight-mismatch', 'highlight-active', 'highlight-duplicate', 'keyword-bg');
-            });
-            document.querySelectorAll('.checkmark').forEach(cm => {
-                cm.textContent = '';
-                cm.style.opacity = 0;
-            });
+            document.querySelectorAll('td .content').forEach(s => s.textContent = '');
+            document.querySelectorAll('td').forEach(td => td.className = '');
+            document.querySelectorAll('.checkmark').forEach(cm => { cm.textContent = ''; cm.style.opacity = 0; });
             document.getElementById('cipher-keyword-area').innerHTML = '';
             document.getElementById('plain-keyword-area').innerHTML = '';
         }
-
-        // --- Main Animation Logic ---
 
         async function runAnimation() {
             if (isAnimating) return;
@@ -422,136 +600,84 @@
             cancelAnimation = false;
             clearTable();
 
-            // 1. Gather Inputs
-            const configC = {
-                keyword: document.getElementById('cipher-keyword').value.toUpperCase().replace(/[^A-Z]/g, ''),
-                atEnd: document.getElementById('cipher-at-end').checked,
-                revKey: document.getElementById('cipher-rev-key').checked,
-                revAlpha: document.getElementById('cipher-rev-alpha').checked,
-                rowIdPrefix: 'cell-c-',
-                areaId: 'cipher-keyword-area',
-                keywordBgClass: 'keyword-bg' 
-            };
+            const configs = [
+                { id: 'cipher', row: 'cell-c-', area: 'cipher-keyword-area' },
+                { id: 'plain', row: 'cell-p-', area: 'plain-keyword-area' }
+            ];
 
-            const configP = {
-                keyword: document.getElementById('plain-keyword').value.toUpperCase().replace(/[^A-Z]/g, ''),
-                atEnd: document.getElementById('plain-at-end').checked,
-                revKey: document.getElementById('plain-rev-key').checked,
-                revAlpha: document.getElementById('plain-rev-alpha').checked,
-                rowIdPrefix: 'cell-p-',
-                areaId: 'plain-keyword-area',
-                keywordBgClass: 'keyword-bg' 
-            };
-
-            // 2. Animate Cipher Row
-            if(!cancelAnimation) await processRow(configC);
-
-            // 3. Animate Plain Row
-            if(!cancelAnimation) await processRow(configP);
-
+            for (const cfg of configs) {
+                if (cancelAnimation) break;
+                await processRow({
+                    keyword: document.getElementById(`${cfg.id}-keyword`).value.toUpperCase().replace(/[^A-Z]/g, ''),
+                    atEnd: document.getElementById(`${cfg.id}-at-end`).checked,
+                    revKey: document.getElementById(`${cfg.id}-rev-key`).checked,
+                    revAlpha: document.getElementById(`${cfg.id}-rev-alpha`).checked,
+                    rowIdPrefix: cfg.row,
+                    areaId: cfg.area
+                });
+            }
             isAnimating = false;
         }
 
         async function processRow(config) {
-            const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId, keywordBgClass } = config;
+            const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId } = config;
             const area = document.getElementById(areaId);
             const usedChars = new Set();
-            const charToCellId = {}; 
-            
+            const charToCellId = {};
             const kwChars = keyword.split('');
-            const kwElements = [];
-            
-            kwChars.forEach(char => {
+            const kwElements = kwChars.map(char => {
                 const box = document.createElement('div');
                 box.className = 'keyword-char-box';
                 box.textContent = char;
                 area.appendChild(box);
-                kwElements.push(box);
+                return box;
             });
 
-            let dedupedLen = 0;
-            let tempSet = new Set();
-            kwChars.forEach(c => {
-                if(!tempSet.has(c)) { tempSet.add(c); dedupedLen++; }
-            });
+            let deduped = [...new Set(kwChars)];
+            let tableIdx = revKey ? (atEnd ? 25 : deduped.length - 1) : (atEnd ? 26 - deduped.length : 0);
+            let step = revKey ? -1 : 1;
 
-            let tableIdx, step;
-            if (revKey) {
-                step = -1;
-                tableIdx = atEnd ? 25 : (dedupedLen - 1);
-            } else {
-                step = 1;
-                tableIdx = atEnd ? (26 - dedupedLen) : 0;
-            }
-            
             if (keyword.length > 0) {
                 for (let i = 0; i < kwChars.length; i++) {
-                    if(cancelAnimation) return;
-
-                    const char = kwChars[i]; 
-                    const box = kwElements[i]; 
-
+                    if (cancelAnimation) return;
+                    const char = kwChars[i];
                     if (usedChars.has(char)) {
-                        box.classList.add('duplicate'); 
-                        const origBoxIdx = kwChars.indexOf(char);
-                        const origBox = kwElements[origBoxIdx];
-                        const origCellId = charToCellId[char];
-                        const origTableCell = origCellId ? document.getElementById(origCellId) : null;
-
-                        if(origBox) origBox.classList.add('highlight-duplicate');
-                        if(origTableCell) origTableCell.classList.add('highlight-duplicate');
+                        kwElements[i].classList.add('duplicate');
+                        const origCell = document.getElementById(charToCellId[char]);
+                        origCell.classList.add('highlight-duplicate');
                         await wait(getSpeed());
-                        if(origBox) origBox.classList.remove('highlight-duplicate');
-                        if(origTableCell) origTableCell.classList.remove('highlight-duplicate');
+                        origCell.classList.remove('highlight-duplicate');
                     } else {
                         usedChars.add(char);
-                        box.classList.add('active');
+                        kwElements[i].classList.add('active');
                         const cellId = rowIdPrefix + tableIdx;
                         const cell = document.getElementById(cellId);
-                        const span = cell.querySelector('.content');
-                        span.textContent = char;
+                        cell.querySelector('.content').textContent = char;
                         charToCellId[char] = cellId;
-                        cell.classList.add(keywordBgClass);
-                        cell.classList.add('highlight-active');
+                        cell.classList.add('keyword-bg', 'highlight-active');
                         await wait(getSpeed());
                         cell.classList.remove('highlight-active');
-                        box.classList.remove('active');
+                        kwElements[i].classList.remove('active');
                         tableIdx += step;
                     }
                 }
             }
 
-            let emptySlots = [];
-            for(let i=0; i<26; i++) {
-                const cell = document.getElementById(rowIdPrefix + i);
-                if(cell.querySelector('.content').textContent === '') {
-                    emptySlots.push(i);
-                }
-            }
+            let alpha = revAlpha ? [...ALPHABET].reverse() : ALPHABET;
+            let emptySlots = Array.from({length:26}, (_,i)=>i).filter(i => !document.getElementById(rowIdPrefix+i).querySelector('.content').textContent);
 
-            let alphaSource = revAlpha ? [...ALPHABET].reverse() : ALPHABET;
-
-            for (let char of alphaSource) {
-                if(cancelAnimation) return;
-
+            for (let char of alpha) {
+                if (cancelAnimation) return;
                 if (usedChars.has(char)) {
-                    let existingTableCell = charToCellId[char] ? document.getElementById(charToCellId[char]) : null;
-                    const kwIndex = kwChars.indexOf(char);
-                    const kwBox = (kwIndex !== -1) ? kwElements[kwIndex] : null;
-
-                    if(existingTableCell) existingTableCell.classList.add('highlight-duplicate');
-                    if(kwBox) kwBox.classList.add('highlight-duplicate');
+                    const cell = document.getElementById(charToCellId[char]);
+                    cell.classList.add('highlight-duplicate');
                     await wait(getSpeed());
-                    if(existingTableCell) existingTableCell.classList.remove('highlight-duplicate');
-                    if(kwBox) kwBox.classList.remove('highlight-duplicate');
-                    continue; 
+                    cell.classList.remove('highlight-duplicate');
+                    continue;
                 }
-
                 if (emptySlots.length > 0) {
-                    const slotIdx = emptySlots.shift(); 
-                    const cell = document.getElementById(rowIdPrefix + slotIdx);
-                    const span = cell.querySelector('.content');
-                    span.textContent = char;
+                    const cell = document.getElementById(rowIdPrefix + emptySlots.shift());
+                    cell.querySelector('.content').textContent = char;
                     cell.classList.add('highlight-active');
                     await wait(getSpeed());
                     cell.classList.remove('highlight-active');
@@ -559,79 +685,42 @@
             }
         }
 
-        // --- Comparison Logic ---
-
         async function compareResults() {
             if (isAnimating) return;
             isAnimating = true;
 
-            // Generate PRESET_MAPPING from form inputs
-            const presetMapping = {};
-            const cipherIn = document.getElementById('preset-cipher-input').value.toUpperCase();
-            const plainIn = document.getElementById('preset-plain-input').value.toUpperCase();
-            
-            // Iterate through the longest string to find pairs
-            const maxLen = Math.max(cipherIn.length, plainIn.length);
-            for (let i = 0; i < maxLen; i++) {
-                const c = cipherIn[i] || ' ';
-                const p = plainIn[i] || ' ';
-                // Skip if both are spaces or if cipher char is invalid
-                if (c !== ' ' && p !== ' ' && /[A-Z]/.test(c) && /[A-Z]/.test(p)) {
-                    presetMapping[c] = p;
-                }
-            }
-
-            // Clear previous marks
-            document.querySelectorAll('.checkmark').forEach(el => {
-                el.innerHTML = '';
-                el.style.opacity = '0';
-                el.className = 'checkmark'; 
-            });
-            document.querySelectorAll('td').forEach(td => {
-                td.classList.remove('highlight-match', 'highlight-mismatch');
+            const mapStr = document.getElementById('mapping-input').value;
+            const mapping = {};
+            const pairs = mapStr.replace(/[{}]/g, '').split(',');
+            pairs.forEach(p => {
+                const [ct, pt] = p.split('=').map(s => s.trim().toUpperCase());
+                if (ct && pt) mapping[ct] = pt;
             });
 
-            const cCells = [];
-            const pCells = [];
-            for(let i=0; i<26; i++) {
-                cCells.push(document.getElementById(`cell-c-${i}`));
-                pCells.push(document.getElementById(`cell-p-${i}`));
-            }
+            document.querySelectorAll('.checkmark').forEach(el => { el.style.opacity = 0; el.className = 'checkmark'; });
+            document.querySelectorAll('td').forEach(td => td.classList.remove('highlight-match', 'highlight-mismatch'));
 
-            for(let i=0; i<26; i++) {
-                if(cancelAnimation) { isAnimating = false; return; }
+            for (let i = 0; i < 26; i++) {
+                if (cancelAnimation) break;
+                const cCell = document.getElementById(`cell-c-${i}`);
+                const pCell = document.getElementById(`cell-p-${i}`);
+                const ct = cCell.querySelector('.content').textContent;
+                const pt = pCell.querySelector('.content').textContent;
 
-                const cChar = cCells[i].querySelector('.content').textContent;
-                const pChar = pCells[i].querySelector('.content').textContent;
+                if (ct && mapping[ct]) {
+                    const isMatch = pt === mapping[ct];
+                    const cls = isMatch ? 'highlight-match' : 'highlight-mismatch';
+                    const mark = isMatch ? '&#10004;' : '&#10008;';
+                    const markCls = isMatch ? 'check-green' : 'check-red';
 
-                if (!cChar || !pChar) continue;
-
-                const targetPlain = presetMapping[cChar];
-
-                if (targetPlain) {
-                    const checkC = cCells[i].querySelector('.checkmark');
-                    const checkP = pCells[i].querySelector('.checkmark');
-
-                    if (pChar === targetPlain) {
-                        cCells[i].classList.add('highlight-match');
-                        pCells[i].classList.add('highlight-match');
-                        checkC.innerHTML = '&#10004;'; 
-                        checkC.classList.add('check-green');
-                        checkC.style.opacity = '1';
-                        checkP.innerHTML = '&#10004;';
-                        checkP.classList.add('check-green');
-                        checkP.style.opacity = '1';
-                    } else {
-                        cCells[i].classList.add('highlight-mismatch');
-                        pCells[i].classList.add('highlight-mismatch');
-                        checkC.innerHTML = '&#10008;'; 
-                        checkC.classList.add('check-red');
-                        checkC.style.opacity = '1';
-                        checkP.innerHTML = '&#10008;';
-                        checkP.classList.add('check-red');
-                        checkP.style.opacity = '1';
-                    }
-                    await wait(getSpeed()); 
+                    [cCell, pCell].forEach(c => {
+                        c.classList.add(cls);
+                        const cm = c.querySelector('.checkmark');
+                        cm.innerHTML = mark;
+                        cm.classList.add(markCls);
+                        cm.style.opacity = 1;
+                    });
+                    await wait(getSpeed());
                 }
             }
             isAnimating = false;
@@ -640,5 +729,4 @@
         init();
     </script>
 </body>
-
 </html>
