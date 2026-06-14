@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snap Disintegration Effect - High Res</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: black;
+            color: #ffffff;
+            font-family: sans-serif;
+        }
+        /* Container holds both canvases stacked on top of each other */
+        .container {
+            position: relative;
+            width: 1000px;
+            height: 1000px;
+            cursor: pointer;
+/* border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+*/        }
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+/* border-radius: 8px;*/
+            user-select: none;
+            /* Prevents the top canvas from stealing clicks from the container */
+            pointer-events: none; 
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #aaaaaa;
+        }
+        /* Style for the new dropdown */
+        #imageSelect {
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            padding: 8px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <select id="imageSelect">
+        <option value="cccoa fld.jpg">CCCOA FLD</option>
+        <option value="klein-margolis-crime-duo.png">Klein Margolis duo</option>
+        <option value="sandbar press release 1.png">Sandbar press release</option>
+    </select>
+
+    <p onclick="startSnap()">Click here or the image to trigger the snap</p>
+    
+    <div class="container" id="snapContainer">
+        <canvas id="imageCanvas" width="1000" height="563"></canvas>
+        <canvas id="particleCanvas" width="1000" height="563"></canvas>
+    </div>
+
+    <script>
+        const container = document.getElementById('snapContainer');
+        const imgCanvas = document.getElementById('imageCanvas');
+        const imgCtx = imgCanvas.getContext('2d', { willReadFrequently: true });
+        
+        const partCanvas = document.getElementById('particleCanvas');
+        const partCtx = partCanvas.getContext('2d');
+        const imageSelect = document.getElementById('imageSelect');
+        
+        let particles = [];
+        let isAnimating = false;
+        let frameCounter = 0;
+
+        // 1. Load the image onto the bottom canvas
+        const img = new Image();
+        img.crossOrigin = 'Anonymous'; 
+        img.src = imageSelect.value; // Load the initial dropdown value
+
+        // Handle dropdown changes
+        imageSelect.addEventListener('change', function(e) {
+            // Reset animation state
+            isAnimating = false;
+            particles = [];
+            frameCounter = 0;
+            
+            // Clear both canvases
+            partCtx.clearRect(0, 0, partCanvas.width, partCanvas.height);
+            imgCtx.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
+            
+            // Load new image
+            img.src = e.target.value;
+        });
+
+        img.onload = () => {
+            imgCtx.drawImage(img, 0, 0, imgCanvas.width, imgCanvas.height);
+            
+            // Only allow clicking after the image has loaded
+            container.addEventListener('click', startSnap);
+        };
+
+        class Particle {
+            constructor(x, y, color, delay, size) {
+                this.startX = x; // Remember original position to erase from bg
+                this.startY = y;
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.delay = delay; 
+                this.size = size;
+                
+                this.vx = (Math.random() - 0.2) * 2; 
+                this.vy = (Math.random() - 1.5) * 2; 
+                
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.01; 
+                this.active = false;
+            }
+        }
+
+        function startSnap() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            const imageData = imgCtx.getImageData(0, 0, imgCanvas.width, imgCanvas.height);
+            const data = imageData.data;
+            const step = 3; // The size of our particles
+
+            for (let y = 0; y < imgCanvas.height; y += step) {
+                for (let x = 0; x < imgCanvas.width; x += step) {
+                    const index = (y * imgCanvas.width + x) * 4;
+                    const alpha = data[index + 3];
+
+                    if (alpha > 0) {
+                        const r = data[index];
+                        const g = data[index + 1];
+                        const b = data[index + 2];
+                        const color = `rgb(${r},${g},${b})`;
+
+                        const delay = (x * 0.1) + (y * 0.1) + (Math.random() * 20);
+
+                        particles.push(new Particle(x, y, color, delay, step));
+                    }
+                }
+            }
+
+            animate();
+        }
+
+        function animate() {
+            // Only clear the top (particle) canvas every frame
+            partCtx.clearRect(0, 0, partCanvas.width, partCanvas.height);
+            
+            let particlesRemaining = 0;
+            frameCounter++;
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+
+                // If the particle is waiting for its turn to snap...
+                if (!p.active) {
+                    if (frameCounter >= p.delay) {
+                        p.active = true;
+                        // MAGIC TRICK: Erase this exact square from the perfect bottom image
+                        imgCtx.clearRect(p.startX, p.startY, p.size, p.size);
+                    } else {
+                        particlesRemaining++; // Still waiting
+                    }
+                }
+
+                // If the particle has snapped and is still visible...
+                if (p.active && p.alpha > 0) {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.alpha -= p.decay;
+
+                    // Draw it on the top canvas
+                    partCtx.globalAlpha = Math.max(0, p.alpha);
+                    partCtx.fillStyle = p.color;
+                    partCtx.fillRect(p.x, p.y, p.size, p.size);
+                    
+                    particlesRemaining++; // Still alive
+                }
+            }
+
+            if (particlesRemaining > 0) {
+                requestAnimationFrame(animate);
+            }
+        }
+    </script>
+</body>
+</html>
