@@ -23,13 +23,14 @@
             --table-header-bg: #eceff1;
         }
 
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f5f5f5; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: white; display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; }
         
         #main-container { display: flex; width: 98vw; max-width: 1400px; gap: 20px; align-items: flex-start; }
         #left-panel { flex: 1; display: flex; flex-direction: column; gap: 20px; min-width: 320px; position: relative; z-index: 1000; }
         #right-panel { flex: 3; display: flex; flex-direction: column; gap: 20px; position: relative; z-index: 1; }
 
-        .area { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        /* .area { background: white; padding: 20px; border-radius: 0px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); } */
+        .area { background: white; padding: 20px;}
         #cipher-grid-area { min-height: 450px; display: flex; flex-direction: column; align-items: center; position: relative; width: 100%; }
         .tile-container { position: relative; height: 380px; width: 100%; perspective: 1000px; }
         
@@ -55,19 +56,32 @@
 
         .plain-side { transform: rotateY(180deg); color: black; font-family: 'Segoe UI', sans-serif; font-size: 35px; font-weight: bold;}
         
-        /* FIXED: Combined transforms to prevent logic breaking during flips */
         .tile.flipped { transform: rotateY(180deg); }
         
         .char-letter { color: var(--cipher-green); }
         .char-symbol { color: var(--cipher-red); }
 
-        .tile.highlight-active, .tile.hover-highlight, .key-highlight { 
+        /* Existing Cyan highlight for active playback animations */
+        .tile.highlight-active { 
             box-shadow: 0 0 15px 8px var(--highlight-cyan) !important; 
             border-color: #00b8d4 !important; 
             z-index: 2000 !important;
         }
         
-        .key-highlight { background-color: var(--highlight-cyan) !important; color: white !important; position: relative; }
+        /* NEW: Simple Blue Highlight (No Glow) for Hover and Substitution Key Sync */
+        .simple-blue-highlight {
+            background-color: #64b5f6 !important; /* Soft Blue */
+            border-color: #1e88e5 !important;
+            color: white !important;
+            box-shadow: none !important;
+        }
+        /* Ensure text inside blue highlighted elements is white */
+        .simple-blue-highlight .char-letter, 
+        .simple-blue-highlight .char-symbol,
+        .simple-blue-highlight .tile-content,
+        .simple-blue-highlight .plain-side {
+            color: white !important;
+        }
 
         #controls { display: flex; flex-direction: column; gap: 15px; background: #2c3e50; padding: 20px; border-radius: 12px; color: white; }
         .control-group { display: flex; flex-direction: column; gap: 8px; }
@@ -77,7 +91,6 @@
         #substitution-key-area { padding: 15px; overflow: visible; }
         #key-table { width: 100%; border-collapse: collapse; margin-top: 10px; table-layout: fixed; }
         
-        /* FIXED: Cipher row now uses the correct Zodiac font */
         #cipher-row td { 
             font-family: 'untitled2regular';
             height: 45px; text-align: center; font-size: 40px; 
@@ -127,7 +140,7 @@
             </div>
             <div class="control-group">
                 <label>Permutations:</label>
-                <button id="perm-all-btn" onclick="runAllPermutations()">Show All (7! = 5040)</button>
+                <button id="perm-all-btn" onclick="runAllPermutations(25)">Show All (7! = 5040)</button>
             </div>
             <div class="control-group">
                 <label>Speed:</label>
@@ -150,7 +163,7 @@
 
     <div id="right-panel">
         <div id="cipher-grid-area" class="area">
-            <h3 id="status-title" style="margin: 0 0 2em 0;">Cipher Grid</h3>
+            <h3 id="status-title" style="margin: 0 0 2em 0;"></h3>
             <div id="col-labels-container" style="position: relative; height: 30px; width: 100%;"></div>
             <div id="grid-container" class="tile-container"></div>
         </div>
@@ -166,6 +179,9 @@
     const preloadedKeyChars = ['A', 'E', 'K', 'M', 'N', 'z', '[', '0'];
 
     const decryptions = [
+        { variant: 1, plaintext: "MARVIN MERRILL", ciphertext: "Nz0EAKN[00AMM", score: 85.2, homophonic: 0, perm: [2,3,4,6,1,0,5] },
+        { variant: 1, plaintext: "MARTIN MERRILL", ciphertext: "Nz0EAKN[00AMM", score: 85.2, homophonic: 0, perm: [2,3,4,6,1,0,5] },
+        { variant: 1, plaintext: "MARTIN MERRITT", ciphertext: "Nz0EAKN[00AMM", score: 85.2, homophonic: 0, perm: [2,3,4,6,1,0,5] },
         { variant: 1, plaintext: "MARVIN MERRILL", ciphertext: "Nz0EAKN[00AMM", score: 85.2, homophonic: 0, perm: [2,3,4,6,1,0,5] },
         { variant: 1, plaintext: "JAMES ISABELLE", ciphertext: "ENz0AKAN[0MM0", score: 0, homophonic: 0, perm: [1, 2, 3, 4, 0, 5, 6] },
         { variant: 1, plaintext: "JOSEPH JOHNSON", ciphertext: "N0EKzAN0AM[0M", score: 0, homophonic: 0, perm: [2, 4, 1, 5, 3, 6, 0] },
@@ -192,12 +208,29 @@
         { variant: 1, score: 498.3185, plaintext: "NOT A CONDITION", ciphertext:"0zAEKN0[MAMN0", homophonic: 0, perm: [4, 3, 0, 1, 5, 2, 6]},
         { variant: 1, score: 460.44836, plaintext: "KNOWN BY NOBODY", ciphertext:"KN0EzAMN0A0[M", homophonic: 0, perm: [5, 2, 4, 1, 6, 3, 0]},
         { variant: 2, score: 2.1376355, plaintext: "JOHN CONCANNON", ciphertext: "EzK0AN0A[MMN0", homophonic: 0, perm: [1, 3, 5, 6, 0, 2, 4]},
-        { variant: 3, score: 2.161159, plaintext: "JAMES SALAMONE", ciphertext: "[0NAMM0z0NEKA_", homophonic: 0, perm: [3, 4, 2, 1, 5, 0, 6]},
+        { variant: 2, score: 2.0735714, plaintext: "ROBERT WOODROW", ciphertext: "0AKz0ENMM[0AN", homophonic: 0, perm: [6, 0, 5, 3, 4, 1, 2]},
+        { variant: 2, score: 1.728951, plaintext: "WILLIAM HINMAN", ciphertext: "0MM0NAz0KANE", homophonic: 0, perm: [3, 4, 5, 0, 6, 2, 1]},
+        { variant: 3, score: 2.161159, plaintext: "JAMES SALAMONE", ciphertext: "[0NAMM0z0NEKA", homophonic: 0, perm: [3, 4, 2, 1, 5, 0, 6]},
+        { variant: 3, score: 2.1376355, plaintext: "JOHN HOSKINSON", ciphertext: "[0MNM0AzKNA0E", homophonic: 0, perm: [3, 6, 5, 2, 0, 4, 1]},
+        { variant: 3, score: 1.6831815, plaintext: "DAVID CAVALIER", ciphertext: "M0ANM[0A0ENKz", homophonic: 0, perm: [0, 4, 1, 2, 5, 3, 6]},
         { variant: 4, score: 0.969, plaintext: "MARK RAMASWAMY", ciphertext: "0NM[MA0NKzA0E", homophonic: 0, perm: [4, 2, 5, 3, 0, 6, 1]},
+        { variant: 4, score: 1.3515, plaintext: "RICHARD ISAIAH", ciphertext: "MN[A0MKNz0E0A", homophonic: 0, perm: [5, 2, 3, 6, 1, 4, 0]},
         { variant: 5, score: 1376355, plaintext: "JOHN SIKORSKI", ciphertext: "KNzEA0MN[AM0", homophonic: 0, perm: [5, 2, 3, 1, 0, 4]},
+        { variant: 5, score: 1.3662044, plaintext: "CHARLES HAYES", ciphertext: "KN0zEAMN0[AM", homophonic: 0, perm: [5, 2, 4, 3, 1, 0]},
+        { variant: 6, score: 2.0688746, plaintext: "WILLIAM ALLEN", ciphertext: "[MN0MAzAN0KE", homophonic: 0, perm: [3, 0, 2, 4, 5, 1]},
         { variant: 6, score: 1697948, plaintext: "JAMES STAMPER", ciphertext: "[N0AMMzN0EAK", homophonic: 0, perm: [3, 2, 4, 1, 0, 5]},
         { variant: 7, score: 2.588641, plaintext: "JAMES ALLEN", ciphertext: "EAKNzAMMN[", homophonic: 0, perm: [1, 0, 4, 2, 3]},
+        { variant: 7, score: 1.691589, plaintext: "DAVID RADER", ciphertext: "KNEzAMNA[M", homophonic: 0, perm: [4, 2, 1, 3, 0]},
         { variant: 8, score: 2.0818572, plaintext: "ROBERT OGLE", ciphertext: "MN[AMKNzEA", homophonic: 0, perm: [4, 2, 3, 1, 0]},
+        { variant: 8, score: 1.07912, plaintext: "GEORGE COOK", ciphertext: "MAN[MAENzK", homophonic: 0, perm: [0, 1, 2, 3, 4]},
+        { variant: 8, score: 540.33466, plaintext: "REALLY HARD", ciphertext: "A[NMMEzNAK", homophonic: 0, perm: [1, 3, 2, 0, 4]},
+        { variant: 3, score: 511.3925, plaintext: "A CALL TO ACTION", ciphertext: "0N0MMA[0NAKEz", homophonic: 0, perm: [4, 2, 6, 0, 5, 1, 3]},
+        { variant: 3, score: 575.0638, plaintext: "SEEN IN THE POST", ciphertext: "A00M[MNE0KzAN", homophonic: 0, perm: [1, 6, 4, 5, 3, 0, 2]},
+        { variant: 3, score: 0.6599179, plaintext: "LEE DEERSLAYER", ciphertext: "A0M[M0NEAzK0N", homophonic: 0, perm: [1, 6, 0, 3, 5, 4, 2]},
+        { variant: 6, score: 450.07523, plaintext: "HORSESHIT REX", ciphertext: "N[AM0MNzEA0K", homophonic: 0, perm: [2, 3, 1, 0, 4, 5]},
+        { variant: 6, score: 0, plaintext: "ROBERT BOGART", ciphertext: "MNA[M0ANEzK0", homophonic: 0, perm: [0, 2, 1, 3, 5, 4]},
+
+        // { variant: , score: , plaintext: "", ciphertext: "", homophonic: 0, perm: },
     ];
 
     let tiles = [], extraTile = null, currentTileMapping = [], colLabels = [];
@@ -221,6 +254,7 @@
         preloadedKeyChars.forEach(c => {
             const tdC = document.createElement('td');
             tdC.textContent = c; tdC.className = isSymbol(c) ? 'char-symbol' : 'char-letter';
+            tdC.id = `key-c-cell-${c}`; // ADDED ID
             tdC.onmouseenter = () => highlightTiles(c);
             tdC.onmouseleave = () => clearHighlights();
             cRow.appendChild(tdC);
@@ -232,15 +266,20 @@
         });
     }
 
+    // UPDATED: Now uses simple-blue-highlight instead of key-highlight/hover-highlight
     function highlightTiles(cipherChar) {
         if(isPermutingAll) return;
-        [...tiles, extraTile].forEach(t => { if(t && t.dataset.cipher === cipherChar) t.classList.add('hover-highlight'); });
-        document.getElementById(`key-c-cell-${cipherChar}`)?.classList.add('key-highlight');
-        document.getElementById(`key-p-cell-${cipherChar}`)?.classList.add('key-highlight');
+        [...tiles, extraTile].forEach(t => { 
+            if(t && t.dataset.cipher === cipherChar) t.classList.add('simple-blue-highlight'); 
+        });
+        document.getElementById(`key-c-cell-${cipherChar}`)?.classList.add('simple-blue-highlight');
+        document.getElementById(`key-p-cell-${cipherChar}`)?.classList.add('simple-blue-highlight');
     }
 
+    // UPDATED: Clears the blue highlight
     function clearHighlights() {
-        [...tiles, extraTile].forEach(t => { if(t) t.classList.remove('hover-highlight'); });
+        [...tiles, extraTile].forEach(t => { if(t) t.classList.remove('simple-blue-highlight'); });
+        document.querySelectorAll('.simple-blue-highlight').forEach(el => el.classList.remove('simple-blue-highlight'));
     }
 
     function tc(c) { return c=="_" ? "tile-content-filler" : "tile-content"; }
@@ -255,13 +294,16 @@
             t.className = `tile ${isSymbol(char) ? 'char-symbol' : 'char-letter'}`;
             t.innerHTML = `<div class="${tc(char)} cipher-side">${char}</div><div class="${tc(char)} plain-side"></div>`;
             t.dataset.cipher = char;
+            // ADDED: Tile hover events to trigger key highlighting
+            t.onmouseenter = () => highlightTiles(char);
+            t.onmouseleave = () => clearHighlights();
             container.appendChild(t);
             tiles.push(t);
         });
         positionLinear();
         buildInitialKey();
         document.getElementById('col-labels-container').innerHTML = '';
-        document.getElementById('status-title').textContent = "Cipher Grid";
+        // document.getElementById('status-title').textContent = "Cipher Grid";
     }
 
     function positionLinear() {
@@ -313,12 +355,38 @@
             extraTile.dataset.cipher = "_";
             extraTile.style.left = '150%'; extraTile.style.top = (fill.r * spacing) + 'px';
             document.getElementById('grid-container').appendChild(extraTile);
-            setTimeout(() => {
-                extraTile.style.transition = `all ${getDelay(600)/1000}s ease-in-out`;
-                extraTile.style.left = `calc(50% - ${offset}px + ${fill.c * spacing}px - 30px)`;
-            }, 50);
+            // setTimeout(() => {
+            //     extraTile.style.transition = `all ${getDelay(600)/1000}s ease-in-out`;
+            //     extraTile.style.left = `calc(50% - ${offset}px + ${fill.c * spacing}px - 30px)`;
+            // }, 50);
+            await new Promise((resolve) => {
+                setTimeout(() => {
+                    // 1. Calculate the duration in milliseconds
+                    const durationMs = getDelay(600);
+
+                    // 2. Apply the transition and new styles
+                    extraTile.style.transition = `all ${durationMs / 1000}s ease-in-out`;
+                    extraTile.style.left = `calc(50% - ${offset}px + ${fill.c * spacing}px - 30px)`;
+
+                    // 3. Listen for the completion of the transition
+                    extraTile.addEventListener(
+                        'transitionend', 
+                        () => resolve(), 
+                        { once: true } // Important: Ensures the listener runs only once and removes itself
+                    );
+                    
+                    // Fallback: If for some reason transitionend doesn't fire (e.g. element hidden), 
+                    // you might want a safety setTimeout here:
+                    // setTimeout(resolve, durationMs + 20); 
+                }, 50);
+            });
+
+// Code here will now wait until the animation is completely finished
+console.log("Animation done!");
+
             currentTileMapping.push({tile: extraTile, row: fill.r, col: fill.c});
         }
+        await new Promise(r => setTimeout(r, 1000));
         renderColumnLabels(totalCols, offset, spacing);
     }
 
@@ -408,7 +476,7 @@
         }
     }
 
-    async function runAllPermutations() {
+    async function runAllPermutations(delayMs = 0) {
         if (currentTileMapping.length === 0) await makeGrid();
         isPermutingAll = true;
         const v = document.getElementById('variant-select').value;
@@ -419,28 +487,41 @@
         const permutations = getPermutations(colIndices);
         let count = 0;
         const statusTitle = document.getElementById('status-title');
+        // const totalPermutations = permutations.length; 
+        const totalPermutations = 5040;
         
         [...tiles, extraTile].forEach(t => { if(t) t.classList.add('no-transition'); });
         colLabels.forEach(l => l.classList.add('no-transition'));
 
         for (const p of permutations) {
             if (!isPermutingAll) break;
+            
             p.forEach((originalColIdx, currentSlotIdx) => {
                 const colTiles = currentTileMapping.filter(m => m.col === originalColIdx);
                 colTiles.forEach(m => m.tile.style.left = `calc(50% - ${offset}px + ${currentSlotIdx * spacing}px - 30px)`);
                 if(colLabels[originalColIdx]) colLabels[originalColIdx].style.left = `calc(50% - ${offset}px + ${currentSlotIdx * spacing}px - 5px)`;
             });
+            
             count++;
-            if (count % 15 === 0) {
-                statusTitle.textContent = `Permutation: ${count} / 5040`;
-                await new Promise(r => requestAnimationFrame(r));
+
+            // Speed Control Logic
+            if (delayMs > 0) {
+                // Update UI and wait for the specified delay
+                statusTitle.textContent = `Permutation: ${count} / ${totalPermutations}`;
+                await new Promise(r => setTimeout(r, delayMs));
+            } else {
+                // If delay is 0, run at maximum speed but yield to the browser every 15 frames to prevent freezing
+                if (count % 15 === 0) {
+                    statusTitle.textContent = `Permutation: ${count} / ${totalPermutations}`;
+                    await new Promise(r => requestAnimationFrame(r));
+                }
             }
         }
+        
         isPermutingAll = false;
-        statusTitle.textContent = "All 5040 Permutations Shown";
+        statusTitle.textContent = `All ${totalPermutations} Permutations Shown`;
     }
-
-async function playDecryption(d) {
+    async function playDecryption(d) {
         document.getElementById('variant-select').value = d.variant;
         resetAll();
         
@@ -448,7 +529,6 @@ async function playDecryption(d) {
         const subMap = {};
         d.ciphertext.split("").forEach((c, i) => { if(cleanPlain[i]) subMap[c] = cleanPlain[i]; });
 
-        // Pre-fill the plain-side content for all tiles and update the Key table
         Object.entries(subMap).forEach(([c, p]) => {
             const tdP = document.getElementById(`key-p-cell-${c}`);
             if(tdP) tdP.textContent = p;
@@ -465,7 +545,8 @@ async function playDecryption(d) {
         await new Promise(r => setTimeout(r, getDelay(1000)));
         await animateSelectionSwaps(d.perm);
 
-        // Playback substitutions in grid order (Left-to-Right, Top-to-Bottom)
+        await new Promise(r => setTimeout(r, 1000));
+
         let playbackTiles = currentTileMapping
             .filter(m => m.tile !== null)
             .sort((a, b) => {
@@ -480,18 +561,21 @@ async function playDecryption(d) {
         for (const mapping of playbackTiles) {
             const cipherChar = mapping.tile.dataset.cipher;
             
-            // NEW: Skip the underscore (null/filler) tile if encountered in the reading order
             if (cipherChar === "_" || flippedCiphers.has(cipherChar)) continue;
             
             flippedCiphers.add(cipherChar);
 
             const matchingTiles = [...tiles, extraTile].filter(t => t && t.dataset.cipher === cipherChar);
             
-            // Highlight all instances
+            // Highlight table column in blue
+            const keyCellC = document.getElementById(`key-c-cell-${cipherChar}`);
+            const keyCellP = document.getElementById(`key-p-cell-${cipherChar}`);
+            if(keyCellC) keyCellC.classList.add('simple-blue-highlight');
+            if(keyCellP) keyCellP.classList.add('simple-blue-highlight');
+
             matchingTiles.forEach(t => t.classList.add('highlight-active'));
             await new Promise(r => setTimeout(r, getDelay(600)));
 
-            // Flip all instances
             matchingTiles.forEach(t => {
                 t.classList.add('flipped');
                 t.style.transform = `rotateY(180deg) translateY(0)`;
@@ -499,12 +583,15 @@ async function playDecryption(d) {
 
             await new Promise(r => setTimeout(r, getDelay(800)));
             matchingTiles.forEach(t => t.classList.remove('highlight-active'));
+            
+            // Remove table highlight
+            if(keyCellC) keyCellC.classList.remove('simple-blue-highlight');
+            if(keyCellP) keyCellP.classList.remove('simple-blue-highlight');
         }
 
         await new Promise(r => setTimeout(r, getDelay(1500)));
-        document.getElementById('status-title').textContent = "Decrypted Plaintext";
+        // document.getElementById('status-title').textContent = "Decrypted Plaintext";
         
-        // Final fade out of the filler tile
         if(extraTile) { 
             extraTile.style.opacity = "0"; 
             setTimeout(() => extraTile.remove(), 800); 
