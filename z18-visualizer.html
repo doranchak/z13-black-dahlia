@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Animation & Substitution Cipher</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: #0f172a;
+            color: #f8fafc;
+            font-family: system-ui, -apple-system, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* 16x9 Display Area Container */
+        #display-area {
+            width: 100%;
+            max-width: 1200px;
+            aspect-ratio: 16 / 9;
+            background-color: #1e293b;
+            border-radius: 12px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pane {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 2% 4%;
+            box-sizing: border-box;
+            border-right: 1px solid #334155;
+        }
+        .pane:last-child {
+            border-right: none;
+        }
+
+        /* String Styling */
+        .string-container {
+            height: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(16px, 2.5vw, 36px);
+            font-family: 'Fira Code', 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+
+        .letter {
+            display: inline-block;
+            width: 1ch;
+            text-align: center;
+            transition: transform 0.4s ease, opacity 0.4s ease, width 0.5s ease-in-out, margin 0.5s ease-in-out;
+        }
+
+        /* Animations */
+        .puff {
+            transform: scale(2.5) translateY(-10px);
+            opacity: 0;
+            filter: blur(4px);
+        }
+
+        .collapse {
+            width: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            opacity: 0 !important;
+            transform: scale(0);
+        }
+
+        .highlight-letter {
+            color: #facc15;
+            text-shadow: 0 0 15px rgba(250, 204, 21, 0.8);
+            transform: scale(1.3);
+        }
+
+        /* Histogram Styling */
+        .chart-container {
+            height: 70%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2%;
+            padding-bottom: 20px;
+        }
+
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            height: 100%;
+            flex: 1;
+            max-width: 40px;
+        }
+
+        .bar {
+            width: 100%;
+            background-color: #3b82f6;
+            height: 0%;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .val-label {
+            font-size: clamp(10px, 1.2vw, 16px);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            margin-bottom: 6px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.5s ease, transform 0.5s ease, color 0.3s ease;
+        }
+
+        .axis-label {
+            margin-top: 10px;
+            font-size: clamp(12px, 1.5vw, 20px);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Histogram Highlight State */
+        .highlight-mode .bar {
+            background-color: #ef4444;
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+        }
+
+        .highlight-mode .axis-label, 
+        .highlight-mode .val-label {
+            color: #ef4444;
+            text-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+            transform: scale(1.2);
+        }
+
+        /* Substitution Key Styling - 12% total area (30% width x 40% height) */
+        #sub-key {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30%; 
+            height: 40%;
+            background: #0f172a; 
+            border-radius: 12px;
+            border: 2px solid #facc15; 
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.9);
+            z-index: 10;
+            opacity: 0;
+            transition: opacity 1s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1%;
+            box-sizing: border-box;
+        }
+
+        .key-title {
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #94a3b8;
+            font-size: clamp(12px, 1.5vw, 18px);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5%;
+        }
+
+        .key-table {
+            width: 90%;
+            height: 70%;
+            border-collapse: collapse;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: clamp(16px, 2.5vw, 32px);
+            font-weight: bold;
+            color: #facc15;
+        }
+
+        .key-table td {
+            text-align: center;
+            vertical-align: middle;
+            width: 50%;
+        }
+
+        /* Controls */
+        #controls {
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 18px;
+            font-weight: bold;
+            background-color: #10b981;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            background-color: #059669;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        button:disabled {
+            background-color: #64748b;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="display-area">
+        <div id="left-pane" class="pane">
+            <div id="string-left" class="string-container"></div>
+            <div id="chart-left" class="chart-container"></div>
+        </div>
+        <div id="right-pane" class="pane">
+            <div id="string-right" class="string-container"></div>
+            <div id="chart-right" class="chart-container"></div>
+        </div>
+        <div id="sub-key"></div>
+    </div>
+
+    <div id="controls">
+        <button id="animate-btn">Animate Sequence</button>
+    </div>
+
+    <script>
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+
+        // Initialize strings wrapped in spans
+        function createSpans(containerId, text) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            for (let char of text) {
+                const span = document.createElement('span');
+                span.className = 'letter';
+                span.innerText = char;
+                if (char === ' ') {
+                    span.innerHTML = '&nbsp;';
+                }
+                container.appendChild(span);
+            }
+        }
+
+        createSpans('string-left', 'EBEORIETEMETHHPITI');
+        createSpans('string-right', 'MARVIN MERRILL');
+
+        // Extract counts, ignoring spaces and collapsed items
+        function getCounts(containerId) {
+            const container = document.getElementById(containerId);
+            const counts = {};
+            for (let span of container.children) {
+                if (!span.classList.contains('collapse')) {
+                    const char = span.innerText.toUpperCase();
+                    if (/[A-Z]/.test(char)) {
+                        counts[char] = (counts[char] || 0) + 1;
+                    }
+                }
+            }
+            return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+        }
+
+        // Plot histogram bars dynamically
+        function plotHistogram(chartId, sortedCounts) {
+            const container = document.getElementById(chartId);
+            container.innerHTML = '';
+            if (sortedCounts.length === 0) return;
+            
+            const max = sortedCounts[0][1];
+
+            sortedCounts.forEach(([char, count], index) => {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'bar-wrapper';
+
+                const valLabel = document.createElement('div');
+                valLabel.className = 'val-label';
+                valLabel.innerText = count;
+
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+
+                const label = document.createElement('div');
+                label.className = 'axis-label';
+                label.innerText = char;
+
+                wrapper.appendChild(valLabel);
+                wrapper.appendChild(bar);
+                wrapper.appendChild(label);
+                container.appendChild(wrapper);
+
+                // Animate bars cascading
+                setTimeout(() => {
+                    bar.style.height = `${(count / max) * 75}%`; // Leave room for top label
+                    valLabel.style.opacity = 1;
+                    valLabel.style.transform = 'translateY(0)';
+                }, 100 + index * 150);
+            });
+        }
+
+        // Highlight step-by-step
+        async function highlightChartsConcurrently(leftId, rightId) {
+            const leftWrappers = document.getElementById(leftId).children;
+            const rightWrappers = document.getElementById(rightId).children;
+            const maxLen = Math.max(leftWrappers.length, rightWrappers.length);
+
+            for (let i = 0; i < maxLen; i++) {
+                const leftW = leftWrappers[i];
+                const rightW = rightWrappers[i];
+
+                if (leftW) leftW.classList.add('highlight-mode');
+                if (rightW) rightW.classList.add('highlight-mode');
+
+                await delay(500);
+
+                if (leftW) leftW.classList.remove('highlight-mode');
+                if (rightW) rightW.classList.remove('highlight-mode');
+            }
+        }
+
+        // Main Animation Sequence
+        document.getElementById('animate-btn').addEventListener('click', async function() {
+            this.disabled = true; // Prevent double clicks
+            
+            const leftSpans = Array.from(document.getElementById('string-left').children);
+            const rightSpans = Array.from(document.getElementById('string-right').children);
+
+            // 1. Puff out each E one at a time
+            for (let span of leftSpans) {
+                if (span.innerText === 'E') {
+                    span.classList.add('puff');
+                    await delay(350);
+                }
+            }
+
+            // 2. Collapse the string to form BORITMTHHPITI
+            await delay(400);
+            for (let span of leftSpans) {
+                if (span.innerText === 'E') {
+                    span.classList.add('collapse');
+                }
+            }
+
+            // 3. Briefly highlight 'I' in MARVIN (Index 4)
+            await delay(800);
+            const iSpan = rightSpans[4];
+            iSpan.classList.add('highlight-letter');
+            
+            // 4. Puff out 'I' and replace with 'L'
+            await delay(800);
+            iSpan.classList.remove('highlight-letter');
+            iSpan.classList.add('puff');
+            
+            await delay(400); // Wait for puff out animation to peak
+            iSpan.innerText = 'L'; // Change the character under the blur
+            iSpan.classList.remove('puff'); // Materialize using reverse puff
+            
+            await delay(1000);
+
+            // 5. Animate plotting of histograms below strings
+            plotHistogram('chart-left', getCounts('string-left'));
+            plotHistogram('chart-right', getCounts('string-right'));
+
+            await delay(2000);
+
+            // 6. Concurrently highlight bars/labels from left to right
+            await highlightChartsConcurrently('chart-left', 'chart-right');
+            await delay(1000);
+
+            // 7. Rearrange BORITMTHHPITI using FLIP Animation
+            // Filter out collapsed E's to get exactly our 13 letters
+            const activeLeftSpans = leftSpans.filter(span => !span.classList.contains('collapse'));
+            
+            // Record initial positions
+            const firstRects = new Map();
+            activeLeftSpans.forEach(span => firstRects.set(span, span.getBoundingClientRect()));
+
+            // Define the rearranged target that Maps correctly to MARVLN MERRILL
+            const targetChars = ['H', 'B', 'I', 'O', 'T', 'M', ' ', 'H', 'P', 'I', 'I', 'R', 'T', 'T'];
+            const newOrderSpans = [];
+            const availableSpans = [...activeLeftSpans];
+
+            targetChars.forEach(char => {
+                if (char === ' ') {
+                    const spaceSpan = document.createElement('span');
+                    spaceSpan.className = 'letter';
+                    spaceSpan.innerHTML = '&nbsp;';
+                    spaceSpan.style.opacity = '0'; // Hide initially for smooth insertion
+                    newOrderSpans.push(spaceSpan);
+                } else {
+                    // Pluck from available spans to retain object references
+                    const index = availableSpans.findIndex(span => span.innerText === char);
+                    if (index !== -1) {
+                        newOrderSpans.push(availableSpans.splice(index, 1)[0]);
+                    }
+                }
+            });
+
+            // Reorder the DOM
+            const leftContainer = document.getElementById('string-left');
+            leftContainer.innerHTML = '';
+            newOrderSpans.forEach(span => leftContainer.appendChild(span));
+
+            // Invert positions for existing letters
+            newOrderSpans.forEach(span => {
+                if (span.innerHTML === '&nbsp;') return;
+                const first = firstRects.get(span);
+                const last = span.getBoundingClientRect();
+                const deltaX = first.left - last.left;
+                const deltaY = first.top - last.top;
+                
+                span.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+                span.style.transition = 'none'; // Disconnect transition for immediate jump
+            });
+
+            // Force browser reflow to register the inverted states
+            leftContainer.getBoundingClientRect();
+
+            // Play the rearrangement animation
+            newOrderSpans.forEach(span => {
+                if (span.innerHTML === '&nbsp;') {
+                    span.style.transition = 'opacity 1s ease';
+                    span.style.opacity = '1';
+                } else {
+                    span.style.transition = 'transform 1s ease-in-out';
+                    span.style.transform = 'translate(0, 0)';
+                }
+            });
+
+            await delay(1500);
+
+            // Clean up inline styles from FLIP so our puff class works again
+            newOrderSpans.forEach(span => {
+                span.style.transition = '';
+                span.style.transform = '';
+            });
+
+            // 8. Show Substitution Key in a 2-column table
+            const keyDiv = document.getElementById('sub-key');
+            keyDiv.innerHTML = `
+                <div class="key-title">Decryption Key</div>
+                <table class="key-table">
+                    <tr><td>H &rarr; M</td><td>T &rarr; L</td></tr>
+                    <tr><td>B &rarr; A</td><td>M &rarr; N</td></tr>
+                    <tr><td>I &rarr; R</td><td>P &rarr; E</td></tr>
+                    <tr><td>O &rarr; V</td><td>R &rarr; I</td></tr>
+                </table>
+            `;
+            keyDiv.style.opacity = 1;
+            
+            await delay(1500);
+
+            // 9. Apply the substitution to reveal Plaintext
+            const cipherMapping = { 
+                'H':'M', 'B':'A', 'I':'R', 'O':'V', 
+                'T':'L', 'M':'N', 'P':'E', 'R':'I' 
+            };
+            
+            for (let span of newOrderSpans) {
+                const char = span.innerText.trim();
+                
+                if (char && cipherMapping[char]) {
+                    span.classList.add('puff');
+                    await delay(350);
+                    
+                    span.innerText = cipherMapping[char]; // Translate
+                    
+                    span.classList.remove('puff');
+                    await delay(350);
+                } else if (!char) {
+                    // Pause briefly over the space
+                    await delay(150);
+                }
+            }
+
+            this.innerText = "Decryption Complete";
+        });
+    </script>
+</body>
+</html>
