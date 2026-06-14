@@ -1,334 +1,382 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>13-Symbol Substitution Cipher</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cipher Workspace v5</title>
+    <style>
+        :root {
+            --wood-color: #e3c18d;
+            --wood-dark: #c4a470;
+            --tile-size: 60px;
+            --cipher-green: #2e7d32;
+            --cipher-red: #c62828;
+            --plain-indigo: #303f9f;
+        }
 
-<style>
-body {
-  font-family: system-ui, sans-serif;
-  margin: 0;
-  background: #f4f4f4;
-}
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
 
-#top {
-  display: flex;
-  gap: 30px;
-  padding: 20px;
-}
+        #top-section {
+            display: flex;
+            width: 98%;
+            max-width: 1400px;
+            justify-content: center;
+            margin-bottom: 50px;
+            gap: 20px;
+        }
 
-#cipher-area, #key-area {
-  flex: 1;
-  background: #fff;
-  border-radius: 10px;
-  padding: 20px;
-}
+        .area {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            min-height: 250px;
+        }
 
-/* ---------- Tiles ---------- */
+        #cipher-grid-area {
+            flex: 3; 
+            min-width: 980px; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
 
-.tile {
-  width: 60px;
-  height: 60px;
-  background: #e6d2a8;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 26px;
-  font-weight: bold;
-  box-shadow: 0 3px 5px rgba(0,0,0,0.25);
-  transition: transform 0.6s ease, opacity 0.6s ease;
-}
+        #substitution-key-area { 
+            flex: 1; 
+            min-width: 320px;
+        }
 
-.green { color: #1a7f37; }
-.red   { color: #b42318; }
+        .tile-container {
+            position: relative;
+            height: 200px;
+            width: 100%;
+            perspective: 1000px;
+        }
 
-#cipher-grid-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
+        .tile {
+            position: absolute;
+            width: var(--tile-size);
+            height: var(--tile-size);
+            background-color: var(--wood-color);
+            border: 2px solid var(--wood-dark);
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            font-size: 24px;
+            box-shadow: 2px 4px 8px rgba(0,0,0,0.15);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                        left 0.8s cubic-bezier(0.4, 0, 0.2, 1), 
+                        top 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
 
-/* 1x13 grid */
-#cipher-grid {
-  display: grid;
-  grid-template-columns: repeat(13, auto);
-  gap: 10px;
-  transition: all 0.6s ease;
-}
+        .tile-content {
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+        }
 
-/* 2x7 grid */
-.grid-2x7 {
-  grid-template-columns: repeat(7, auto);
-  grid-template-rows: repeat(2, auto);
-}
+        .plain-side {
+            transform: rotateY(180deg);
+            color: var(--plain-indigo);
+        }
 
-/* Column numbers */
-.column-numbers {
-  display: grid;
-  grid-template-columns: repeat(7, auto);
-  gap: 10px;
-  margin-bottom: 10px;
-  justify-content: center;
-}
+        .tile.flipped { transform: rotateY(180deg); }
+        .tile.swapping { scale: 1.1; z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
 
-.column-number {
-  text-align: center;
-  font-weight: bold;
-  opacity: 0;
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
+        .char-letter { color: var(--cipher-green); }
+        .char-symbol { color: var(--cipher-red); }
 
-/* ---------- Key table ---------- */
+        table { border-collapse: collapse; margin: 20px auto; }
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            width: 35px;
+        }
+        .highlight-key { background-color: #fff176; outline: 3px solid #fbc02d; }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
+        #controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            background: #2c3e50;
+            padding: 25px;
+            border-radius: 12px;
+        }
+        button {
+            padding: 10px 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            color: white;
+        }
+        button:active { transform: scale(0.98); }
+        input { padding: 10px; border-radius: 6px; border: none; text-align: center; width: 140px; }
 
-td {
-  border: 1px solid #ccc;
-  text-align: center;
-  padding: 10px;
-  font-size: 20px;
-}
-
-/* ---------- Controls ---------- */
-
-#controls {
-  background: #fff;
-  padding: 20px;
-  border-top: 2px solid #ddd;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-button {
-  padding: 8px 14px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-input {
-  padding: 6px;
-  width: 140px;
-}
-</style>
+        .col-label {
+            position: absolute;
+            font-weight: 900;
+            color: #7f8c8d;
+            font-size: 18px;
+            transition: all 0.6s ease;
+        }
+    </style>
 </head>
-
 <body>
 
-<div id="top">
-  <div id="cipher-area">
-    <h3>Cipher Grid</h3>
-
-    <div id="cipher-grid-wrapper">
-      <div>
-        <div id="columnNumbers" class="column-numbers"></div>
-        <div id="cipher-grid"></div>
-      </div>
+<div id="top-section">
+    <div id="cipher-grid-area" class="area">
+        <h3 style="margin-top: 0; color: #34495e;">Cipher Grid</h3>
+        <div id="col-labels-container" style="position: relative; height: 35px; width: 100%;"></div>
+        <div id="grid-container" class="tile-container"></div>
     </div>
-  </div>
 
-  <div id="key-area">
-    <h3>Substitution Key</h3>
-    <table id="key-table"></table>
-  </div>
+    <div id="substitution-key-area" class="area">
+        <h3 style="margin-top: 0; color: #34495e;">Substitution Key</h3>
+        <table id="key-table">
+            <tr id="cipher-row"></tr>
+            <tr id="plain-row"></tr>
+        </table>
+    </div>
 </div>
 
 <div id="controls">
-  <button onclick="makeGrid()">Make Grid</button>
-  <button onclick="resetGrid()">Reset</button>
-
-  <input id="permInput" placeholder="e.g. 3 1 2 4 5 6 7">
-  <button onclick="permuteColumns()">Permute columns</button>
-  <button onclick="resetColumns()">Reset columns</button>
-
-  <button onclick="decrypt()">Decrypt</button>
-  <button onclick="clearDecryption()">Clear decryption</button>
+    <button style="background: #27ae60;" onclick="makeGrid()">Make Grid</button>
+    <button style="background: #e67e22;" onclick="resetAll()">Reset</button>
+    <div style="display: flex; gap: 5px; align-items: center;">
+        <input type="text" id="permute-input" value="7,6,5,4,3,2,1">
+        <button style="background: #2980b9;" onclick="permuteColumns()">Permute Columns</button>
+    </div>
+    <button style="background: #34495e;" onclick="resetColumns()">Reset Columns</button>
+    <button style="background: #8e44ad;" onclick="decrypt()">Decrypt</button>
+    <button style="background: #7f8c8d;" onclick="clearDecryption()">Clear Decryption</button>
 </div>
 
 <script>
-/* ---------- Data ---------- */
+    const cipherText = "AEN⊕8K8M8↓NAM".split("");
+    const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const uniqueChars = [...new Set(cipherText)];
+    
+    // uniqueChars.forEach(char => {
+    //     mapping[char] = alphabet[Math.floor(Math.random() * alphabet.length)];
+    // });
+    const mapping = {
+        "A":"I",
+        "E":"V",
+        "N":"M",
+        "⊕":"A",
+        "8":"R",
+        "K":"N",
+        "M":"L",
+        "↓":"E"
+    };
 
-const cipher = ["A","E","N","⊕","8","K","8","M","8","↓","N","A","M"];
+    const container = document.getElementById('grid-container');
+    const labelContainer = document.getElementById('col-labels-container');
+    let tiles = [];
+    let extraTile = null;
+    let colMap = [0, 1, 2, 3, 4, 5, 6]; 
 
-const plaintext = {};
-"ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach(c=>{
-  plaintext[c] = String.fromCharCode(65 + Math.floor(Math.random()*26));
-});
-plaintext["⊕"]="X";
-plaintext["8"]="E";
-plaintext["↓"]="T";
+    function isLetter(char) { return /[A-Z]/.test(char); }
 
-let tiles = [];
-let originalOrder = [];
-let gridMade = false;
+    function init() {
+        container.innerHTML = '';
+        tiles = [];
+        cipherText.forEach((char, i) => {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            tile.innerHTML = `
+                <div class="tile-content cipher-side ${isLetter(char) ? 'char-letter' : 'char-symbol'}">${char}</div>
+                <div class="tile-content plain-side">${mapping[char]}</div>
+            `;
+            tile.dataset.cipher = char;
+            container.appendChild(tile);
+            tiles.push(tile);
+        });
 
-/* ---------- Helpers ---------- */
+        const cRow = document.getElementById('cipher-row');
+        const pRow = document.getElementById('plain-row');
+        cRow.innerHTML = ''; pRow.innerHTML = '';
+        uniqueChars.forEach(char => {
+            const tdC = document.createElement('td');
+            tdC.className = isLetter(char) ? 'char-letter' : 'char-symbol';
+            tdC.textContent = char;
+            tdC.id = `key-cell-${char}`;
+            cRow.appendChild(tdC);
+            const tdP = document.createElement('td');
+            tdP.textContent = mapping[char];
+            pRow.appendChild(tdP);
+        });
+        positionLinear();
+    }
 
-function isLetter(c){ return /^[A-Z]$/.test(c); }
+    function positionLinear() {
+        const spacing = 70;
+        const offset = (13 - 1) * spacing / 2;
+        tiles.forEach((t, i) => {
+            t.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
+            t.style.top = '100px'; // Lower starting position to avoid overlap with Row 1 target
+        });
+    }
 
-function tileColor(c){
-  return isLetter(c) ? "green" : "red";
-}
+    async function makeGrid() {
+        const spacing = 70;
+        const offset = (7 - 1) * spacing / 2;
+        
+        // 1) Move the first 6 tiles to the first row
+        for (let i = 0; i < 6; i++) {
+            tiles[i].style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
+            tiles[i].style.top = '0px';
+            await new Promise(r => setTimeout(r, 150));
+        }
 
-/* ---------- Build Cipher Grid ---------- */
+        // Pause momentarily after forming the first row
+        await new Promise(r => setTimeout(r, 600));
 
-const grid = document.getElementById("cipher-grid");
+        // 2) Move the last 7 tiles to the second row (Reversed order from original)
+        const lastSevenIndices = [12, 11, 10, 9, 8, 7, 6];
+        for (let j = 0; j < lastSevenIndices.length; j++) {
+            const originalIdx = lastSevenIndices[j];
+            tiles[originalIdx].style.left = `calc(50% - ${offset}px + ${j * spacing}px - 30px)`;
+            tiles[originalIdx].style.top = `${spacing}px`;
+            await new Promise(r => setTimeout(r, 150));
+        }
 
-cipher.forEach((c,i)=>{
-  const d = document.createElement("div");
-  d.className = `tile ${tileColor(c)}`;
-  d.textContent = c;
-  d.dataset.cipher = c;
-  d.dataset.index = i;
-  grid.appendChild(d);
-  tiles.push(d);
-});
+        // 3) Fill gap with extra tile
+        if (!extraTile) {
+            extraTile = document.createElement('div');
+            extraTile.className = 'tile';
+            extraTile.innerHTML = '<div class="tile-content char-letter" style="text-decoration: underline;">_</div>';
+            extraTile.style.top = '0px';
+            extraTile.style.left = '200%'; 
+            container.appendChild(extraTile);
+            setTimeout(() => {
+                extraTile.style.left = `calc(50% - ${offset}px + 6 * ${spacing}px - 30px)`;
+            }, 100);
+        }
 
-originalOrder = [...tiles];
+        // Render column labels
+        labelContainer.innerHTML = '';
+        for (let i = 1; i <= 7; i++) {
+            const l = document.createElement('div');
+            l.className = 'col-label';
+            l.textContent = i;
+            l.style.left = `calc(50% - ${offset}px + ${(i-1) * spacing}px - 5px)`;
+            l.style.opacity = '0';
+            labelContainer.appendChild(l);
+            setTimeout(() => l.style.opacity = '1', i * 50);
+        }
+        colMap = [0, 1, 2, 3, 4, 5, 6];
+    }
 
-/* ---------- Build Key Table ---------- */
+    async function permuteColumns() {
+        const input = document.getElementById('permute-input').value;
+        const targetOrder = input.split(',').map(n => parseInt(n.trim()) - 1);
+        if (targetOrder.length !== 7) return;
 
-const unique = [...new Set(cipher)];
-const table = document.getElementById("key-table");
+        let currentOrder = [...colMap];
+        for (let i = 0; i < targetOrder.length; i++) {
+            if (currentOrder[i] !== targetOrder[i]) {
+                const valToFind = targetOrder[i];
+                const currentIndex = currentOrder.indexOf(valToFind);
+                await animateSwap(currentOrder, i, currentIndex);
+                [currentOrder[i], currentOrder[currentIndex]] = [currentOrder[currentIndex], currentOrder[i]];
+            }
+        }
+        colMap = currentOrder;
+    }
 
-const r1 = table.insertRow();
-const r2 = table.insertRow();
+    async function animateSwap(order, posA, posB) {
+        const spacing = 70;
+        const offset = (7 - 1) * spacing / 2;
+        const labels = document.querySelectorAll('.col-label');
+        
+        const origIdxA = order[posA];
+        const origIdxB = order[posB];
 
-unique.forEach(c=>{
-  const td1 = r1.insertCell();
-  td1.textContent = c;
-  td1.className = tileColor(c);
+        const getColTiles = (idx) => {
+            let res = [];
+            if (idx < 6) res.push(tiles[idx]); else res.push(extraTile);
+            res.push(tiles[12 - idx]);
+            return res;
+        };
 
-  const td2 = r2.insertCell();
-  td2.textContent = plaintext[c];
-});
+        const tilesA = getColTiles(origIdxA);
+        const tilesB = getColTiles(origIdxB);
 
-/* ---------- Grid Transform ---------- */
+        [...tilesA, ...tilesB].forEach(t => {
+            t.classList.add('swapping');
+            t.style.zIndex = "100";
+        });
 
-function makeGrid(){
-  if(gridMade) return;
-  gridMade = true;
+        tilesA.forEach(t => t.style.left = `calc(50% - ${offset}px + ${posB * spacing}px - 30px)`);
+        tilesB.forEach(t => t.style.left = `calc(50% - ${offset}px + ${posA * spacing}px - 30px)`);
+        
+        labels[origIdxA].style.left = `calc(50% - ${offset}px + ${posB * spacing}px - 5px)`;
+        labels[origIdxB].style.left = `calc(50% - ${offset}px + ${posA * spacing}px - 5px)`;
 
-  grid.classList.add("grid-2x7");
+        await new Promise(r => setTimeout(r, 800));
+        [...tilesA, ...tilesB].forEach(t => {
+            t.classList.remove('swapping');
+            t.style.zIndex = "1";
+        });
+    }
 
-  // Move last 7 tiles into reversed second row
-  const first = tiles.slice(0,6);
-  const second = tiles.slice(6).reverse();
+    function resetAll() {
+        if(extraTile) { extraTile.remove(); extraTile = null; }
+        labelContainer.innerHTML = '';
+        clearDecryption();
+        positionLinear();
+        colMap = [0, 1, 2, 3, 4, 5, 6];
+    }
 
-  grid.innerHTML = "";
-  first.forEach(t=>grid.appendChild(t));
-  second.forEach(t=>grid.appendChild(t));
+    function resetColumns() {
+        const spacing = 70;
+        const offset = (7 - 1) * spacing / 2;
+        const labels = document.querySelectorAll('.col-label');
+        [0,1,2,3,4,5,6].forEach(i => {
+            let top = (i < 6) ? tiles[i] : extraTile;
+            let bottom = tiles[12 - i];
+            if(top) top.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
+            if(bottom) bottom.style.left = `calc(50% - ${offset}px + ${i * spacing}px - 30px)`;
+            if(labels[i]) labels[i].style.left = `calc(50% - ${offset}px + ${i * spacing}px - 5px)`;
+        });
+        colMap = [0, 1, 2, 3, 4, 5, 6];
+    }
 
-  // Add missing tile (underline)
-  const blank = document.createElement("div");
-  blank.className = "tile green";
-  blank.textContent = "_";
-  blank.style.opacity = 0;
-  grid.appendChild(blank);
-  requestAnimationFrame(()=> blank.style.opacity = 1);
+    async function decrypt() {
+        for (let char of uniqueChars) {
+            const cell = document.getElementById(`key-cell-${char}`);
+            cell.classList.add('highlight-key');
+            await new Promise(r => setTimeout(r, 400));
+            tiles.forEach(t => { if (t.dataset.cipher === char) t.classList.add('flipped'); });
+            await new Promise(r => setTimeout(r, 300));
+            cell.classList.remove('highlight-key');
+        }
+    }
 
-  showColumnNumbers();
-}
+    function clearDecryption() {
+        tiles.forEach(t => t.classList.remove('flipped'));
+    }
 
-function resetGrid(){
-  gridMade = false;
-  grid.classList.remove("grid-2x7");
-  grid.innerHTML = "";
-  originalOrder.forEach(t=>grid.appendChild(t));
-  document.getElementById("columnNumbers").innerHTML = "";
-}
-
-/* ---------- Column Numbers ---------- */
-
-function showColumnNumbers(){
-  const cn = document.getElementById("columnNumbers");
-  cn.innerHTML = "";
-  for(let i=1;i<=7;i++){
-    const d = document.createElement("div");
-    d.className = "column-number";
-    d.textContent = i;
-    cn.appendChild(d);
-    requestAnimationFrame(()=> d.style.opacity = 1);
-  }
-}
-
-/* ---------- Column Permutation ---------- */
-
-function permuteColumns(){
-  if(!gridMade) return;
-
-  const order = document.getElementById("permInput").value
-    .trim().split(/\s+/).map(n=>parseInt(n)-1);
-
-  if(order.length!==7) return;
-
-  const cells = [...grid.children];
-  const cols = [];
-
-  for(let i=0;i<7;i++){
-    cols[i] = [cells[i], cells[i+7]].filter(Boolean);
-  }
-
-  grid.innerHTML = "";
-  order.forEach(i=>{
-    cols[i].forEach(t=>grid.appendChild(t));
-  });
-
-  // move column numbers
-  const cn = document.getElementById("columnNumbers");
-  const nums = [...cn.children];
-  cn.innerHTML = "";
-  order.forEach(i=>cn.appendChild(nums[i]));
-}
-
-function resetColumns(){
-  if(!gridMade) return;
-  makeGrid();
-}
-
-/* ---------- Decryption ---------- */
-
-async function decrypt(){
-  for(const c of unique){
-    const keyCells = [...r1.cells];
-    const idx = keyCells.findIndex(td=>td.textContent===c);
-    keyCells[idx].style.background="#ffeb3b";
-
-    await sleep(400);
-
-    tiles.forEach(t=>{
-      if(t.dataset.cipher===c){
-        t.style.transform="rotateY(90deg)";
-        setTimeout(()=>{
-          t.textContent = plaintext[c];
-          t.className = "tile green";
-          t.style.transform="rotateY(0deg)";
-        },300);
-      }
-    });
-
-    await sleep(700);
-    keyCells[idx].style.background="";
-  }
-}
-
-function clearDecryption(){
-  tiles.forEach(t=>{
-    t.textContent = t.dataset.cipher;
-    t.className = `tile ${tileColor(t.dataset.cipher)}`;
-    t.style.transform="none";
-  });
-}
-
-/* ---------- Utils ---------- */
-
-function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+    init();
 </script>
-
 </body>
 </html>
