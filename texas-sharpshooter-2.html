@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Texas Sharpshooter - Clean Bullseye</title>
+<style>
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #1a252f;
+        font-family: sans-serif;
+        margin: 0;
+    }
+
+    #controls {
+        margin-bottom: 30px;
+        z-index: 10;
+    }
+
+    #go-btn {
+        padding: 12px 30px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        background-color: #e74c3c;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        transition: background-color 0.2s, transform 0.1s;
+    }
+
+    #go-btn:active {
+        transform: translateY(2px);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    }
+
+    #go-btn:disabled {
+        background-color: #7f8c8d;
+        cursor: not-allowed;
+    }
+
+    /* 16:9 Rectangular Display Area */
+    #scene-container {
+        position: relative;
+        width: 800px;
+        height: 450px; 
+        background: radial-gradient(circle at center, #ffffff 0%, #dcdde1 100%);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        overflow: hidden;
+        /* border-radius: 8px; */
+        /* border: 4px solid #7f8fa6; */
+    }
+
+    /* SVG Arrow styling with 3D drop shadow */
+    .arrow {
+        position: absolute;
+        width: 80px;
+        height: 14px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 14"><line x1="0" y1="7" x2="65" y2="7" stroke="%232f3640" stroke-width="3"/><polygon points="65,0 80,7 65,14" fill="%232f3640"/><path d="M 0,0 L 15,7 L 0,14 Z" fill="%23c0392b"/></svg>') no-repeat center center;
+        background-size: contain;
+        transform-origin: 80px 7px; /* Pivot exactly at the tip */
+        opacity: 0;
+        /* 3D shadow effect */
+        filter: drop-shadow(4px 8px 3px rgba(0,0,0,0.4));
+    }
+
+    #target-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    #random-arrows-container {
+        z-index: 2;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+    }
+
+    #main-arrow {
+        z-index: 3;
+        left: -100px;
+        top: 218px; 
+        opacity: 1;
+    }
+
+    .random-arrow {
+        transition: opacity 1.2s ease-in;
+    }
+
+    /* Thinner Bullseye Target Rings */
+    .target-circle {
+        fill: none;
+        stroke-width: 16; /* Thinner uniform thickness for dot and all rings */
+    }
+
+    .ring-red { stroke: #c0392b; }
+    .ring-blue { stroke: #2980b9; }
+
+    /* Pencil Icon */
+    #pencil {
+        position: absolute;
+        width: 42px;
+        height: 42px;
+        background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.127 22.562l-7.127 1.438 1.438-7.128 5.689 5.69zm1.414-1.414l11.228-11.225-5.69-5.692-11.227 11.227 5.689 5.69zm9.768-21.148l-2.816 2.817 5.691 5.691 2.816-2.819-5.691-5.689z" fill="%23f39c12"/></svg>') no-repeat;
+        opacity: 0;
+        left: 0;
+        top: 0;
+        transform: translate(0, -42px); 
+        transition: opacity 0.3s;
+        z-index: 4;
+        filter: drop-shadow(6px 10px 5px rgba(0,0,0,0.5));
+    }
+
+    @keyframes thwack {
+        0% { transform: scaleX(1); }
+        30% { transform: scaleX(0.85) rotate(-2deg); }
+        60% { transform: scaleX(1.05) rotate(2deg); }
+        100% { transform: scaleX(1) rotate(0deg); }
+    }
+
+    .hit-animation {
+        animation: thwack 0.2s ease-out;
+    }
+</style>
+</head>
+<body>
+
+<div id="controls">
+    <button id="go-btn">Go</button>
+</div>
+
+<div id="scene-container">
+    <svg id="target-svg">
+        <circle class="target-circle ring-red" id="circle1" cx="400" cy="225" r="8" transform="rotate(-90 400 225)" />
+        <circle class="target-circle ring-blue" id="circle2" cx="400" cy="225" r="40" transform="rotate(-90 400 225)" />
+        <circle class="target-circle ring-red" id="circle3" cx="400" cy="225" r="72" transform="rotate(-90 400 225)" />
+    </svg>
+    
+    <div id="random-arrows-container"></div>
+    <div id="main-arrow" class="arrow"></div>
+    <div id="pencil"></div>
+</div>
+
+<script>
+    const btn = document.getElementById('go-btn');
+    const mainArrow = document.getElementById('main-arrow');
+    const pencil = document.getElementById('pencil');
+    const randomArrowsContainer = document.getElementById('random-arrows-container');
+    const circles = document.querySelectorAll('.target-circle');
+    
+    // Target's physical max extent from center is r=72 + (stroke 16 / 2) = 80px.
+    const TARGET_MAX_RADIUS = 80;
+    
+    function generateRandomArrows() {
+        randomArrowsContainer.innerHTML = '';
+        
+        // 10x6 Grid with random jitter guarantees an even, edge-to-edge distribution
+        for (let col = 0; col < 10; col++) {
+            for (let row = 0; row < 6; row++) {
+                
+                let jx = (col * 80 + 40) + (Math.random() * 40 - 20);
+                let jy = (row * 75 + 37.5) + (Math.random() * 40 - 20);
+                let angle = (Math.random() * 60) - 30; // Random stick angle (-30 to +30 deg)
+                let angleRad = angle * Math.PI / 180;
+                
+                // Calculate physical bounds of the arrow (Length = 80px)
+                let tailX = jx - 80 * Math.cos(angleRad);
+                let tailY = jy - 80 * Math.sin(angleRad);
+                
+                // Distance to center of target (400, 225)
+                let distTip = Math.hypot(jx - 400, jy - 225);
+                let distTail = Math.hypot(tailX - 400, jy - 225);
+                let distCenter = Math.hypot((jx + tailX)/2 - 400, (jy + tailY)/2 - 225);
+                
+                // Check if ANY part of the arrow overlaps the 80px target (using 95px for a guaranteed visual buffer gap)
+                if (Math.min(distTip, distTail, distCenter) < TARGET_MAX_RADIUS + 15) {
+                    continue; 
+                }
+                
+                let arr = document.createElement('div');
+                arr.className = 'arrow random-arrow';
+                
+                // Align the TIP of the arrow to (jx, jy)
+                arr.style.left = (jx - 80) + 'px'; 
+                arr.style.top = (jy - 7) + 'px';
+                arr.style.transform = `rotate(${angle}deg)`;
+                randomArrowsContainer.appendChild(arr);
+            }
+        }
+    }
+
+    function eraseTarget() {
+        circles.forEach(c => {
+            const length = c.getTotalLength();
+            c.style.strokeDasharray = length;
+            c.style.strokeDashoffset = length;
+        });
+    }
+
+    generateRandomArrows();
+    eraseTarget();
+
+    btn.addEventListener('click', () => {
+        btn.disabled = true;
+        btn.textContent = "Watching...";
+        
+        // --- PERFECT RESET ---
+        mainArrow.style.transition = 'none';
+        mainArrow.style.left = '-100px';
+        mainArrow.classList.remove('hit-animation');
+        
+        eraseTarget();
+        generateRandomArrows(); 
+
+        void mainArrow.offsetWidth; 
+
+        // --- ANIMATION ---
+        mainArrow.style.transition = 'left 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+        mainArrow.style.left = '320px'; // 400 - 80 (tip lands perfectly center)
+        
+        setTimeout(() => {
+            mainArrow.classList.add('hit-animation');
+
+            // Move pencil precisely to the top edge of the very first dot mathematically
+            pencil.style.left = '400px';
+            pencil.style.top = (225 - parseInt(circles[0].getAttribute('r'))) + 'px';
+            pencil.style.opacity = 1;
+            
+            let delay = 300;
+            
+            circles.forEach((circle, index) => {
+                let length = circle.getTotalLength();
+                let duration = length * 2.5; 
+                
+                setTimeout(() => {
+                    let start = null;
+                    
+                    function step(timestamp) {
+                        if (!start) start = timestamp;
+                        let progress = timestamp - start;
+                        let drawPct = Math.min(progress / duration, 1);
+                        
+                        circle.style.strokeDashoffset = length * (1 - drawPct);
+                        
+                        let angle = (drawPct * 2 * Math.PI) - (Math.PI / 2);
+                        let r = parseInt(circle.getAttribute('r'));
+                        let cx = parseInt(circle.getAttribute('cx'));
+                        let cy = parseInt(circle.getAttribute('cy'));
+                        
+                        pencil.style.left = (cx + r * Math.cos(angle)) + 'px';
+                        pencil.style.top = (cy + r * Math.sin(angle)) + 'px';
+                        
+                        if (progress < duration) {
+                            window.requestAnimationFrame(step);
+                        } else if (index === circles.length - 1) {
+                            setTimeout(() => {
+                                pencil.style.opacity = 0;
+                                
+                                setTimeout(() => {
+                                    document.querySelectorAll('.random-arrow').forEach(arr => {
+                                        arr.style.opacity = 1; 
+                                    });
+                                    
+                                    setTimeout(() => {
+                                        btn.disabled = false;
+                                        btn.textContent = "Reset & Go Again";
+                                    }, 1800);
+
+                                }, 600);
+                            }, 300); 
+                        }
+                    }
+                    window.requestAnimationFrame(step);
+                }, delay);
+                
+                delay += duration + 200; 
+            });
+        }, 400); 
+    });
+</script>
+</body>
+</html>
