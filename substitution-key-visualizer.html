@@ -31,17 +31,35 @@
             font-family: 'Segoe UI', sans-serif;
             background-color: #f5f5f5;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            flex-direction: row;
+            height: 100vh;
             margin: 0;
+            overflow: hidden;
         }
 
-        #main-container {
+        /* Left and Right Panels */
+        #left-panel {
+            width: 350px;
+            min-width: 350px;
+            background: #ffffff;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
-            width: 95vw;
-            max-width: 1400px;
+            gap: 15px;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+            z-index: 10;
+        }
+
+        #right-panel {
+            flex: 1;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
             align-items: center;
         }
@@ -52,6 +70,7 @@
             border-radius: 12px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
             width: 100%;
+            max-width: 1400px;
             box-sizing: border-box;
         }
 
@@ -71,7 +90,7 @@
             text-align: center;
             font-size: 24px;
             overflow: visible;
-            transition: all 0.2s ease-in-out;
+            /* transition: all 0.2s ease-in-out; */
         }
         
         #cipher-row td {
@@ -109,14 +128,24 @@
         .highlight-active {
             background-color: var(--highlight-blue) !important;
             color: white !important;
-            transform: scale(1.1);
-            z-index: 5;
+            /* transform: scale(1.1); */
+            /* z-index: 5; */
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Increased specificity to beat #cipher-row */
+        #key-table td.keyword-bg.highlight-active {
+            background-color: #ff3d00 !important; /* Vivid dark orange */
+            color: white !important;
+            /* transform: scale(1.25); */
+            /* z-index: 20; */
+            box-shadow: 0 0 15px rgba(255, 61, 0, 0.8);
+            border: 2px solid #dd2c00 !important;
         }
         
         .highlight-duplicate {
             background-color: var(--keyword-highlight) !important;
-            transform: scale(1.2);
+            /* transform: scale(1.2); */
             text-decoration: underline;
         }
 
@@ -154,7 +183,7 @@
         .keyword-char-box.active {
             background-color: var(--keyword-highlight);
             border-color: #fbc02d;
-            transform: scale(1.1);
+            /* transform: scale(1.1); */
         }
 
         .keyword-char-box.duplicate {
@@ -172,9 +201,15 @@
             background: #fafafa;
             display: flex;
             flex-wrap: wrap;
-            gap: 2px;
+            gap: 10px 15px; 
             align-content: flex-start;
             align-items: center;
+        }
+        .word-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            max-width: 100%;
         }
         .msg-char {
             display: inline-flex;
@@ -182,12 +217,12 @@
             justify-content: center;
             min-width: 20px;
             height: 35px;
-            transition: all 0.2s;
+            /* transition: all 0.2s; */
             border-radius: 3px;
         }
         .msg-char.active {
             background-color: var(--keyword-highlight);
-            transform: scale(1.2);
+            /* transform: scale(1.2); */
             color: #000;
         }
         .cipher-font {
@@ -202,20 +237,13 @@
             font-weight: 900;
         }
 
-        #controls-container {
-            display: flex;
-            gap: 20px;
-            justify-content: space-between;
-            flex-wrap: wrap;
-        }
-
         .control-panel {
-            flex: 1;
-            min-width: 200px;
-            background: #f8f9fa;
+            /* background: #f8f9fa;
             padding: 15px;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
+            width: 100%;
+            box-sizing: border-box; */
         }
 
         .control-row {
@@ -233,6 +261,8 @@
             border-radius: 4px;
             flex: 1;
             text-transform: uppercase;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .search-container { position: relative; width: 100%; }
@@ -248,6 +278,7 @@
             max-height: 200px;
             overflow-y: auto;
             display: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .search-item {
             padding: 8px;
@@ -264,7 +295,7 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 14px;
-            transition: background 0.2s;
+            /* transition: background 0.2s; */
         }
 
         #btn-go { background-color: #1976d2; color: white; width: 100%; margin-top: 10px; }
@@ -276,9 +307,68 @@
 
 <body>
 
-    <div id="main-container">
+    <div id="left-panel">
+        <h2 style="margin: 0 0 5px 0; font-size: 22px; color: #333;">Controls</h2>
+        
+        <div class="control-panel">
+            <h4 style="margin-top: 0; margin-bottom: 10px;">Sample Key Presets</h4>
+            <div class="search-container">
+                <input type="text" id="sample-search" placeholder="SEARCH SAMPLES..." oninput="filterSamples()" onfocus="filterSamples()">
+                <div id="search-results" class="search-results"></div>
+            </div>
+            <div class="control-row" style="margin-top:15px; flex-direction: column; align-items: flex-start;">
+                <label>Current Mapping:</label>
+                <input type="text" id="mapping-input" placeholder="{A=I, B=R...}" style="font-family: monospace; font-size: 12px; width: 100%;">
+            </div>
+        </div>
+
+        <div class="control-panel">
+            <h4 style="margin-top: 0; margin-bottom: 10px;">Cipher Text</h4>
+            <div class="control-row">
+                <input type="text" id="cipher-keyword" placeholder="KEYWORD">
+            </div>
+            <div class="control-row"><input type="checkbox" id="cipher-at-end"> <label for="cipher-at-end">At End</label></div>
+            <div class="control-row"><input type="checkbox" id="cipher-rev-key"> <label for="cipher-rev-key">Rev Key</label></div>
+            <div class="control-row"><input type="checkbox" id="cipher-rev-alpha"> <label for="cipher-rev-alpha">Rev Alpha</label></div>
+        </div>
+
+        <div class="control-panel">
+            <h4 style="margin-top: 0; margin-bottom: 10px;">Plain Text</h4>
+            <div class="control-row">
+                <input type="text" id="plain-keyword" placeholder="KEYWORD">
+            </div>
+            <div class="control-row"><input type="checkbox" id="plain-at-end"> <label for="plain-at-end">At End</label></div>
+            <div class="control-row"><input type="checkbox" id="plain-rev-key"> <label for="plain-rev-key">Rev Key</label></div>
+            <div class="control-row"><input type="checkbox" id="plain-rev-alpha"> <label for="plain-rev-alpha">Rev Alpha</label></div>
+        </div>
+
+        <div class="control-panel">
+            <h4 style="margin-top: 0; margin-bottom: 10px;">Message Process</h4>
+            <div class="control-row">
+                <input type="text" id="plain-msg" placeholder="PLAINTEXT MSG">
+            </div>
+            <div class="control-row">
+                <input type="text" id="cipher-msg" placeholder="CIPHERTEXT MSG">
+            </div>
+            <div style="font-size: 11px; color: #777; margin-top: 5px;">
+                Translates after key table finishes.
+            </div>
+        </div>
+
+        <div class="control-panel" style="display: flex; flex-direction: column; justify-content: center;">
+            <div style="margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #555;">
+                Speed: <span id="speed-val">200ms</span>
+                <input type="range" id="anim-speed" min="50" max="1000" step="50" value="200" oninput="updateSpeedDisp()" style="width: 100%;">
+            </div>
+            <button id="btn-go" onclick="runAnimation()">GO</button>
+            <button id="btn-compare" onclick="compareResults()">COMPARE</button>
+            <button id="btn-reset" onclick="hardReset()">RESET</button>
+        </div>
+    </div>
+
+    <div id="right-panel">
         <div class="area">
-            <h3>Substitution Table</h3>
+            <!-- <h3>Substitution Table</h3> -->
             <table id="key-table">
                 <tr id="cipher-row"></tr>
                 <tr id="plain-row"></tr>
@@ -286,7 +376,7 @@
         </div>
 
         <div class="area">
-            <h3>Processing Visualization</h3>
+            <!-- <h3>Processing Visualization</h3> -->
             <div style="margin-bottom: 5px; font-size: 12px; color: #666;">Cipher Keyword Processing:</div>
             <div id="cipher-keyword-area" class="keyword-display-area"></div>
             <div style="margin-bottom: 5px; font-size: 12px; color: #666; margin-top: 15px;">Plain Keyword Processing:</div>
@@ -294,69 +384,11 @@
         </div>
 
         <div class="area">
-            <h3>Message Translation</h3>
+            <!-- <h3>Message Translation</h3> -->
             <div style="margin-bottom: 5px; font-size: 12px; color: #666;">Plaintext:</div>
             <div id="plain-msg-disp" class="msg-display plain-font"></div>
             <div style="margin-bottom: 5px; font-size: 12px; color: #666; margin-top: 15px;">Ciphertext:</div>
             <div id="cipher-msg-disp" class="msg-display cipher-font"></div>
-        </div>
-
-        <div id="controls-container" class="area" style="background: transparent; box-shadow: none; padding: 0;">
-            
-            <div class="control-panel">
-                <h4 style="margin-top: 0;">Sample Key Presets</h4>
-                <div class="search-container">
-                    <input type="text" id="sample-search" placeholder="SEARCH SAMPLES..." oninput="filterSamples()" onfocus="filterSamples()">
-                    <div id="search-results" class="search-results"></div>
-                </div>
-                <div class="control-row" style="margin-top:15px; flex-direction: column; align-items: flex-start;">
-                    <label>Current Mapping:</label>
-                    <input type="text" id="mapping-input" placeholder="{A=I, B=R...}" style="font-family: monospace; font-size: 12px; width: 100%;">
-                </div>
-            </div>
-
-            <div class="control-panel">
-                <h4 style="margin-top: 0;">Cipher Text</h4>
-                <div class="control-row">
-                    <input type="text" id="cipher-keyword" placeholder="KEYWORD">
-                </div>
-                <div class="control-row"><input type="checkbox" id="cipher-at-end"> <label for="cipher-at-end">At End</label></div>
-                <div class="control-row"><input type="checkbox" id="cipher-rev-key"> <label for="cipher-rev-key">Rev Key</label></div>
-                <div class="control-row"><input type="checkbox" id="cipher-rev-alpha"> <label for="cipher-rev-alpha">Rev Alpha</label></div>
-            </div>
-
-            <div class="control-panel">
-                <h4 style="margin-top: 0;">Plain Text</h4>
-                <div class="control-row">
-                    <input type="text" id="plain-keyword" placeholder="KEYWORD">
-                </div>
-                <div class="control-row"><input type="checkbox" id="plain-at-end"> <label for="plain-at-end">At End</label></div>
-                <div class="control-row"><input type="checkbox" id="plain-rev-key"> <label for="plain-rev-key">Rev Key</label></div>
-                <div class="control-row"><input type="checkbox" id="plain-rev-alpha"> <label for="plain-rev-alpha">Rev Alpha</label></div>
-            </div>
-
-            <div class="control-panel">
-                <h4 style="margin-top: 0;">Message Process</h4>
-                <div class="control-row">
-                    <input type="text" id="plain-msg" placeholder="PLAINTEXT MSG">
-                </div>
-                <div class="control-row">
-                    <input type="text" id="cipher-msg" placeholder="CIPHERTEXT MSG">
-                </div>
-                <div style="font-size: 11px; color: #777; margin-top: 5px;">
-                    Translates after key table finishes.
-                </div>
-            </div>
-
-            <div class="control-panel" style="flex: 0 0 150px; display: flex; flex-direction: column; justify-content: center;">
-                <div style="margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #555;">
-                    Speed: <span id="speed-val">200ms</span>
-                    <input type="range" id="anim-speed" min="50" max="1000" step="50" value="200" oninput="updateSpeedDisp()">
-                </div>
-                <button id="btn-go" onclick="runAnimation()">GO</button>
-                <button id="btn-compare" onclick="compareResults()">COMPARE</button>
-                <button id="btn-reset" onclick="hardReset()">RESET</button>
-            </div>
         </div>
     </div>
 
@@ -554,7 +586,6 @@
 
             document.getElementById('mapping-input').value = sample.map;
             
-            // Clear prior messages to avoid confusion when picking a preset
             document.getElementById('plain-msg').value = '';
             document.getElementById('cipher-msg').value = '';
 
@@ -594,7 +625,6 @@
             document.getElementById('cipher-keyword-area').innerHTML = '';
             document.getElementById('plain-keyword-area').innerHTML = '';
             
-            // Clear message translation areas
             document.getElementById('plain-msg-disp').innerHTML = '';
             document.getElementById('cipher-msg-disp').innerHTML = '';
         }
@@ -610,7 +640,6 @@
                 { id: 'plain', row: 'cell-p-', area: 'plain-keyword-area' }
             ];
 
-            // 1. Generate Key Tables
             for (const cfg of configs) {
                 if (cancelAnimation) break;
                 await processRow({
@@ -625,7 +654,6 @@
 
             if (cancelAnimation) { isAnimating = false; return; }
 
-            // 2. Process Messages (if any)
             const plainMsg = document.getElementById('plain-msg').value.toUpperCase().replace(/[^A-Z ]/g, '');
             const cipherMsg = document.getElementById('cipher-msg').value.toUpperCase().replace(/[^A-Z ]/g, '');
 
@@ -708,25 +736,31 @@
             const plainDisp = document.getElementById('plain-msg-disp');
             const cipherDisp = document.getElementById('cipher-msg-disp');
 
+            let currentPWord = document.createElement('div');
+            currentPWord.className = 'word-group';
+            plainDisp.appendChild(currentPWord);
+
+            let currentCWord = document.createElement('div');
+            currentCWord.className = 'word-group';
+            cipherDisp.appendChild(currentCWord);
+
             for (let i = 0; i < msg.length; i++) {
                 if (cancelAnimation) break;
                 const char = msg[i];
 
-                // Allow spaces to visually format the output without highlighting the table
                 if (char === ' ') {
-                    const pSpan = document.createElement('span');
-                    pSpan.style.width = '15px'; // Space width
-                    plainDisp.appendChild(pSpan);
+                    currentPWord = document.createElement('div');
+                    currentPWord.className = 'word-group';
+                    plainDisp.appendChild(currentPWord);
 
-                    const cSpan = document.createElement('span');
-                    cSpan.style.width = '15px'; // Space width
-                    cipherDisp.appendChild(cSpan);
+                    currentCWord = document.createElement('div');
+                    currentCWord.className = 'word-group';
+                    cipherDisp.appendChild(currentCWord);
                     continue;
                 }
 
                 let srcRowPrefix = direction === 'encipher' ? 'cell-p-' : 'cell-c-';
                 
-                // Find column index of the source character in the table
                 let colIdx = -1;
                 for (let j = 0; j < 26; j++) {
                     const cell = document.getElementById(srcRowPrefix + j);
@@ -740,28 +774,24 @@
                     const pCell = document.getElementById('cell-p-' + colIdx);
                     const cCell = document.getElementById('cell-c-' + colIdx);
                     
-                    // Highlight the table cells
                     pCell.classList.add('highlight-active');
                     cCell.classList.add('highlight-active');
 
-                    // Read translated character
                     const pChar = direction === 'encipher' ? char : pCell.querySelector('.content').textContent;
                     const cChar = direction === 'encipher' ? cCell.querySelector('.content').textContent : char;
 
-                    // Write to displays
                     const pSpan = document.createElement('span');
                     pSpan.className = 'msg-char active';
                     pSpan.textContent = pChar;
-                    plainDisp.appendChild(pSpan);
+                    currentPWord.appendChild(pSpan);
 
                     const cSpan = document.createElement('span');
                     cSpan.className = 'msg-char active';
                     cSpan.textContent = cChar;
-                    cipherDisp.appendChild(cSpan);
+                    currentCWord.appendChild(cSpan);
 
                     await wait(getSpeed());
 
-                    // Clean up highlights
                     pCell.classList.remove('highlight-active');
                     cCell.classList.remove('highlight-active');
                     pSpan.classList.remove('active');
