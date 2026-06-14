@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Zodiac Cipher Analytics v32</title>
+    <style>
+        @font-face {
+            font-family: 'untitled2regular';
+            src: url('z340-z408-combined-font-monospaced-webfont.woff2') format('woff2'),
+                url('z340-z408-combined-font-monospaced-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --wood-color: #e3c18d;
+            --wood-dark: #c4a470;
+            --tile-size: 60px;
+            --cipher-green: #2e7d32;
+            --cipher-red: #c62828;
+            --plain-indigo: #303f9f;
+            --btn-color: #455a64;
+            --highlight-cyan: #00e5ff;
+            --table-header-bg: #eceff1;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #main-container {
+            display: flex;
+            width: 98vw;
+            max-width: 1400px;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        #left-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 320px;
+            position: relative;
+            z-index: 1000;
+        }
+
+        #right-panel {
+            flex: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .area {
+            background: white;
+            padding: 20px;
+        }
+
+        /* Fixed height ensures the substitution key table below it NEVER jumps during animations */
+        #cipher-grid-area {
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #status-title {
+            min-height: 28px;
+        }
+
+        .tile-container {
+            position: relative;
+            height: 380px;
+            width: 100%;
+            perspective: 1000px;
+        }
+
+        .tile {
+            position: absolute;
+            width: var(--tile-size);
+            height: var(--tile-size);
+            background-color: var(--wood-color);
+            border: 2px solid var(--wood-dark);
+            border-radius: 8px;
+            font-size: 50px;
+            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
+            transition: transform 0.8s ease-in-out, left 0.8s ease-in-out, top 0.8s ease-in-out, box-shadow 0.3s, opacity 0.8s;
+            transform-style: preserve-3d;
+            z-index: 10;
+        }
+
+        .tile-content {
+            font-family: 'untitled2regular';
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .tile-content-filler {
+            font-family: 'Segoe UI', sans-serif;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .plain-side {
+            transform: rotateY(180deg);
+            color: black;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 35px;
+            font-weight: bold;
+        }
+
+        .tile.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .char-letter {
+            color: var(--cipher-green);
+        }
+
+        .char-symbol {
+            color: var(--cipher-red);
+        }
+
+        .tile.highlight-active {
+            box-shadow: 0 0 15px 8px var(--highlight-cyan) !important;
+            border-color: #00b8d4 !important;
+            z-index: 2000 !important;
+        }
+
+        .simple-blue-highlight {
+            background-color: #64b5f6 !important;
+            border-color: #1e88e5 !important;
+            color: white !important;
+            box-shadow: none !important;
+        }
+
+        .simple-blue-highlight .char-letter,
+        .simple-blue-highlight .char-symbol,
+        .simple-blue-highlight .tile-content,
+        .simple-blue-highlight .plain-side {
+            color: white !important;
+        }
+
+        /* Compact Controls Styling */
+        #controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #2c3e50;
+            padding: 15px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-group label {
+            width: 95px;
+            font-size: 13px;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin: 0;
+        }
+
+        button,
+        select {
+            padding: 6px 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            color: white;
+            background-color: var(--btn-color);
+            font-size: 13px;
+        }
+
+        button:hover {
+            filter: brightness(1.1);
+        }
+
+        input[type="text"] {
+            padding: 6px 8px;
+            border-radius: 4px;
+            border: none;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: 13px;
+        }
+
+        #substitution-key-area {
+            padding: 15px;
+            overflow: visible;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #key-table {
+            border-collapse: collapse;
+            margin-top: 5px;
+            table-layout: fixed;
+            margin: 0 auto;
+        }
+
+        #cipher-row td {
+            font-family: 'untitled2regular';
+            height: 45px;
+            text-align: center;
+            font-size: 40px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            transition: all 0.2s;
+            position: relative;
+            padding: 10px;
+        }
+
+        #cipher-row {
+            /* background-color: var(--table-header-bg); */
+        }
+
+        #plain-row td {
+            color: black;
+            background-color: #fff;
+            font-size: 30px;
+            font-weight: bold;
+            height: 45px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .decrypt-link {
+            color: #2196f3;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .col-label {
+            position: absolute;
+            font-weight: 900;
+            font-size: 16px;
+            transition: left 0.8s ease-in-out, transform 0.8s ease-in-out;
+            z-index: 1;
+        }
+
+        table.list-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        table.list-table th,
+        table.list-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .no-transition {
+            transition: none !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="substitution-key-area" class="area">
+        <table id="key-table">
+            <tbody>
+                <tr id="plain-row">
+                    <td id="key-p-cell-A">I</td>
+                    <td id="key-p-cell-E" class="">V</td>
+                    <td id="key-p-cell-K" class="">N</td>
+                    <td id="key-p-cell-M">L</td>
+                    <td id="key-p-cell-N" class="">M</td>
+                    <td id="key-p-cell-z" class="">A</td>
+                    <td id="key-p-cell-[" class="">E</td>
+                    <td id="key-p-cell-0" class="">R</td>
+                </tr>
+                <tr id="cipher-row">
+                    <td class="char-letter" id="key-c-cell-A">A</td>
+                    <td class="char-letter" id="key-c-cell-E">E</td>
+                    <td class="char-letter" id="key-c-cell-K">K</td>
+                    <td class="char-letter" id="key-c-cell-M">M</td>
+                    <td class="char-letter" id="key-c-cell-N">N</td>
+                    <td class="char-symbol" id="key-c-cell-z">z</td>
+                    <td class="char-symbol" id="key-c-cell-[">[</td>
+                    <td class="char-symbol" id="key-c-cell-0">0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
