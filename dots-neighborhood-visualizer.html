@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Dot Scatter</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #222;
+            font-family: sans-serif;
+            color: #ddd;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        canvas {
+            background-color: #000;
+            width: 800px;
+            height: 450px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            border: 1px solid #333;
+        }
+
+        #status {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #333;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button:hover { background-color: #0056b3; }
+        button:active { transform: scale(0.98); }
+        button:disabled {
+            background-color: #555;
+            cursor: not-allowed;
+            color: #aaa;
+        }
+
+        .slider-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+
+        input[type="range"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="status">Current Dots: 100</div>
+        
+        <canvas id="screen" width="1600" height="900"></canvas>
+        
+        <div class="controls">
+            <button id="triggerBtn">Scatter 500,000 dots!</button>
+            <div class="slider-container">
+                <label for="speedSlider">Animation Speed</label>
+                <input type="range" id="speedSlider" min="1" max="100" value="30">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('screen');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        const btn = document.getElementById('triggerBtn');
+        const statusText = document.getElementById('status');
+        const speedSlider = document.getElementById('speedSlider');
+
+        const width = canvas.width;
+        const height = canvas.height;
+
+        const initialDotCount = 100;
+        const newDotCount = 500000;
+        
+        const centerRadius = 90; 
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const centerRadiusSq = centerRadius * centerRadius; 
+
+        // Paint background black
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, width, height);
+
+        const imageData = ctx.getImageData(0, 0, width, height);
+        const data = imageData.data;
+
+        function drawPixel(x, y) {
+            const px = Math.floor(x);
+            const py = Math.floor(y);
+            
+            if (px >= 0 && px < width && py >= 0 && py < height) {
+                const index = (py * width + px) * 4;
+                data[index]     = Math.random() * 255;
+                data[index + 1] = Math.random() * 255;
+                data[index + 2] = Math.random() * 255;
+                data[index + 3] = 255;
+            }
+        }
+
+        // --- Render Initial State ---
+        for (let i = 0; i < initialDotCount; i++) {
+            const r = centerRadius * Math.sqrt(Math.random());
+            const theta = Math.random() * 2 * Math.PI;
+            drawPixel(centerX + r * Math.cos(theta), centerY + r * Math.sin(theta));
+        }
+        ctx.putImageData(imageData, 0, 0);
+
+        // --- Animation State ---
+        let totalDotsDrawn = 0;
+
+        function animateScatter() {
+            // Determine how many dots to draw this frame based on the slider.
+            // A slider value of 30 means 3,000 dots per frame (~2.7 seconds total at 60fps).
+            const dotsPerFrame = parseInt(speedSlider.value) * 100;
+            let drawnThisFrame = 0;
+
+            // Draw a batch of dots for the current frame
+            while (drawnThisFrame < dotsPerFrame && totalDotsDrawn < newDotCount) {
+                const randomX = Math.random() * width;
+                const randomY = Math.random() * height;
+
+                const dx = randomX - centerX;
+                const dy = randomY - centerY;
+                
+                // Rejection Sampling
+                if ((dx * dx) + (dy * dy) >= centerRadiusSq) {
+                    drawPixel(randomX, randomY);
+                    drawnThisFrame++;
+                    totalDotsDrawn++;
+                }
+            }
+
+            // Update the canvas with the new batch
+            ctx.putImageData(imageData, 0, 0);
+            
+            // Update the UI counter dynamically
+            statusText.innerText = `Current Dots: ${(initialDotCount + totalDotsDrawn).toLocaleString()}`;
+
+            // Check if we need to request another frame
+            if (totalDotsDrawn < newDotCount) {
+                requestAnimationFrame(animateScatter);
+            } else {
+                btn.innerText = "Animation Complete!";
+                statusText.innerText += " (Finished)";
+            }
+        }
+
+        // --- Handle Interaction ---
+        btn.addEventListener('click', () => {
+            btn.disabled = true;
+            btn.innerText = "Scattering...";
+            
+            // Kick off the animation loop
+            requestAnimationFrame(animateScatter);
+        });
+    </script>
+</body>
+</html>
