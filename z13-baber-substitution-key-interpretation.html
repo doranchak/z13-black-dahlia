@@ -19,6 +19,7 @@
             --tile-size: 60px;
             --cipher-green: #2e7d32;
             --cipher-red: #c62828;
+            --cipher-gray: #7d7d7d;
             --plain-indigo: #303f9f;
             --btn-color: #455a64;
             --highlight-cyan: #00e5ff;
@@ -35,108 +36,9 @@
             margin: 0;
         }
 
-        #main-container {
-            display: flex;
-            width: 98vw;
-            max-width: 1400px;
-            gap: 20px;
-            align-items: flex-start;
-        }
-
-        #left-panel {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            min-width: 320px;
-            position: relative;
-            z-index: 1000;
-        }
-
-        #right-panel {
-            flex: 3;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            position: relative;
-            z-index: 1;
-        }
-
         .area {
             background: white;
             padding: 20px;
-        }
-
-        /* Fixed height ensures the substitution key table below it NEVER jumps during animations */
-        #cipher-grid-area {
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        #status-title {
-            min-height: 28px;
-        }
-
-        .tile-container {
-            position: relative;
-            height: 380px;
-            width: 100%;
-            perspective: 1000px;
-        }
-
-        .tile {
-            position: absolute;
-            width: var(--tile-size);
-            height: var(--tile-size);
-            background-color: var(--wood-color);
-            border: 2px solid var(--wood-dark);
-            border-radius: 8px;
-            font-size: 50px;
-            box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
-            transition: transform 0.8s ease-in-out, left 0.8s ease-in-out, top 0.8s ease-in-out, box-shadow 0.3s, opacity 0.8s;
-            transform-style: preserve-3d;
-            z-index: 10;
-        }
-
-        .tile-content {
-            font-family: 'untitled2regular';
-            position: absolute;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-
-        .tile-content-filler {
-            font-family: 'Segoe UI', sans-serif;
-            position: absolute;
-            backface-visibility: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-
-        .plain-side {
-            transform: rotateY(180deg);
-            color: black;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 35px;
-            font-weight: bold;
-        }
-
-        .tile.flipped {
-            transform: rotateY(180deg);
         }
 
         .char-letter {
@@ -147,10 +49,8 @@
             color: var(--cipher-red);
         }
 
-        .tile.highlight-active {
-            box-shadow: 0 0 15px 8px var(--highlight-cyan) !important;
-            border-color: #00b8d4 !important;
-            z-index: 2000 !important;
+        .char-symbol-2 {
+            color: var(--cipher-gray);
         }
 
         .simple-blue-highlight {
@@ -161,19 +61,23 @@
         }
 
         .simple-blue-highlight .char-letter,
-        .simple-blue-highlight .char-symbol,
-        .simple-blue-highlight .tile-content,
-        .simple-blue-highlight .plain-side {
+        .simple-blue-highlight .char-symbol {
             color: white !important;
         }
 
         /* Compact Controls Styling */
+        #controls-area {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 650px;
+        }
+
         #controls {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 15px;
             background: #2c3e50;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             color: white;
         }
@@ -182,40 +86,62 @@
             display: flex;
             flex-direction: row;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
-        .control-group label {
-            width: 95px;
-            font-size: 13px;
-            font-weight: bold;
-            flex-shrink: 0;
+        .control-group h3 {
+            width: 100px;
+            font-size: 30px;
             margin: 0;
+            color: var(--highlight-cyan);
+            font-family: 'untitled2regular';
+        }
+        
+        .control-group h4 {
+            width: 100px;
+            font-size: 16px;
+            margin: 0;
+            color: var(--highlight-cyan);
         }
 
-        button,
-        select {
-            padding: 6px 10px;
+        button {
+            padding: 8px 14px;
             cursor: pointer;
             border: none;
             border-radius: 4px;
             font-weight: bold;
             color: white;
             background-color: var(--btn-color);
-            font-size: 13px;
+            font-size: 14px;
+            transition: background-color 0.2s;
         }
 
         button:hover {
-            filter: brightness(1.1);
+            filter: brightness(1.2);
+        }
+        
+        .reset-btn {
+            background-color: var(--cipher-red);
+            align-self: flex-start;
+            margin-top: 10px;
         }
 
-        input[type="text"] {
-            padding: 6px 8px;
-            border-radius: 4px;
-            border: none;
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 13px;
+        .group-reset {
+            background-color: #c62828;
+            margin-left: auto;
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+        
+        .action-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        #anim-btn {
+            background-color: #00897b;
         }
 
         #substitution-key-area {
@@ -245,10 +171,6 @@
             padding: 10px;
         }
 
-        #cipher-row {
-            /* background-color: var(--table-header-bg); */
-        }
-
         #plain-row td {
             color: black;
             background-color: #fff;
@@ -257,39 +179,31 @@
             height: 45px;
             text-align: center;
             border: 1px solid #ddd;
-        }
-
-        .decrypt-link {
-            color: #2196f3;
-            text-decoration: none;
-            font-weight: bold;
             cursor: pointer;
+            transition: all 0.2s;
+            padding: 10px;
         }
 
-        .col-label {
-            position: absolute;
-            font-weight: 900;
-            font-size: 16px;
-            transition: left 0.8s ease-in-out, transform 0.8s ease-in-out;
-            z-index: 1;
+        /* Styling for the borderless third row */
+        #third-row td {
+            font-family: 'untitled2regular';
+            height: 45px;
+            text-align: center;
+            font-size: 40px;
+            cursor: pointer;
+            border: 1px solid transparent; 
+            transition: all 0.2s;
+            position: relative;
+            padding: 10px;
         }
 
-        table.list-table {
+        .divider {
+            height: 1px;
+            background-color: #455a64;
+            margin: 5px 0;
             width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
         }
 
-        table.list-table th,
-        table.list-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .no-transition {
-            transition: none !important;
-        }
     </style>
 </head>
 
@@ -299,13 +213,13 @@
             <tbody>
                 <tr id="plain-row">
                     <td id="key-p-cell-A">I</td>
-                    <td id="key-p-cell-E" class="">V</td>
-                    <td id="key-p-cell-K" class="">N</td>
+                    <td id="key-p-cell-E">V</td>
+                    <td id="key-p-cell-K">N</td>
                     <td id="key-p-cell-M">L</td>
-                    <td id="key-p-cell-N" class="">M</td>
-                    <td id="key-p-cell-z" class="">A</td>
-                    <td id="key-p-cell-[" class="">E</td>
-                    <td id="key-p-cell-0" class="">R</td>
+                    <td id="key-p-cell-N">M</td>
+                    <td id="key-p-cell-z">A</td>
+                    <td id="key-p-cell-[">E</td>
+                    <td id="key-p-cell-0">R</td>
                 </tr>
                 <tr id="cipher-row">
                     <td class="char-letter" id="key-c-cell-A">A</td>
@@ -317,9 +231,211 @@
                     <td class="char-symbol" id="key-c-cell-[">[</td>
                     <td class="char-symbol" id="key-c-cell-0">0</td>
                 </tr>
+                <tr id="third-row">
+                    <td></td><td></td><td></td><td></td><td></td>
+                    <td class="char-symbol-2"></td>
+                    <td class="char-symbol-2"></td>
+                    <td class="char-symbol-2"></td>
+                </tr>
             </tbody>
         </table>
     </div>
-</body>
 
+    <div id="controls-area">
+        <div id="controls">
+            <div class="control-group">
+                <h3>z</h3>
+                <button onclick="replaceCipher(5, 'z', 'Z')">Z</button>
+                <button onclick="replaceCipher(5, 'z', 'T')">T</button>
+                <button onclick="replaceCipher(5, 'z', 'O')">O</button>
+                <button onclick="replaceCipher(5, 'z', 'D')">D</button>
+                <button onclick="replaceCipher(5, 'z', 'A')">A</button>
+                <button class="group-reset" onclick="resetColumn(5, 'z')">Reset</button>
+            </div>
+            <div class="control-group">
+                <h3>[</h3>
+                <button onclick="replaceCipher(6, '[', 'V')">V</button>
+                <button onclick="replaceCipher(6, '[', 'T')">T</button>
+                <button onclick="replaceCipher(6, '[', 'R')">R</button>
+                <button onclick="replaceCipher(6, '[', 'O')">O</button>
+                <button onclick="replaceCipher(6, '[', 'L')">L</button>
+                <!-- <button onclick="replaceCipher(6, '[', 'T')">T</button> -->
+                <button class="group-reset" onclick="resetColumn(6, '[')">Reset</button>
+            </div>
+            <div class="control-group">
+                <h3>0</h3>
+                <button onclick="replaceCipher(7, '0', 'B')">B</button>
+                <button onclick="replaceCipher(7, '0', 'O')">O</button>
+                <button onclick="replaceCipher(7, '0', 'E')">E</button>
+                <button onclick="replaceCipher(7, '0', 'H')">H</button>
+                <button onclick="replaceCipher(7, '0', 'X')">X</button>
+                <button onclick="replaceCipher(7, '0', 'S')">S</button>
+                <button class="group-reset" onclick="resetColumn(7, '0')">Reset</button>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="control-group">
+                <h4>Toggle Highlight</h4>
+                <button onclick="toggleHighlight(5)">A</button>
+                <button onclick="toggleHighlight(6)">E</button>
+                <button onclick="toggleHighlight(0)">I</button>
+                <button onclick="toggleHighlight(3)">L</button>
+                <button onclick="toggleHighlight(4)">M</button>
+                <button onclick="toggleHighlight(2)">N</button>
+                <button onclick="toggleHighlight(7)">R</button>
+                <button onclick="toggleHighlight(1)">V</button>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="action-row">
+                <button class="reset-btn" onclick="resetTable()">Reset All</button>
+                <button id="anim-btn" onclick="toggleAnimation()">Animate All Permutations</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const initialCipherRow = ["A", "E", "K", "M", "N", "z", "[", "0"];
+        
+        // Define the button lists for the animation logic
+        const zLetters = ['Z', 'T', 'O', 'D', 'A'];
+        const bracketLetters = ['V', 'T', 'R', 'O', 'L'];
+        const zeroLetters = ['B', 'O', 'E', 'H', 'X', 'S'];
+        let isAnimating = false;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const table = document.getElementById("key-table");
+
+            table.addEventListener("click", (e) => {
+                const td = e.target.closest("td");
+                if (!td) return;
+
+                toggleHighlight(td.cellIndex);
+            });
+        });
+
+        // Function extracted to be used by both the table clicks and the new buttons
+        function toggleHighlight(colIndex) {
+            const plainRow = document.getElementById("plain-row");
+            const cipherRow = document.getElementById("cipher-row");
+            const thirdRow = document.getElementById("third-row");
+            
+            const isHighlighted = plainRow.cells[colIndex].classList.contains("simple-blue-highlight");
+
+            if (isHighlighted) {
+                plainRow.cells[colIndex].classList.remove("simple-blue-highlight");
+                cipherRow.cells[colIndex].classList.remove("simple-blue-highlight");
+                thirdRow.cells[colIndex].classList.remove("simple-blue-highlight");
+            } else {
+                plainRow.cells[colIndex].classList.add("simple-blue-highlight");
+                cipherRow.cells[colIndex].classList.add("simple-blue-highlight");
+                
+                if (thirdRow.cells[colIndex].innerText.trim() !== "") {
+                    thirdRow.cells[colIndex].classList.add("simple-blue-highlight");
+                }
+            }
+        }
+
+        // Function triggered by the letter buttons and the animator
+        function replaceCipher(colIndex, originalSymbol, newSymbol) {
+            const cipherRow = document.getElementById("cipher-row");
+            const thirdRow = document.getElementById("third-row");
+            const plainRow = document.getElementById("plain-row");
+
+            cipherRow.cells[colIndex].innerText = newSymbol;
+            thirdRow.cells[colIndex].innerText = originalSymbol;
+
+            if (plainRow.cells[colIndex].classList.contains("simple-blue-highlight")) {
+                thirdRow.cells[colIndex].classList.add("simple-blue-highlight");
+            }
+        }
+
+        // Reset a specific symbol's column
+        function resetColumn(colIndex, originalSymbol) {
+            const cipherRow = document.getElementById("cipher-row");
+            const thirdRow = document.getElementById("third-row");
+
+            cipherRow.cells[colIndex].innerText = originalSymbol;
+            thirdRow.cells[colIndex].innerText = "";
+            thirdRow.cells[colIndex].classList.remove("simple-blue-highlight");
+        }
+
+        // Reset everything to original state
+        function resetTable() {
+            // Force animation to stop if it's running
+            if (isAnimating) {
+                toggleAnimation();
+            }
+
+            const plainRow = document.getElementById("plain-row");
+            const cipherRow = document.getElementById("cipher-row");
+            const thirdRow = document.getElementById("third-row");
+
+            for (let i = 0; i < initialCipherRow.length; i++) {
+                cipherRow.cells[i].innerText = initialCipherRow[i];
+                thirdRow.cells[i].innerText = "";
+                
+                plainRow.cells[i].classList.remove("simple-blue-highlight");
+                cipherRow.cells[i].classList.remove("simple-blue-highlight");
+                thirdRow.cells[i].classList.remove("simple-blue-highlight");
+            }
+        }
+
+        // Toggle the animation on/off
+        function toggleAnimation() {
+            const btn = document.getElementById('anim-btn');
+            
+            if (isAnimating) {
+                // Stop Animation
+                isAnimating = false;
+                btn.innerText = "Animate All Permutations";
+                btn.style.backgroundColor = "#00897b";
+            } else {
+                // Start Animation
+                isAnimating = true;
+                btn.innerText = "Stop Animation";
+                btn.style.backgroundColor = "#d32f2f"; // Change to red to indicate "stop"
+                runAnimation().then(() => {
+                    // Reset button automatically if animation naturally finishes
+                    if (isAnimating) {
+                        isAnimating = false;
+                        btn.innerText = "Animate All Permutations";
+                        btn.style.backgroundColor = "#00897b";
+                    }
+                });
+            }
+        }
+
+        // Generate combinations and loop through them
+        async function runAnimation() {
+            let combinations = [];
+            
+            // Generate all 5 * 6 * 6 = 180 combinations
+            for (let z of zLetters) {
+                for (let b of bracketLetters) {
+                    for (let zero of zeroLetters) {
+                        combinations.push({ zStr: z, bracketStr: b, zeroStr: zero });
+                    }
+                }
+            }
+
+            // Loop and render ~5 frames per second (200ms sleep)
+            for (let i = 0; i < combinations.length; i++) {
+                if (!isAnimating) break; // Break early if stopped by the user
+
+                let combo = combinations[i];
+                
+                // Update the columns
+                replaceCipher(5, 'z', combo.zStr);
+                replaceCipher(6, '[', combo.bracketStr);
+                replaceCipher(7, '0', combo.zeroStr);
+                
+                // Sleep for 200ms
+                await new Promise(r => setTimeout(r, 200));
+            }
+        }
+    </script>
+</body>
 </html>
