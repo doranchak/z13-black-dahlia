@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>16:9 Word Display</title>
+<style>
+    body {
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #1a1a1a; /* Dark background to frame the display */
+    }
+
+    .display-container {
+        /* Force 16:9 Aspect Ratio */
+        width: 90vw;
+        max-width: 1280px;
+        aspect-ratio: 16 / 9;
+        
+        /* Grid Layout */
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        gap: 12px;
+        padding: 16px;
+        box-sizing: border-box;
+        
+        /* Typography */
+        background-color: #050505;
+        font-family: 'Arial Black', Impact, sans-serif;
+        text-transform: uppercase;
+        border-radius: 8px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .word-block {
+        background-color: #1a1a1a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-radius: 4px;
+        padding: 10px;
+        letter-spacing: 2px;
+        line-height: 1.1;
+        transition: all 0.3s ease;
+        cursor: default;
+        
+        /* Responsive font scaling */
+        font-size: clamp(1rem, 2.5vw, 3rem); 
+    }
+
+    /* Hover effect for interactivity */
+    .word-block:hover {
+        background-color: #333;
+        color: #fff;
+        transform: scale(0.98);
+    }
+
+    /* Grid Spanning Classes */
+    .span-1 { grid-column: span 1; }
+    .span-2 { grid-column: span 2; }
+    .span-4 { 
+        grid-column: span 4; 
+        font-size: clamp(1.8rem, 4.5vw, 6rem); /* Larger text for full-width blocks */
+        background-color: #ffffff;
+        color: #050505;
+    }
+    .span-4:hover {
+        background-color: #e0e0e0;
+        color: #000;
+    }
+
+    /* Color variations for visual interest */
+    .text-light { color: #f4f4f4; }
+    .text-gray { color: #888888; }
+    .text-accent { color: #ff4747; }
+</style>
+</head>
+<body>
+
+    <div class="display-container">
+        <div class="word-block span-2 text-light">T-SHIRTS</div>
+        <div class="word-block span-1 text-gray">ONE GIRL</div>
+        <div class="word-block span-1 text-accent">OLD GIRL</div>
+        
+        <div class="word-block span-1 text-gray">ON A GIRL</div>
+        <div class="word-block span-2 text-light">SPINOSO</div>
+        <div class="word-block span-1 text-gray">TO BE FUN</div>
+        
+        <div class="word-block span-2 text-accent">ON A DESK</div>
+        <div class="word-block span-2 text-light">SIDE EYE</div>
+        
+        <div class="word-block span-4">ROBINSON</div>
+        
+        <div class="word-block span-2 text-gray">PENDELTON</div>
+        <div class="word-block span-2 text-accent">ROBBERIES</div>
+    </div>
+
+</body>
+</html>
