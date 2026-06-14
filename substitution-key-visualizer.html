@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Substitution Table Keyword Visualizer</title>
+    <style>
+        @font-face {
+            font-family: 'untitled2regular';
+            src: url('z340-z408-combined-font-monospaced-webfont.woff2') format('woff2'),
+                url('z340-z408-combined-font-monospaced-webfont.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        :root {
+            --wood-color: #e3c18d;
+            --wood-dark: #c4a470;
+            --table-header-bg: #eceff1;
+            --highlight-blue: #64b5f6;
+            --highlight-green: #66bb6a;
+            --highlight-red: #ef5350;
+            --keyword-highlight: #ffca28; /* Amber for keyword writing */
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+
+        #main-container {
+            display: flex;
+            flex-direction: column;
+            width: 95vw;
+            max-width: 1400px;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .area {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+        }
+
+        /* Table Styles */
+        #key-table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            margin-bottom: 20px;
+        }
+
+        td {
+            position: relative; /* For checkmark positioning */
+            border: 1px solid #ccc;
+            height: 50px;
+            text-align: center;
+            font-size: 24px;
+            transition: background-color 0.2s;
+            overflow: visible;
+        }
+        
+        /* Cipher Row Styling */
+        #cipher-row td {
+            font-family: 'untitled2regular';
+            background-color: var(--table-header-bg);
+            font-size: 32px;
+        }
+
+        /* Plain Row Styling */
+        #plain-row td {
+            background-color: #fff;
+            font-weight: bold;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        /* Checkmarks for comparison */
+        .checkmark {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+        }
+        .check-green { color: green; }
+        .check-red { color: red; }
+
+        /* Text contrasts */
+        .text-keyword {
+            color: #000;
+            font-weight: 900;
+        }
+        
+        .text-alphabet {
+            color: #546e7a; /* Blue-grey for contrast */
+            font-weight: normal;
+        }
+
+        /* Highlights */
+        .highlight-active {
+            background-color: var(--highlight-blue) !important;
+            color: white !important;
+        }
+
+        .highlight-match {
+            background-color: #e8f5e9 !important; /* Light Green */
+            border: 2px solid var(--highlight-green) !important;
+        }
+
+        .highlight-mismatch {
+            background-color: #ffebee !important; /* Light Red */
+            border: 2px solid var(--highlight-red) !important;
+        }
+
+        /* Keyword Display Areas */
+        .keyword-display-area {
+            display: flex;
+            gap: 5px;
+            min-height: 40px;
+            margin-bottom: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .keyword-char-box {
+            width: 30px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-weight: bold;
+            background: #fafafa;
+            transition: all 0.2s;
+        }
+
+        .keyword-char-box.active {
+            background-color: var(--keyword-highlight);
+            border-color: #fbc02d;
+            transform: scale(1.1);
+        }
+
+        .keyword-char-box.duplicate {
+            background-color: #eeeeee;
+            color: #bdbdbd;
+            border-style: dashed;
+        }
+
+        /* Controls Section */
+        #controls-container {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .control-panel {
+            flex: 1;
+            min-width: 300px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .control-row {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        label {
+            font-weight: 600;
+            color: #455a64;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            flex: 1;
+            text-transform: uppercase;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.2s;
+        }
+
+        #btn-go {
+            background-color: #1976d2;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #btn-go:hover { background-color: #1565c0; }
+
+        #btn-compare {
+            background-color: #7b1fa2;
+            color: white;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #btn-compare:hover { background-color: #6a1b9a; }
+
+    </style>
+</head>
+
+<body>
+
+    <div id="main-container">
+        <div class="area">
+            <h3>Substitution Table</h3>
+            <table id="key-table">
+                <tr id="cipher-row"></tr>
+                <tr id="plain-row"></tr>
+            </table>
+        </div>
+
+        <div class="area">
+            <h3>Processing Visualization</h3>
+            <div style="margin-bottom: 5px; font-size: 12px; color: #666;">Cipher Keyword Processing:</div>
+            <div id="cipher-keyword-area" class="keyword-display-area"></div>
+            
+            <div style="margin-bottom: 5px; font-size: 12px; color: #666; margin-top: 15px;">Plain Keyword Processing:</div>
+            <div id="plain-keyword-area" class="keyword-display-area"></div>
+        </div>
+
+        <div id="controls-container" class="area" style="background: transparent; box-shadow: none; padding: 0;">
+            
+            <div class="control-panel">
+                <h4 style="margin-top: 0;">Cipher Text Configuration</h4>
+                <div class="control-row">
+                    <input type="text" id="cipher-keyword" placeholder="ENTER KEYWORD">
+                </div>
+                <div class="control-row">
+                    <input type="checkbox" id="cipher-at-end"> <label for="cipher-at-end">Keyword at End</label>
+                </div>
+                <div class="control-row">
+                    <input type="checkbox" id="cipher-rev-key"> <label for="cipher-rev-key">Reverse Keyword</label>
+                </div>
+                <div class="control-row">
+                    <input type="checkbox" id="cipher-rev-alpha"> <label for="cipher-rev-alpha">Reverse Alphabet</label>
+                </div>
+            </div>
+
+            <div class="control-panel">
+                <h4 style="margin-top: 0;">Plain Text Configuration</h4>
+                <div class="control-row">
+                    <input type="text" id="plain-keyword" placeholder="ENTER KEYWORD">
+                </div>
+                <div class="control-row">
+                    <input type="checkbox" id="plain-at-end"> <label for="plain-at-end">Keyword at End</label>
+                </div>
+                <div class="control-row">
+                    <input type="checkbox" id="plain-rev-key"> <label for="plain-rev-key">Reverse Keyword</label>
+                </div>
+                <div class="control-row">
+                    <input type="checkbox" id="plain-rev-alpha"> <label for="plain-rev-alpha">Reverse Alphabet</label>
+                </div>
+            </div>
+
+            <div class="control-panel" style="flex: 0 0 150px; display: flex; flex-direction: column; justify-content: center;">
+                <button id="btn-go" onclick="runAnimation()">GO</button>
+                <button id="btn-compare" onclick="compareResults()">COMPARE</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+        
+        // Preset Partial Mapping for "Compare" functionality
+        // Format: CipherChar : PlainChar
+        const PRESET_MAPPING = {
+            'A': 'X', 'B': 'Y', 'C': 'Z', // Example shift
+            'K': 'K', 'L': 'L',           // Example direct
+            'Z': 'A'
+        };
+
+        // --- State ---
+        let isAnimating = false;
+
+        // --- Initialization ---
+        function init() {
+            buildTable();
+        }
+
+        function buildTable() {
+            const cRow = document.getElementById('cipher-row');
+            const pRow = document.getElementById('plain-row');
+            cRow.innerHTML = ''; 
+            pRow.innerHTML = '';
+
+            for (let i = 0; i < 26; i++) {
+                // Cipher Cell
+                const tdC = document.createElement('td');
+                tdC.id = `cell-c-${i}`;
+                tdC.innerHTML = `<span class="checkmark" id="check-c-${i}"></span><span class="content"></span>`;
+                cRow.appendChild(tdC);
+
+                // Plain Cell
+                const tdP = document.createElement('td');
+                tdP.id = `cell-p-${i}`;
+                tdP.innerHTML = `<span class="checkmark" id="check-p-${i}"></span><span class="content"></span>`;
+                pRow.appendChild(tdP);
+            }
+        }
+
+        // --- Animation Helpers ---
+        function wait(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function clearTable() {
+            document.querySelectorAll('td .content').forEach(span => span.textContent = '');
+            document.querySelectorAll('td').forEach(td => {
+                td.className = '';
+                td.classList.remove('highlight-match', 'highlight-mismatch');
+            });
+            document.querySelectorAll('.checkmark').forEach(cm => {
+                cm.textContent = '';
+                cm.opacity = 0;
+            });
+            document.getElementById('cipher-keyword-area').innerHTML = '';
+            document.getElementById('plain-keyword-area').innerHTML = '';
+        }
+
+        // --- Main Animation Logic ---
+
+        async function runAnimation() {
+            if (isAnimating) return;
+            isAnimating = true;
+            clearTable();
+
+            // 1. Gather Inputs
+            const configC = {
+                keyword: document.getElementById('cipher-keyword').value.toUpperCase().replace(/[^A-Z]/g, ''),
+                atEnd: document.getElementById('cipher-at-end').checked,
+                revKey: document.getElementById('cipher-rev-key').checked,
+                revAlpha: document.getElementById('cipher-rev-alpha').checked,
+                rowIdPrefix: 'cell-c-',
+                areaId: 'cipher-keyword-area'
+            };
+
+            const configP = {
+                keyword: document.getElementById('plain-keyword').value.toUpperCase().replace(/[^A-Z]/g, ''),
+                atEnd: document.getElementById('plain-at-end').checked,
+                revKey: document.getElementById('plain-rev-key').checked,
+                revAlpha: document.getElementById('plain-rev-alpha').checked,
+                rowIdPrefix: 'cell-p-',
+                areaId: 'plain-keyword-area'
+            };
+
+            // 2. Animate Cipher Row
+            await processRow(configC);
+
+            // 3. Animate Plain Row
+            await processRow(configP);
+
+            isAnimating = false;
+        }
+
+        async function processRow(config) {
+            const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId } = config;
+            const area = document.getElementById(areaId);
+            const usedChars = new Set();
+            
+            // 1. Setup Keyword Visualization Area
+            const kwChars = keyword.split('');
+            const kwElements = [];
+            
+            // Render the keyword boxes first
+            kwChars.forEach(char => {
+                const box = document.createElement('div');
+                box.className = 'keyword-char-box';
+                box.textContent = char;
+                area.appendChild(box);
+                kwElements.push(box);
+            });
+
+            // Determine Start Index for Keyword in Table
+            // De-duped length needed for spacing calculation
+            let dedupedLen = 0;
+            let tempSet = new Set();
+            kwChars.forEach(c => {
+                if(!tempSet.has(c)) { tempSet.add(c); dedupedLen++; }
+            });
+
+            // If At End: Start index is (26 - dedupedLen). Else 0.
+            let tableIdx = atEnd ? (26 - dedupedLen) : 0;
+            
+            // 2. Write Keyword to Table
+            if (keyword.length > 0) {
+                // If Reverse Keyword is checked, we iterate the array normally but pick chars from end? 
+                // Or write right-to-left? 
+                // Prompt: "write the word backwards". 
+                // Standard: KEY -> K, E, Y
+                // Reverse: KEY -> Y, E, K
+                
+                const processOrder = revKey ? [...kwChars].reverse() : kwChars;
+                // Note: The visual box area usually shows the word as typed (K E Y).
+                // But we are processing into the table.
+                // Let's iterate the visual boxes based on the reverse flag to highlight correctly.
+                
+                const loopIndices = revKey 
+                    ? kwChars.map((_, i) => kwChars.length - 1 - i) // [2, 1, 0]
+                    : kwChars.map((_, i) => i); // [0, 1, 2]
+
+                for (let i = 0; i < loopIndices.length; i++) {
+                    const charIdx = loopIndices[i];
+                    const char = kwChars[charIdx]; // The character to write
+                    const box = kwElements[charIdx]; // The visual box
+
+                    // Highlight box
+                    box.classList.add('active');
+                    await wait(100);
+
+                    if (usedChars.has(char)) {
+                        // Duplicate
+                        box.classList.remove('active');
+                        box.classList.add('duplicate');
+                        await wait(150);
+                    } else {
+                        // New Character
+                        usedChars.add(char);
+                        
+                        // Write to table
+                        const cell = document.getElementById(rowIdPrefix + tableIdx);
+                        const span = cell.querySelector('.content');
+                        span.textContent = char;
+                        span.className = 'content text-keyword'; // Bold styling
+                        
+                        cell.classList.add('highlight-active');
+                        await wait(100);
+                        cell.classList.remove('highlight-active');
+                        
+                        box.classList.remove('active');
+                        tableIdx++;
+                    }
+                }
+            }
+
+            // 3. Fill Remaining Alphabet
+            // Calculate remaining slots
+            // If At End was checked, we filled [26-len to 25]. Remaining is [0 to 26-len-1].
+            // If Standard, we filled [0 to len-1]. Remaining is [len to 25].
+            
+            let emptySlots = [];
+            for(let i=0; i<26; i++) {
+                const cell = document.getElementById(rowIdPrefix + i);
+                if(cell.querySelector('.content').textContent === '') {
+                    emptySlots.push(i);
+                }
+            }
+
+            // Logic: "write out the remaining letters... If reverse alphabet, write in reverse order"
+            // Alphabet source
+            let alphaSource = revAlpha ? [...ALPHABET].reverse() : ALPHABET;
+
+            for (let char of alphaSource) {
+                if (usedChars.has(char)) {
+                    // Duplicate - "briefly highlight its current appearance in the keyword"
+                    // Find the box in the keyword area
+                    const boxIdx = kwChars.indexOf(char); // Find first occurrence
+                    if (boxIdx !== -1) {
+                        kwElements[boxIdx].classList.add('active');
+                        await wait(50);
+                        kwElements[boxIdx].classList.remove('active');
+                    }
+                    continue; // Don't write
+                }
+
+                // Get next empty slot
+                if (emptySlots.length > 0) {
+                    const slotIdx = emptySlots.shift(); // Fill from left to right in available holes
+                    const cell = document.getElementById(rowIdPrefix + slotIdx);
+                    const span = cell.querySelector('.content');
+                    
+                    span.textContent = char;
+                    span.className = 'content text-alphabet'; // Contrast styling
+
+                    cell.classList.add('highlight-active');
+                    await wait(50);
+                    cell.classList.remove('highlight-active');
+                }
+            }
+        }
+
+        // --- Comparison Logic ---
+
+        async function compareResults() {
+            if (isAnimating) return;
+            isAnimating = true;
+
+            // Clear previous marks
+            document.querySelectorAll('.checkmark').forEach(el => {
+                el.innerHTML = '';
+                el.style.opacity = '0';
+                el.className = 'checkmark'; // reset colors
+            });
+            document.querySelectorAll('td').forEach(td => {
+                td.classList.remove('highlight-match', 'highlight-mismatch');
+            });
+
+            // Get generated data
+            const cCells = [];
+            const pCells = [];
+            for(let i=0; i<26; i++) {
+                cCells.push(document.getElementById(`cell-c-${i}`));
+                pCells.push(document.getElementById(`cell-p-${i}`));
+            }
+
+            // Iterate left to right
+            for(let i=0; i<26; i++) {
+                const cChar = cCells[i].querySelector('.content').textContent;
+                const pChar = pCells[i].querySelector('.content').textContent;
+
+                // Only compare if we have content
+                if (!cChar || !pChar) continue;
+
+                const targetPlain = PRESET_MAPPING[cChar];
+
+                if (targetPlain) {
+                    // There is a preset rule for this Cipher Letter
+                    const checkC = cCells[i].querySelector('.checkmark');
+                    const checkP = pCells[i].querySelector('.checkmark');
+
+                    if (pChar === targetPlain) {
+                        // Match
+                        cCells[i].classList.add('highlight-match');
+                        pCells[i].classList.add('highlight-match');
+                        
+                        checkC.innerHTML = '&#10004;'; // Check
+                        checkC.classList.add('check-green');
+                        checkC.style.opacity = '1';
+
+                        checkP.innerHTML = '&#10004;';
+                        checkP.classList.add('check-green');
+                        checkP.style.opacity = '1';
+                    } else {
+                        // Mismatch
+                        cCells[i].classList.add('highlight-mismatch');
+                        pCells[i].classList.add('highlight-mismatch');
+
+                        checkC.innerHTML = '&#10008;'; // Cross
+                        checkC.classList.add('check-red');
+                        checkC.style.opacity = '1';
+
+                        checkP.innerHTML = '&#10008;';
+                        checkP.classList.add('check-red');
+                        checkP.style.opacity = '1';
+                    }
+                    await wait(200); // Animation delay
+                }
+            }
+            isAnimating = false;
+        }
+
+        init();
+    </script>
+</body>
+
+</html>

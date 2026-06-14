@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Columnar Transposition Visualizer</title>
+<style>
+  body {
+    font-family: system-ui, sans-serif;
+    background: #111;
+    color: #eee;
+    padding: 20px;
+  }
+
+  #container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  #controls {
+    display: flex;
+    gap: 10px;
+  }
+
+  button {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  #plaintext, #ciphertext {
+    font-size: 18px;
+    min-height: 1.5em;
+  }
+
+  #plaintext { color: #6ec1ff; }
+  #ciphertext { color: #ffb86c; }
+
+  #grid {
+    display: grid;
+    gap: 6px;
+    align-items: center;
+    justify-content: start;
+  }
+
+  .cell {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    border: 1px solid transparent;
+  }
+
+  .grid-on .cell {
+    border-color: #444;
+  }
+
+  .keyword {
+    color: #a6e3a1;
+  }
+
+  .number {
+    color: #a6e3a1;
+  }
+
+  .plain {
+    color: #6ec1ff;
+  }
+
+  .cipher {
+    color: #ffb86c;
+  }
+
+  .highlight {
+    background: #444;
+    border-radius: 4px;
+  }
+
+  .column-highlight {
+    background: #333;
+  }
+</style>
+</head>
+<body>
+
+<div id="container">
+
+  <div id="controls">
+    <button id="encryptBtn">Encrypt</button>
+    <button id="decryptBtn">Decrypt</button>
+  </div>
+
+  <div id="plaintext"></div>
+  <div id="ciphertext"></div>
+
+  <div id="grid"></div>
+
+</div>
+
+<script>
+const PLAINTEXT =
+  "LET US HEAR FROM YOU AT ONCE CONCERNING JEWELS.";
+const KEYWORD = "HALIFAX";
+
+const gridEl = document.getElementById("grid");
+const plaintextEl = document.getElementById("plaintext");
+const ciphertextEl = document.getElementById("ciphertext");
+
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+function clearAll() {
+  gridEl.innerHTML = "";
+  gridEl.className = "";
+  plaintextEl.textContent = "";
+  ciphertextEl.textContent = "";
+}
+
+function getColumnOrder(keyword) {
+  const arr = keyword.split("").map((c, i) => ({ c, i }));
+  arr.sort((a, b) => a.c.localeCompare(b.c) || a.i - b.i);
+  const order = Array(keyword.length);
+  arr.forEach((v, idx) => order[v.i] = idx + 1);
+  return order;
+}
+
+function makeGrid(cols, rows) {
+  gridEl.style.gridTemplateColumns = `repeat(${cols}, 32px)`;
+  const cells = [];
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const d = document.createElement("div");
+      d.className = "cell";
+      gridEl.appendChild(d);
+      cells.push(d);
+    }
+  }
+  return cells;
+}
+
+async function animateKeyword(keyword) {
+  const cols = keyword.length;
+  gridEl.style.gridTemplateColumns = `repeat(${cols}, 32px)`;
+
+  const cells = [];
+  for (let i = 0; i < cols; i++) {
+    const d = document.createElement("div");
+    d.className = "cell keyword";
+    gridEl.appendChild(d);
+    cells.push(d);
+  }
+
+  for (let i = 0; i < keyword.length; i++) {
+    cells[i].textContent = keyword[i];
+    cells[i].classList.add("highlight");
+    await delay(300);
+    cells[i].classList.remove("highlight");
+  }
+
+  // number row (blank for now)
+  for (let i = 0; i < cols; i++) {
+    const d = document.createElement("div");
+    d.className = "cell number";
+    gridEl.appendChild(d);
+  }
+}
+
+async function animateNumbers(keyword) {
+  const order = getColumnOrder(keyword);
+  const start = keyword.length;
+  for (let i = 0; i < order.length; i++) {
+    const cell = gridEl.children[start + i];
+    cell.textContent = order[i];
+    cell.classList.add("highlight");
+    await delay(300);
+    cell.classList.remove("highlight");
+  }
+  return order;
+}
+
+async function encrypt() {
+  clearAll();
+  plaintextEl.textContent = PLAINTEXT;
+
+  await animateKeyword(KEYWORD);
+
+  const clean = PLAINTEXT.replace(/[^A-Z]/gi, "").toUpperCase();
+  const cols = KEYWORD.length;
+  const rows = Math.ceil(clean.length / cols);
+
+  const letters = clean.padEnd(rows * cols, "X").split("");
+  const gridCells = [];
+
+  for (let i = 0; i < rows * cols; i++) {
+    const d = document.createElement("div");
+    d.className = "cell plain";
+    gridEl.appendChild(d);
+    gridCells.push(d);
+  }
+
+  for (let i = 0; i < letters.length; i++) {
+    gridCells[i].textContent = letters[i];
+    gridCells[i].classList.add("highlight");
+    await delay(80);
+    gridCells[i].classList.remove("highlight");
+  }
+
+  gridEl.classList.add("grid-on");
+
+  const order = await animateNumbers(KEYWORD);
+
+  let cipher = "";
+  for (let n = 1; n <= cols; n++) {
+    const col = order.indexOf(n);
+    for (let r = 0; r < rows; r++) {
+      const idx = r * cols + col;
+      const cell = gridCells[idx];
+      cell.classList.add("column-highlight");
+      ciphertextEl.textContent += cell.textContent;
+      await delay(120);
+      cell.classList.remove("column-highlight");
+    }
+  }
+
+  ciphertextEl.textContent = ciphertextEl.textContent;
+}
+
+async function decrypt() {
+  clearAll();
+  ciphertextEl.textContent = "";
+
+  const cipher = (() => {
+    const clean = PLAINTEXT.replace(/[^A-Z]/gi, "").toUpperCase();
+    const cols = KEYWORD.length;
+    const rows = Math.ceil(clean.length / cols);
+    return clean.padEnd(rows * cols, "X");
+  })();
+
+  ciphertextEl.textContent = cipher;
+
+  await animateKeyword(KEYWORD);
+  const order = await animateNumbers(KEYWORD);
+
+  const cols = KEYWORD.length;
+  const rows = cipher.length / cols;
+
+  const gridCells = makeGrid(cols, rows);
+  gridEl.classList.add("grid-on");
+
+  let pos = 0;
+  for (let n = 1; n <= cols; n++) {
+    const col = order.indexOf(n);
+    for (let r = 0; r < rows; r++) {
+      const idx = r * cols + col;
+      gridCells[idx].textContent = cipher[pos++];
+      gridCells[idx].classList.add("highlight");
+      await delay(120);
+      gridCells[idx].classList.remove("highlight");
+    }
+  }
+
+  await delay(500);
+
+  let result = "";
+  gridCells.forEach(c => result += c.textContent);
+
+  plaintextEl.textContent =
+    "LET US HEAR FROM YOU AT ONCE CONCERNING JEWELS.";
+}
+
+document.getElementById("encryptBtn").onclick = encrypt;
+document.getElementById("decryptBtn").onclick = decrypt;
+</script>
+
+</body>
+</html>
