@@ -23,10 +23,10 @@
             --keyword-highlight: #ffca28; /* Amber for active processing */
             
             --cipher-text-color: #2e7d32; /* Green text for Cipher */
-            --cipher-bg-keyword: #e8f5e9; /* Very light green for Cipher Keyword area */
+            --cipher-bg-keyword: #b7ffbd; /* Very light green for Cipher Keyword area */
             
             --plain-text-color: #000000;
-            --plain-bg-keyword: #f5f5f5; /* Very light grey for Plain Keyword area */
+            --plain-bg-keyword: #faf19e; /* Very light yellow for Plain Keyword area */
         }
 
         body {
@@ -450,6 +450,7 @@
             const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId, keywordBgClass } = config;
             const area = document.getElementById(areaId);
             const usedChars = new Set();
+            const charToCellId = {}; // Track where characters were written
             
             // 1. Setup Keyword Visualization Area
             const kwChars = keyword.split('');
@@ -463,44 +464,49 @@
                 kwElements.push(box);
             });
 
-            // Determine Start Index
+            // Determine Start Index and Step Direction
             let dedupedLen = 0;
             let tempSet = new Set();
             kwChars.forEach(c => {
                 if(!tempSet.has(c)) { tempSet.add(c); dedupedLen++; }
             });
 
-            let tableIdx = atEnd ? (26 - dedupedLen) : 0;
+            let tableIdx, step;
+            if (revKey) {
+                // Reverse: Start from right end of the block, fill towards left
+                step = -1;
+                // If atEnd: Occupies last 'dedupedLen' slots. Highest index is 25.
+                // If not atEnd: Occupies first 'dedupedLen' slots. Highest index is dedupedLen - 1.
+                tableIdx = atEnd ? 25 : (dedupedLen - 1);
+            } else {
+                // Standard: Start from left end of the block, fill towards right
+                step = 1;
+                // If atEnd: Occupies last 'dedupedLen' slots. Lowest index is 26 - dedupedLen.
+                // If not atEnd: Occupies first 'dedupedLen' slots. Lowest index is 0.
+                tableIdx = atEnd ? (26 - dedupedLen) : 0;
+            }
             
             // 2. Write Keyword to Table
+            // Always iterate Forward through the keyword string (i = 0 to len)
+            // But write into the table based on tableIdx and step
             if (keyword.length > 0) {
-                const loopIndices = revKey 
-                    ? kwChars.map((_, i) => kwChars.length - 1 - i) 
-                    : kwChars.map((_, i) => i); 
-
-                for (let i = 0; i < loopIndices.length; i++) {
+                for (let i = 0; i < kwChars.length; i++) {
                     if(cancelAnimation) return;
 
-                    const charIdx = loopIndices[i];
-                    const char = kwChars[charIdx]; 
-                    const box = kwElements[charIdx]; 
+                    const char = kwChars[i]; 
+                    const box = kwElements[i]; 
 
                     if (usedChars.has(char)) {
                         // --- Duplicate Handling ---
                         box.classList.add('duplicate'); 
                         
-                        // Find original instances
+                        // Find the original keyword box (first occurrence)
                         const origBoxIdx = kwChars.indexOf(char);
                         const origBox = kwElements[origBoxIdx];
                         
-                        let origTableCell = null;
-                        for(let k=0; k<26; k++) {
-                            const c = document.getElementById(rowIdPrefix + k);
-                            if (c.querySelector('.content').textContent === char) {
-                                origTableCell = c;
-                                break;
-                            }
-                        }
+                        // Find the original table cell (using our tracker)
+                        const origCellId = charToCellId[char];
+                        const origTableCell = origCellId ? document.getElementById(origCellId) : null;
 
                         if(origBox) origBox.classList.add('highlight-duplicate');
                         if(origTableCell) origTableCell.classList.add('highlight-duplicate');
@@ -515,10 +521,14 @@
                         usedChars.add(char);
                         box.classList.add('active');
                         
-                        const cell = document.getElementById(rowIdPrefix + tableIdx);
+                        const cellId = rowIdPrefix + tableIdx;
+                        const cell = document.getElementById(cellId);
                         const span = cell.querySelector('.content');
                         span.textContent = char;
                         
+                        // Record where we put this char for duplicate lookup later
+                        charToCellId[char] = cellId;
+
                         // Apply specific background class for keyword part
                         cell.classList.add(keywordBgClass);
                         
@@ -527,7 +537,9 @@
                         cell.classList.remove('highlight-active');
                         
                         box.classList.remove('active');
-                        tableIdx++;
+                        
+                        // Move to next table slot
+                        tableIdx += step;
                     }
                 }
             }
@@ -548,13 +560,20 @@
 
                 if (usedChars.has(char)) {
                     // --- SKIP Highlight Logic ---
+                    
+                    // Use our tracker if available, otherwise fallback search
                     let existingTableCell = null;
-                    for(let k=0; k<26; k++) {
-                         const c = document.getElementById(rowIdPrefix + k);
-                         if (c.querySelector('.content').textContent === char) {
-                             existingTableCell = c;
-                             break;
-                         }
+                    if (charToCellId[char]) {
+                        existingTableCell = document.getElementById(charToCellId[char]);
+                    } else {
+                        // Fallback (shouldn't happen if keyword processed correctly)
+                        for(let k=0; k<26; k++) {
+                             const c = document.getElementById(rowIdPrefix + k);
+                             if (c.querySelector('.content').textContent === char) {
+                                 existingTableCell = c;
+                                 break;
+                             }
+                        }
                     }
 
                     const kwIndex = kwChars.indexOf(char);
