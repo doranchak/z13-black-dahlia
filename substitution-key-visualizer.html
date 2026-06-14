@@ -20,8 +20,13 @@
             --highlight-blue: #64b5f6;
             --highlight-green: #66bb6a;
             --highlight-red: #ef5350;
-            --keyword-highlight: #ffca28; /* Amber for keyword writing */
-            --cipher-row-bg: #c8e6c9; /* Green for Cipher Row */
+            --keyword-highlight: #ffca28; /* Amber for active processing */
+            
+            --cipher-text-color: #2e7d32; /* Green text for Cipher */
+            --cipher-bg-keyword: #e8f5e9; /* Very light green for Cipher Keyword area */
+            
+            --plain-text-color: #000000;
+            --plain-bg-keyword: #f5f5f5; /* Very light grey for Plain Keyword area */
         }
 
         body {
@@ -66,28 +71,43 @@
         }
 
         td {
-            position: relative; /* For checkmark positioning */
+            position: relative;
             border: 1px solid #ccc;
             height: 50px;
             text-align: center;
             font-size: 24px;
-            transition: background-color 0.2s;
             overflow: visible;
         }
         
-        /* Cipher Row Styling - GREEN as requested */
+        /* Cipher Row Styling */
         #cipher-row td {
             font-family: 'untitled2regular';
-            background-color: var(--cipher-row-bg);
+            background-color: #ffffff; 
             font-size: 32px;
-            color: #1b5e20;
+            color: var(--cipher-text-color);
+            font-weight: bold;
+        }
+        
+        /* Background Highlight for Cipher Keyword */
+        #cipher-row td.keyword-bg {
+            background-color: var(--cipher-bg-keyword) !important;
         }
 
-        /* Plain Row Styling - BOLDER as requested */
+        /* Plain Row Styling */
         #plain-row td {
-            background-color: #fff;
-            font-weight: 900; /* Extra bold */
+            background-color: #ffffff;
             font-family: 'Segoe UI', sans-serif;
+            color: var(--plain-text-color);
+        }
+
+        /* Background Highlight for Plain Keyword */
+        #plain-row td.keyword-bg {
+            background-color: var(--plain-bg-keyword) !important;
+        }
+
+        /* Explicitly target content span for bolding to avoid overrides */
+        #plain-row .content {
+            font-weight: 900 !important;
         }
 
         /* Checkmarks for comparison */
@@ -99,35 +119,22 @@
             font-size: 20px;
             font-weight: bold;
             opacity: 0;
-            transition: opacity 0.3s;
             z-index: 10;
         }
         .check-green { color: green; }
         .check-red { color: red; }
-
-        /* Text contrasts */
-        .text-keyword {
-            color: #000;
-            font-weight: 900;
-        }
-        
-        .text-alphabet {
-            color: #546e7a; /* Blue-grey for contrast */
-            font-weight: normal;
-        }
 
         /* Highlights */
         .highlight-active {
             background-color: var(--highlight-blue) !important;
             color: white !important;
             transform: scale(1.1);
-            transition: transform 0.1s;
         }
         
-        /* Specific highlight for duplicates to distinguish them */
         .highlight-duplicate {
             background-color: var(--keyword-highlight) !important;
-            transform: scale(1.1);
+            transform: scale(1.2);
+            text-decoration: underline;
         }
 
         .highlight-match {
@@ -160,7 +167,6 @@
             border-radius: 4px;
             font-weight: bold;
             background: #fafafa;
-            transition: all 0.2s;
         }
 
         .keyword-char-box.active {
@@ -213,6 +219,11 @@
             text-transform: uppercase;
         }
 
+        /* Speed Control Range */
+        input[type="range"] {
+            flex: 1;
+        }
+
         button {
             padding: 10px 20px;
             border: none;
@@ -235,9 +246,17 @@
             background-color: #7b1fa2;
             color: white;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 5px;
         }
         #btn-compare:hover { background-color: #6a1b9a; }
+
+        #btn-reset {
+            background-color: #546e7a;
+            color: white;
+            width: 100%;
+            margin-top: 5px;
+        }
+        #btn-reset:hover { background-color: #455a64; }
 
     </style>
 </head>
@@ -297,8 +316,13 @@
             </div>
 
             <div class="control-panel" style="flex: 0 0 150px; display: flex; flex-direction: column; justify-content: center;">
+                <div style="margin-bottom: 10px; font-size: 12px; font-weight: bold; color: #555;">
+                    Speed: <span id="speed-val">200ms</span>
+                    <input type="range" id="anim-speed" min="50" max="1000" step="50" value="200" oninput="updateSpeedDisp()">
+                </div>
                 <button id="btn-go" onclick="runAnimation()">GO</button>
                 <button id="btn-compare" onclick="compareResults()">COMPARE</button>
+                <button id="btn-reset" onclick="hardReset()">RESET</button>
             </div>
         </div>
     </div>
@@ -306,21 +330,35 @@
     <script>
         // --- Configuration ---
         const ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-        const ANIM_SPEED = 200; // Standardized speed for all operations
         
         // Preset Partial Mapping for "Compare" functionality
         const PRESET_MAPPING = {
-            'A': 'X', 'B': 'Y', 'C': 'Z', 
-            'K': 'K', 'L': 'L',           
-            'Z': 'A'
+            "A": "I",
+            "B": "R",
+            "E": "V",
+            "K": "N",
+            "M": "L",
+            "N": "M",
+            "V": "E",
+            "Z": "A",
         };
 
         // --- State ---
         let isAnimating = false;
+        let cancelAnimation = false;
 
         // --- Initialization ---
         function init() {
             buildTable();
+        }
+
+        function updateSpeedDisp() {
+            const val = document.getElementById('anim-speed').value;
+            document.getElementById('speed-val').textContent = val + "ms";
+        }
+
+        function getSpeed() {
+            return parseInt(document.getElementById('anim-speed').value, 10);
         }
 
         function buildTable() {
@@ -349,10 +387,18 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
+        function hardReset() {
+            cancelAnimation = true;
+            isAnimating = false;
+            clearTable();
+            document.querySelectorAll('.keyword-bg').forEach(el => el.classList.remove('keyword-bg'));
+        }
+
         function clearTable() {
             document.querySelectorAll('td .content').forEach(span => span.textContent = '');
             document.querySelectorAll('td').forEach(td => {
-                td.classList.remove('highlight-match', 'highlight-mismatch', 'highlight-active', 'highlight-duplicate');
+                td.className = '';
+                td.classList.remove('highlight-match', 'highlight-mismatch', 'highlight-active', 'highlight-duplicate', 'keyword-bg');
             });
             document.querySelectorAll('.checkmark').forEach(cm => {
                 cm.textContent = '';
@@ -367,6 +413,7 @@
         async function runAnimation() {
             if (isAnimating) return;
             isAnimating = true;
+            cancelAnimation = false;
             clearTable();
 
             // 1. Gather Inputs
@@ -376,7 +423,8 @@
                 revKey: document.getElementById('cipher-rev-key').checked,
                 revAlpha: document.getElementById('cipher-rev-alpha').checked,
                 rowIdPrefix: 'cell-c-',
-                areaId: 'cipher-keyword-area'
+                areaId: 'cipher-keyword-area',
+                keywordBgClass: 'keyword-bg' // Applies cipher bg style
             };
 
             const configP = {
@@ -385,20 +433,21 @@
                 revKey: document.getElementById('plain-rev-key').checked,
                 revAlpha: document.getElementById('plain-rev-alpha').checked,
                 rowIdPrefix: 'cell-p-',
-                areaId: 'plain-keyword-area'
+                areaId: 'plain-keyword-area',
+                keywordBgClass: 'keyword-bg' // Applies plain bg style (distinguished by parent row ID in CSS)
             };
 
             // 2. Animate Cipher Row
-            await processRow(configC);
+            if(!cancelAnimation) await processRow(configC);
 
             // 3. Animate Plain Row
-            await processRow(configP);
+            if(!cancelAnimation) await processRow(configP);
 
             isAnimating = false;
         }
 
         async function processRow(config) {
-            const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId } = config;
+            const { keyword, atEnd, revKey, revAlpha, rowIdPrefix, areaId, keywordBgClass } = config;
             const area = document.getElementById(areaId);
             const usedChars = new Set();
             
@@ -406,7 +455,6 @@
             const kwChars = keyword.split('');
             const kwElements = [];
             
-            // Render the keyword boxes first
             kwChars.forEach(char => {
                 const box = document.createElement('div');
                 box.className = 'keyword-char-box';
@@ -415,7 +463,7 @@
                 kwElements.push(box);
             });
 
-            // Determine Start Index for Keyword in Table
+            // Determine Start Index
             let dedupedLen = 0;
             let tempSet = new Set();
             kwChars.forEach(c => {
@@ -431,21 +479,20 @@
                     : kwChars.map((_, i) => i); 
 
                 for (let i = 0; i < loopIndices.length; i++) {
+                    if(cancelAnimation) return;
+
                     const charIdx = loopIndices[i];
-                    const char = kwChars[charIdx]; // The character to write
-                    const box = kwElements[charIdx]; // The visual box
+                    const char = kwChars[charIdx]; 
+                    const box = kwElements[charIdx]; 
 
                     if (usedChars.has(char)) {
                         // --- Duplicate Handling ---
-                        // Highlight current box (duplicate)
-                        box.classList.add('duplicate'); // permanently grey out
+                        box.classList.add('duplicate'); 
                         
-                        // Find the ORIGINAL instances to highlight
-                        // 1. Find original box in keyword area
+                        // Find original instances
                         const origBoxIdx = kwChars.indexOf(char);
                         const origBox = kwElements[origBoxIdx];
                         
-                        // 2. Find original cell in substitution table
                         let origTableCell = null;
                         for(let k=0; k<26; k++) {
                             const c = document.getElementById(rowIdPrefix + k);
@@ -455,31 +502,28 @@
                             }
                         }
 
-                        // Apply highlights to both
                         if(origBox) origBox.classList.add('highlight-duplicate');
                         if(origTableCell) origTableCell.classList.add('highlight-duplicate');
                         
-                        await wait(ANIM_SPEED);
+                        await wait(getSpeed());
                         
-                        // Remove highlights
                         if(origBox) origBox.classList.remove('highlight-duplicate');
                         if(origTableCell) origTableCell.classList.remove('highlight-duplicate');
 
                     } else {
                         // --- New Character Handling ---
                         usedChars.add(char);
-                        
-                        // Highlight the box we are processing
                         box.classList.add('active');
                         
-                        // Write to table
                         const cell = document.getElementById(rowIdPrefix + tableIdx);
                         const span = cell.querySelector('.content');
                         span.textContent = char;
-                        span.className = 'content text-keyword'; 
+                        
+                        // Apply specific background class for keyword part
+                        cell.classList.add(keywordBgClass);
                         
                         cell.classList.add('highlight-active');
-                        await wait(ANIM_SPEED);
+                        await wait(getSpeed());
                         cell.classList.remove('highlight-active');
                         
                         box.classList.remove('active');
@@ -500,8 +544,30 @@
             let alphaSource = revAlpha ? [...ALPHABET].reverse() : ALPHABET;
 
             for (let char of alphaSource) {
+                if(cancelAnimation) return;
+
                 if (usedChars.has(char)) {
-                    // Skip duplicates in alphabet fill (no visual highlight requested here, just skip)
+                    // --- SKIP Highlight Logic ---
+                    let existingTableCell = null;
+                    for(let k=0; k<26; k++) {
+                         const c = document.getElementById(rowIdPrefix + k);
+                         if (c.querySelector('.content').textContent === char) {
+                             existingTableCell = c;
+                             break;
+                         }
+                    }
+
+                    const kwIndex = kwChars.indexOf(char);
+                    const kwBox = (kwIndex !== -1) ? kwElements[kwIndex] : null;
+
+                    if(existingTableCell) existingTableCell.classList.add('highlight-duplicate');
+                    if(kwBox) kwBox.classList.add('highlight-duplicate');
+
+                    await wait(getSpeed());
+
+                    if(existingTableCell) existingTableCell.classList.remove('highlight-duplicate');
+                    if(kwBox) kwBox.classList.remove('highlight-duplicate');
+
                     continue; 
                 }
 
@@ -511,10 +577,10 @@
                     const span = cell.querySelector('.content');
                     
                     span.textContent = char;
-                    span.className = 'content text-alphabet'; 
+                    // No keywordBgClass here - keeps it white
 
                     cell.classList.add('highlight-active');
-                    await wait(ANIM_SPEED); // Same speed as keyword
+                    await wait(getSpeed());
                     cell.classList.remove('highlight-active');
                 }
             }
@@ -546,6 +612,8 @@
 
             // Iterate left to right
             for(let i=0; i<26; i++) {
+                if(cancelAnimation) { isAnimating = false; return; }
+
                 const cChar = cCells[i].querySelector('.content').textContent;
                 const pChar = pCells[i].querySelector('.content').textContent;
 
@@ -580,7 +648,7 @@
                         checkP.classList.add('check-red');
                         checkP.style.opacity = '1';
                     }
-                    await wait(200); 
+                    await wait(getSpeed()); 
                 }
             }
             isAnimating = false;
