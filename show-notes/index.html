@@ -239,6 +239,37 @@
     cursor: pointer;
   }
   h2.section-h2 .to-top:hover { color: var(--accent); text-decoration: underline; }
+  .qsection { counter-reset: qnum; }
+  .qgroup { margin-bottom: 1.6rem; }
+  .qgroup:last-child { margin-bottom: 0; }
+  .qgroup h3 {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .78rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--accent);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: .35rem;
+    margin: 0 0 .7rem;
+  }
+  ul.qlist { list-style: none; padding-left: 0; margin: 0; }
+  ul.qlist li {
+    counter-increment: qnum;
+    position: relative;
+    padding-left: 2.1rem;
+    margin-bottom: .7rem;
+  }
+  ul.qlist li::before {
+    content: counter(qnum) ".";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .85rem;
+    font-weight: bold;
+    color: var(--accent);
+  }
+  ul.qlist li a { color: var(--accent); }
 </style>
 </head>
 <body>
@@ -255,7 +286,7 @@
 </header>
 
 <nav class="toc" aria-label="Table of contents">
-  <span class="toc-label">Contents</span><a href="#purpose">1. Purpose</a><a href="#videos">2. Video series</a><a href="#recent-claims">3. Recent claims</a><a href="#pattern">4. Pattern</a><a href="#financial-legal">5. Financial &amp; legal</a><a href="#testimony">6. Testimony</a><a href="#liability">7. Media &amp; partners</a><a href="#legal-threats">8. Legal threats</a><a href="#refs">9. References</a><a href="#disclaimer">10. Disclaimer</a>
+  <span class="toc-label">Contents</span><a href="#purpose">1. Purpose</a><a href="#videos">2. Video series</a><a href="#recent-claims">3. Recent claims</a><a href="#pattern">4. Pattern</a><a href="#financial-legal">5. Financial &amp; legal</a><a href="#testimony">6. Testimony</a><a href="#liability">7. Media &amp; partners</a><a href="#legal-threats">8. Legal threats</a><a href="#questions">9. Outstanding questions</a><a href="#refs">10. References</a><a href="#disclaimer">11. Disclaimer</a>
 </nav>
 
 <main>
@@ -407,8 +438,100 @@
   </p>
 </section>
 
+<section id="questions" class="qsection">
+  <h2 class="section-h2">9. Outstanding questions about Baber's investigation <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to top</a></h2>
+  <p>The following are specific, unresolved questions about Baber's investigation and his background, raised during the research for this series and, in many cases, put to Baber directly. They are grouped into categories below; the numbering runs continuously across all categories. Where a question is examined in more detail elsewhere on this page, that section is linked; where an existing citation applies, it is included.</p>
+
+  <div class="qgroup">
+    <h3>Evidence behind the Merrill/Margolis identification</h3>
+    <ul class="qlist">
+      <li>Baber has stated, on camera and on multiple occasions, that he first learned the name "Merrill" through decoding the Z13 cipher. What accounts for research materials indicating earlier awareness of the Margolis/Merrill connection? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="7">[7]</sup><sup class="cite" data-ref="8">[8]</sup><sup class="cite" data-ref="9">[9]</sup></li>
+      <li>Baber has attributed the discovery of letters in the "Elizabeth" sketch to his own use of "infrared" imaging or a "peeling off contrast spectrum" process. The Reis report lists infrared among the methods that produced no significant results, and identifies co-axial illumination — a technique performed by the examiner, not demonstrated by Baber — as the only method that did. What is the basis for Baber's description of his own process? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="12">[12]</sup><sup class="cite" data-ref="13">[13]</sup></li>
+      <li>The <em>Killer in the Code</em> podcast has stated that Reis concluded the word "Zodiac" was present in the sketch. Why does the report itself stop short of that conclusion, describing only a few individually hedged, partially legible letter fragments?<sup class="cite" data-ref="12">[12]</sup><sup class="cite" data-ref="13">[13]</sup></li>
+      <li>Why are there two different versions of the "Zodiac" signature attributed to the sketch?</li>
+      <li>Baber has stated that no photographs, notes, or other materials were attached to the back of the "Elizabeth" sketch. Why has he also described sketches of neckties found behind it?</li>
+      <li>Why was handwriting analysis comparing Merrill's writing to Zodiac correspondence conducted using copies of the documents rather than originals?</li>
+      <li>How could the same document examiner, described in 2021 as the top handwriting analyst in the world, attribute the Zodiac letters to suspect Klein, and in 2025 attribute the same letters to suspect Merrill?</li>
+      <li>Can documentation be produced for a claimed 18- to 19-point fingerprint match connecting suspect Klein to the "Lipstick Killer" case (for which William Heirens was convicted)?<sup class="cite" data-ref="21">[21]</sup></li>
+      <li>Baber has said he had a fingerprint match between latent prints on Bryan Hartnell's car door at Lake Berryessa and Klein. How is this reconciled with Klein having reportedly already been checked twice against all latent print evidence in the Zodiac case?</li>
+      <li>The weapon used at Lake Berryessa is described in the autopsy and by eyewitnesses as a double-sided knife roughly 12 inches long. The bayonet Baber attributes to Merrill is single-sided and over 20 inches. How is this discrepancy explained?</li>
+      <li>Why has the bayonet been shown publicly only through photographs sourced from the internet, rather than as the physical item itself?</li>
+      <li>A business card has been presented as evidence placing Merrill in Santa Clara in the late 1960s. How is this reconciled with the address on the card reportedly not existing until 1977?</li>
+      <li>Why does Marvin's mouth appear to differ between versions of a photograph Baber has presented, given his denial of altering any facial features?</li>
+      <li>A 1950 census search using a filter for California residency has been cited as how Merrill was located. How is this reconciled with Merrill reportedly living in Chicago, under the name Marvin Margolis, at the time?</li>
+      <li>It has been said that a Zodiac-related event occurred everywhere Merrill went, even though all confirmed Zodiac crimes occurred in the North Bay Area. What is the closest documented distance between Merrill and a Zodiac crime or letter-mailing location within the relevant timeframe?</li>
+      <li>A vehicle owned by the Merrill family has been described as the "exact vehicle" witnessed at Lake Berryessa. How is this reconciled with witness accounts describing California plates on the vehicle at the scene, while the Merrill family's vehicle carried Louisiana plates and was sold roughly a year after the cited 1971 arrest date?</li>
+    </ul>
+  </div>
+
+  <div class="qgroup">
+    <h3>Circumstances of the investigation</h3>
+    <ul class="qlist">
+      <li>Why was a story about conducting WWII research reportedly needed to gain Merrill's son's cooperation in 2024, when Baber has separately said he already had that cooperation as of 2021? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="10">[10]</sup></li>
+      <li>Merril's son has been described as willing to cooperate and share the sketch directly. Why did gaining access to it reportedly require a separate deception?</li>
+      <li>If Baber was in contact with Merrill's son as early as 2021, why was the sketch not mentioned publicly until 2024?</li>
+      <li>What is the basis for the suggestion that Marvin's son Kenneth, a retired judge, was involved in covering up cases against Merrill?</li>
+      <li><em>Killer in the Code</em> has stated it would not reveal the birth name of Merrill's son. What accounts for that name later appearing in other published coverage?</li>
+      <li>What evidence supports the claim that a 2021 vehicle impoundment in New York, around the time of a scheduled meeting with People Magazine, was connected to that meeting?</li>
+    </ul>
+  </div>
+
+  <div class="qgroup">
+    <h3>Endorsements, institutional credibility, and media coverage</h3>
+    <ul class="qlist">
+      <li>Baber has said 50 cryptography experts endorse his findings. Publicly, only cryptographers Ed Giorgio, and to a lesser extent Patrick Henry, have spoken to any endorsement, and Connelly describes Giorgio's work as validating only the internal consistency of a method that already assumed Margolis as the suspect. What is the basis for the larger figure?<sup class="cite" data-ref="3">[3]</sup></li>
+      <!-- <li>Why are Mitzi Roberts and Rick Jackson referred to using the title "Det." given that both are retired from law enforcement?<sup class="cite" data-ref="1">[1]</sup><sup class="cite" data-ref="2">[2]</sup></li> -->
+      <li>Rick Jackson has been described in coverage as having worked on the Zodiac case. His law-enforcement career was with the Los Angeles Police Department. What is the basis for that description?</li>
+      <li>Can any current endorsement of the investigation, or of Baber's agency, by a victim's family member be documented?</li>
+      <li>The Debrief podcast has reported that Elizabeth Short's sister paid Baber to investigate her case. How is this reconciled with Baber's repeated statements that he does not accept payment from victims' families?  (TODO: This was purportedly an error by the podcast hosts)</li>
+      <li>CCCOA's website states that "Alex has built a reputation for credibility." How is this reconciled with the financial, legal, and testimonial history documented elsewhere on this page? (See <a href="#financial-legal">Financial and legal history</a> and <a href="#testimony">Source testimony</a>.)</li>
+      <li>Why did Baber say Vanity Fair and People Magazine were prepared to run stories on his findings, when direct statements from sources at those outlets describe the opposite? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="14">[14]</sup><sup class="cite" data-ref="15">[15]</sup></li>
+    </ul>
+  </div>
+
+  <div class="qgroup">
+    <h3>Claims linking the investigation to other cases</h3>
+    <ul class="qlist">
+      <li>What is the basis for linking a two-person team, including Merrill, to the Zodiac case, the "Lipstick Killer" case, the Atlanta Child Murders, the Oakland Child Murders, the Freeway Phantom murders, and other solved and unsolved homicides?</li>
+      <li>A source says Baber claimed to have solved the JonBenét Ramsey and Lindbergh baby cases.  Can Baber confirm or deny this?</li>
+      <li>Baber has been described as saying he knew who killed Lindy Sue Biechler. Why was nothing said publicly when a suspect was later arrested in that case?</li>
+      <li>Can documentation be produced for a claimed contact from retired FBI profiler John Douglas, or for a claimed friendship with James Fitzgerald?</li>
+      <li>Can documentation be produced for a claimed direct involvement in a "case review" of DNA evidence in the Atlanta Child Murders (ATKID) case?</li>
+      <li>What is the basis for a statement, attributed to Baber, that his grandfather — whom Baber has described as a serial murderer — directed his uncle to commit a separate murder?</li>
+      <li>Why did a relative of a victim in the Atlanta Child Murders say that Baber was attempting to profit from his family's grief?</li>
+    </ul>
+  </div>
+
+  <div class="qgroup">
+    <h3>Personal background and credentials</h3>
+    <ul class="qlist">
+      <li>Baber has denied a history of working as a car salesman. How is this reconciled with public motor-vehicle salesman licensing records identified in Pennsylvania (1997) and Tennessee (2018)? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="16">[16]</sup><sup class="cite" data-ref="42">[42]</sup><sup class="cite" data-ref="43">[43]</sup><sup class="cite" data-ref="44">[44]</sup></li>
+      <li>What is the identity and relationship to Baber of accounts including "Dahlila Short" and "@JackDoeland" — accounts that display detailed insider knowledge of the investigation and, in one case, share a non-standard word choice with Baber's own private messages? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="25">[25]</sup><sup class="cite" data-ref="26">[26]</sup><sup class="cite" data-ref="27">[27]</sup><sup class="cite" data-ref="28">[28]</sup><sup class="cite" data-ref="29">[29]</sup></li>
+      <li>Can Baber explain a December 2021 Facebook post pairing a photo of a young man in military dress uniform with a recent photo of Baber, captioned to imply it depicts him? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="19">[19]</sup></li>
+      <li>Baber has stated he still possesses a Protective Services Officer certification. Can this be documented?</li>
+      <li>Baber has given differing reasons for leaving Austin's Beauty College — a new employment opportunity in one statement, family health issues in another — while the owner states he was terminated. How is this reconciled? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="17">[17]</sup></li>
+      <li>Baber has stated he was formally diagnosed on the autism spectrum in childhood. Can this diagnosis be documented?</li>
+      <li>Baber has, at various times, described himself using terms including: high IQ, autodidact, polymath, perceptionism, "brain wired different", autistic, ADHD, OCD, "reads weird", genius, empath, neurodiverse, chronic insomniac, photographic memory, "intuit gifted", and Asperger's. Can any of these be documented, or corroborated by named individuals?</li>
+      <li>Baber has given differing reports of his IQ.  In one interview, he said: “I tested 161 at the age of 14, 165 at the age of 18, 168 in my 20s”. In an OCCK Facebook group he said: “My Intelligence Quotient registered at 137 by 12 years old, my currently documented is 161 as of 5 years ago which places me in the top 1% of the entire population on earth.” Can any of these IQ results be documented?</li>
+      <li>Multiple former employers describe negative experiences with Baber. Can other former employers be named who would give a positive account of his employment? (See <a href="#pattern">Pattern</a> and <a href="#testimony">Source testimony</a>.)</li>
+      <li>Baber has stated he has had two ex-wives, but referred to a third former partner as his "wife" in a 2021 interview. How is this reconciled?</li>
+    </ul>
+  </div>
+
+  <div class="qgroup">
+    <h3>Financial history and money raised</h3>
+    <ul class="qlist">
+      <li>Baber has said he sold a house in 2007 after being frightened by a phone call attributed to the Zodiac killer, and separately described himself as a victim of the housing crisis. How is this reconciled with a 2009 repossession record for a property in his name? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="20">[20]</sup></li>
+      <li>Baber later said he eliminated Klein as a suspect. Does he still believe Klein made the 2007 phone call? If not, then who?</li>
+      <li>Court records across multiple states show that most civil court activity involving Baber consists of unsuccessful attempts to serve him with paperwork. What accounts for this pattern? (Examined in detail under <a href="#financial-legal">Financial and legal history</a>.)<sup class="cite" data-ref="30">[30]</sup><sup class="cite" data-ref="31">[31]</sup><sup class="cite" data-ref="32">[32]</sup><sup class="cite" data-ref="33">[33]</sup></li>
+      <li>Can it be documented how funds raised through a 2021 GoFundMe campaign, described as being for a documentary about Baber's work, were used?</li>
+      <li>A CCCOA website statement describes an "operational plan" to direct a portion of public-venture proceeds into a victim-family relief fund. Have any funds been paid into that fund, and has the operational plan been published?</li>
+    </ul>
+  </div>
+</section>
+
 <section id="refs">
-  <h2 class="section-h2">9. References <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to top</a></h2>
+  <h2 class="section-h2">10. References <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to top</a></h2>
   <ol id="refs-list"></ol>
 </section>
 
@@ -416,7 +539,7 @@
 
 <footer id="disclaimer">
   <div class="inner">
-    <h2 class="section-h2">10. Editorial disclaimer &amp; correction policy <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to top</a></h2>
+    <h2 class="section-h2">11. Editorial disclaimer &amp; correction policy <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to top</a></h2>
     <dl>
       <dt>Purpose</dt>
       <dd>This page exists to provide source citations for a published video series reporting on matters of public interest — the credibility of claims made about two of the most publicized unsolved criminal cases in American history. It is not intended, and should not be used, as a tool for personal retaliation or harassment.</dd>
