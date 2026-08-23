@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DARVO Analysis — Companion to "Zodiac and Black Dahlia Solved! By Sherlock or Charlatan?"</title>
+<style>
+  :root {
+    --bg: #f7f6f3;
+    --panel: #ffffff;
+    --ink: #1c1c1c;
+    --muted: #55524c;
+    --line: #ddd8cf;
+    --accent: #6b3d2e;
+    --accent-bg: #f1e6de;
+    --disputed-bg: #fbf3e0;
+    --disputed-border: #c99a3c;
+    --deny-bg: #eaf1f7; --deny-border: #3a6ea5; --deny-ink: #244a70;
+    --attack-bg: #fbeaea; --attack-border: #a53a3a; --attack-ink: #702424;
+    --reverse-bg: #f2eafb; --reverse-border: #7a3aa5; --reverse-ink: #4a2470;
+    --max: 780px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: Georgia, 'Iowan Old Style', 'Palatino Linotype', serif;
+    line-height: 1.6;
+  }
+  header.masthead {
+    background: var(--panel);
+    border-bottom: 3px solid var(--ink);
+    padding: 1.25rem 1.25rem 1rem;
+  }
+  .masthead-inner { max-width: var(--max); margin: 0 auto; }
+  .masthead-inner .kicker {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-size: .72rem;
+    color: var(--muted);
+  }
+  .masthead-inner h1 { font-size: 1.55rem; margin: .3rem 0 .4rem; }
+  .masthead-inner .sub {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  .masthead-inner .sub a { color: var(--accent); }
+  main { max-width: var(--max); margin: 0 auto; padding: 1.75rem 1.25rem 4rem; }
+  section { margin-bottom: 2.5rem; }
+  h2 {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: .35rem;
+    margin-bottom: 1rem;
+  }
+  h3 { font-size: 1.1rem; margin-bottom: .35rem; }
+  p { margin: 0 0 .9rem; }
+  .lede { font-size: 1.05rem; }
+  .note {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .85rem;
+    color: var(--muted);
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: .85rem 1rem;
+  }
+  ul.plain { padding-left: 1.2rem; }
+  ul.plain li { margin-bottom: .5rem; }
+  sup.cite { color: var(--accent); cursor: pointer; font-weight: bold; padding: 0 .1rem; }
+  sup.cite:hover { text-decoration: underline; }
+  #refs ol { padding-left: 1.4rem; font-size: .88rem; }
+  #refs li { margin-bottom: .6rem; }
+  footer { background: #efeae1; border-top: 3px solid var(--ink); padding: 2rem 1.25rem 3rem; }
+  footer .inner { max-width: var(--max); margin: 0 auto; font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: .85rem; color: var(--muted); }
+  footer h2 { border-bottom-color: var(--muted); }
+  footer dt { font-weight: bold; color: var(--ink); margin-top: 1rem; }
+  footer dd { margin: .25rem 0 0; }
+  #cite-modal {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45);
+    z-index: 50; align-items: center; justify-content: center; padding: 1rem;
+  }
+  #cite-modal .box {
+    background: #fff; max-width: 520px; width: 100%; border-radius: 6px;
+    padding: 1.25rem 1.4rem; font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .92rem; box-shadow: 0 10px 40px rgba(0,0,0,.3);
+  }
+  #cite-modal .box h4 { margin: 0 0 .5rem; font-size: .78rem; text-transform: uppercase; letter-spacing: .05em; color: var(--accent); }
+  #cite-modal .box p { margin: 0 0 .8rem; }
+  #cite-modal .box a.close { display: inline-block; font-size: .85rem; color: var(--accent); cursor: pointer; }
+  #cite-modal .box p a { color: var(--accent); }
+  #refs li a { color: var(--accent); }
+  nav.toc {
+    max-width: var(--max); margin: 1.25rem auto 0; padding: .85rem 1.1rem;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+    font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: .82rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+  }
+  nav.toc .toc-label { text-transform: uppercase; letter-spacing: .06em; font-size: .68rem; color: var(--muted); margin-right: .15rem; }
+  nav.toc a {
+    color: var(--accent); text-decoration: none; background: var(--accent-bg);
+    border: 1px solid var(--line); border-radius: 999px; padding: .22rem .7rem; white-space: nowrap;
+  }
+  nav.toc a:hover { text-decoration: underline; border-color: var(--accent); }
+  h2.section-h2 { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  h2.section-h2 .to-top {
+    font-family: -apple-system, Helvetica, Arial, sans-serif; font-size: .68rem; font-weight: normal;
+    text-transform: none; letter-spacing: 0; color: var(--muted); white-space: nowrap; cursor: pointer;
+  }
+  h2.section-h2 .to-top:hover { color: var(--accent); text-decoration: underline; }
+
+  blockquote.freyd {
+    margin: 0 0 1.2rem;
+    padding: 1rem 1.25rem;
+    background: var(--panel);
+    border-left: 4px solid var(--ink);
+    border-radius: 4px;
+    font-size: .98rem;
+    font-style: italic;
+    color: var(--ink);
+  }
+  blockquote.freyd cite {
+    display: block;
+    margin-top: .6rem;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-style: normal;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--muted);
+  }
+
+  .stage-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1rem 1.15rem;
+    margin-bottom: 1.4rem;
+  }
+  .stage-card.deny { border-left: 5px solid var(--deny-border); }
+  .stage-card.attack { border-left: 5px solid var(--attack-border); }
+  .stage-card.reverse { border-left: 5px solid var(--reverse-border); }
+  .stage-card .src-tag {
+    display: inline-block;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .66rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    padding: .15rem .5rem;
+    border-radius: 3px;
+    margin-bottom: .55rem;
+    background: var(--accent-bg);
+    color: var(--accent);
+  }
+  .stage-card .quote {
+    margin: 0 0 .55rem;
+    padding: .65rem .85rem;
+    border-radius: 4px;
+    font-size: .95rem;
+  }
+  .stage-card.deny .quote { background: var(--deny-bg); color: var(--deny-ink); }
+  .stage-card.attack .quote { background: var(--attack-bg); color: var(--attack-ink); }
+  .stage-card.reverse .quote { background: var(--reverse-bg); color: var(--reverse-ink); }
+  .stage-card .annot { font-size: .92rem; }
+  .stage-card .annot:last-child { margin-bottom: 0; }
+
+  .legend {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .8rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    margin-bottom: 1.2rem;
+  }
+  .legend span {
+    padding: .2rem .6rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+  .legend .l-deny { background: var(--deny-bg); color: var(--deny-ink); }
+  .legend .l-attack { background: var(--attack-bg); color: var(--attack-ink); }
+  .legend .l-reverse { background: var(--reverse-bg); color: var(--reverse-ink); }
+
+  table.matrix { width: 100%; border-collapse: collapse; font-size: .88rem; margin-bottom: 1rem; }
+  table.matrix th, table.matrix td { border: 1px solid var(--line); padding: .5rem .6rem; text-align: left; vertical-align: top; }
+  table.matrix th {
+    background: var(--accent-bg); font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .72rem; text-transform: uppercase; letter-spacing: .04em;
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="kicker">DARVO analysis &mdash; companion document</div>
+    <h1>Deny, Attack, Reverse Victim and Offender: A Pattern Analysis of Alex Baber's Public and Private Responses to Criticism</h1>
+    <div class="sub">
+      A supplement to the <a href="index.html">show notes &amp; source index</a> for the video series by David Oranchak, examining Alex Baber's own written and recorded material for the DARVO pattern described by psychologist Jennifer J. Freyd.
+      <a class="top-disclaimer-link" href="#disclaimer" style="display:block;margin-top:.5rem;">Jump to editorial disclaimer &amp; correction policy &darr;</a>
+    </div>
+  </div>
+</header>
+
+<nav class="toc" aria-label="Table of contents">
+  <span class="toc-label">Contents</span><a href="#purpose">1. Purpose</a><a href="#what-is-darvo">2. What is DARVO?</a><a href="#sources">3. Sources analyzed</a><a href="#deny">4. Deny</a><a href="#attack">5. Attack</a><a href="#reverse">6. Reverse victim &amp; offender</a><a href="#gaslighting">7. The gaslighting stage</a><a href="#conclusion">8. Conclusion</a><a href="#refs">9. References</a><a href="#disclaimer">10. Disclaimer</a>
+</nav>
+
+<main>
+
+<section id="purpose">
+  <h2 class="section-h2">1. Purpose of this analysis <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p class="lede">This document sets aside the underlying factual disputes covered in the main show notes &mdash; whether Marvin Margolis is Zodiac, whether Baber worked as a car salesman, whether the "Elizabeth" sketch says "ZODIAC" &mdash; and asks a narrower, different question: <strong>when Alex Baber and accounts connected to him respond to critics, do those responses follow a recognizable psychological pattern?</strong></p>
+  <p>That pattern is DARVO &mdash; <strong>D</strong>eny, <strong>A</strong>ttack, <strong>R</strong>everse <strong>V</strong>ictim and <strong>O</strong>ffender &mdash; a term coined by psychologist Jennifer J. Freyd to describe how people confronted with evidence of wrongdoing often respond: they deny the behavior occurred, attack the credibility and motives of whoever raised it, and then reverse the roles so the confronter appears to be the aggressor and the confronted party appears to be the victim.<sup class="cite" data-ref="1">[1]</sup></p>
+  <p>This analysis works through five bodies of Baber's own written material &mdash; his official YouTube account, four YouTube accounts suspected (with varying strength of evidence) of being operated by him or on his behalf, a Facebook persona very likely connected to him, his private correspondence with Oranchak, and his formal legal correspondence &mdash; and catalogs specific statements that fit each stage of the DARVO pattern. Where useful, each example is paired with Freyd's own description of how that stage typically operates, particularly her writing on the "gaslighting" function of the Attack and Reverse stages.<sup class="cite" data-ref="1">[1]</sup></p>
+  <p>This is a rhetorical-pattern analysis, not a legal or clinical diagnosis, and it does not by itself establish that any specific underlying allegation against Baber is true. Readers should weigh the caveats in the <a href="#conclusion">conclusion</a> before drawing broader conclusions.</p>
+</section>
+
+<section id="what-is-darvo">
+  <h2 class="section-h2">2. What is DARVO? <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>Jennifer J. Freyd, a psychology professor at the University of Oregon, introduced the term DARVO near the end of a 1997 paper on betrayal trauma theory, describing a pattern she had observed in perpetrators confronted about abusive or wrongful conduct.<sup class="cite" data-ref="1">[1]</sup> The acronym breaks into three moves, typically performed in sequence and often blurring together:</p>
+  <ul class="plain">
+    <li><strong>Deny.</strong> The offender denies that the behavior occurred at all, or denies its severity or significance.</li>
+    <li><strong>Attack.</strong> The offender goes on the offensive against the person raising the concern &mdash; attacking their credibility, competence, motives, or mental state, rather than engaging with the substance of what was raised.</li>
+    <li><strong>Reverse Victim and Offender.</strong> The offender recasts themselves as the one being wronged &mdash; by a false accusation, a smear campaign, a personal vendetta &mdash; while the original victim, whistleblower, or critic is recast as the aggressor.</li>
+  </ul>
+  <p>Subsequent empirical work by Freyd and colleagues found that DARVO responses measurably increase the audience's perception that the true victim is unreliable and that the offender is the more credible party &mdash; which is precisely why the tactic is effective regardless of whether the underlying denial is true.<sup class="cite" data-ref="2">[2]</sup><sup class="cite" data-ref="3">[3]</sup> Freyd and Sarah Harsey have also written specifically about DARVO's overlap with defamation claims and threatened litigation &mdash; relevant background given the material in <a href="#gaslighting">Section 7</a> below.<sup class="cite" data-ref="4">[4]</sup></p>
+  <p>Central to this analysis is a passage from Freyd's own writing describing what she calls the gaslighting function of the Attack stage:</p>
+  <blockquote class="freyd">
+    "&hellip;I have observed that actual abusers threaten, bully and make a nightmare for anyone who holds them accountable or asks them to change their abusive behavior. This attack, intended to chill and terrify, typically includes threats of law suits, overt and covert attacks on the whistle-blower's credibility, and so on. The attack will often take the form of focusing on ridiculing the person who attempts to hold the offender accountable. [&hellip;] The offender rapidly creates the impression that the abuser is the wronged one, while the victim or concerned observer is the offender. Figure and ground are completely reversed. [&hellip;] The offender is on the offense and the person attempting to hold the offender accountable is put on the defense."
+    <cite>&mdash; Jennifer J. Freyd<sup class="cite" data-ref="1">[1]</sup></cite>
+  </blockquote>
+  <p>Section 7 maps this passage, clause by clause, onto Baber's own legal correspondence and messages.</p>
+</section>
+
+<section id="sources">
+  <h2 class="section-h2">3. Sources analyzed <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>This analysis draws on five bodies of material drawn from a corpora of Baber's correspondences. The evidentiary strength connecting each source to Baber varies and is stated plainly:</p>
+  <div class="note">
+    <strong>Sourcing note:</strong> <code>@CCCOA.US_2021</code> is Baber's acknowledged official YouTube account. The four other YouTube accounts quoted here (<code>@JackDoeland</code>, <code>@Hummingbirdshum</code>, <code>@MartianMan-ate1</code>, <code>@nillydilly-w5l</code>) are <em>suspected</em> sockpuppet accounts, with good but not conclusive evidence connecting them to Baber &mdash; see the main show notes for the strongest piece of that evidence, a shared non-standard word choice between Baber's private messages and one of these accounts.<sup class="cite" data-ref="5">[5]</sup> The Facebook profile "Dahlila Short" is very likely, though not certain, to be controlled by Baber; its own browser address bar resolves to <code>facebook.com/alex.baber.73/</code>.<sup class="cite" data-ref="6">[6]</sup> Quotes attributed to these accounts are analyzed as material connected to Baber's public-facing operation, with that uncertainty noted throughout rather than treated as settled fact.
+  </div>
+  <ul class="plain">
+    <li><strong>Official account:</strong> 36 YouTube comments (11 unique after deduplication) from <code>@CCCOA.US_2021</code>, posted under Baber's own branded channel name.<sup class="cite" data-ref="7">[7]</sup></li>
+    <li><strong>Suspected sockpuppet accounts:</strong> 616 YouTube comments (309 unique) collected across <code>@JackDoeland</code>, <code>@Hummingbirdshum</code>, <code>@MartianMan-ate1</code>, and <code>@nillydilly-w5l</code>, all defending Baber across dozens of videos and podcast episodes about the Zodiac/Black Dahlia investigation.<sup class="cite" data-ref="8">[8]</sup></li>
+    <li><strong>Facebook persona:</strong> Posts and a business review from the "Dahlila Short" profile.<sup class="cite" data-ref="6">[6]</sup></li>
+    <li><strong>Private correspondence:</strong> Direct messages and emails between Baber and Oranchak spanning 2024&ndash;2026<sup class="cite" data-ref="9">[9]</sup></li>
+    <li><strong>Formal legal correspondence:</strong> Five direct legal threats from Baber and one cease-and-desist letter from his attorney, sent between May and July 2026, and Baber's full point-by-point written rebuttal to 29 pre-publication allegations, submitted under right-of-reply.<sup class="cite" data-ref="10">[10]</sup><sup class="cite" data-ref="11">[11]</sup></li>
+  </ul>
+  <p>The legend below marks each example that follows:</p>
+  <div class="legend"><span class="l-deny">DENY</span><span class="l-attack">ATTACK</span><span class="l-reverse">REVERSE VICTIM &amp; OFFENDER</span></div>
+</section>
+
+<section id="deny">
+  <h2 class="section-h2">4. Deny <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>The clearest, highest-volume evidence of the Deny stage is Baber's 29-point written rebuttal, submitted under right-of-reply ahead of Part 3's publication. Of 29 numbered allegations, the overwhelming majority are answered with a flat denial &mdash; frequently the single word "False" &mdash; with little or no engagement with the specific evidence behind the claim.<sup class="cite" data-ref="11">[11]</sup></p>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Right-of-reply rebuttal, item 8</span>
+    <p class="quote">"False and unsupported. I have never created or operated fake accounts in support of myself. The claim that every supporter must be me is baseless speculation. Supporters, family, and friends have been harassed over this accusation&hellip;"</p>
+    <p class="annot">A direct, categorical denial of the sockpuppet allegation examined throughout this document &mdash; notable because it is answered with the same blanket "False" used for dozens of unrelated claims below, rather than any account-specific rebuttal.<sup class="cite" data-ref="11">[11]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Sockpuppet account &mdash; Hummingbirdshum</span>
+    <p class="quote">"Thank you for covering this, it's refreshing to see The Times take the research seriously&hellip; Yes, I'm very much real and not a sockpuppet lol 🙏LTST"</p>
+    <p class="annot">A comment denying sockpuppet status appears directly beneath praise for coverage of Baber.<sup class="cite" data-ref="12">[12]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"@Imnottheborough Unlucky for you, I'm not Alex, Powell. Now run back to your Zodiac group and be a good boy while the men work."</p>
+    <p class="annot">Another identity denial, immediately followed by an Attack-stage insult &mdash; illustrating how the Deny and Attack stages typically arrive fused together rather than as separate, discrete moves.<sup class="cite" data-ref="13">[13]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Official account &mdash; @CCCOA.US_2021</span>
+    <p class="quote">"Your claim that I deleted my previous comment is false. The Times removed it because of my use of the word 'ignorance'; I did not delete it myself."</p>
+    <p class="annot">A narrow, verifiable-sounding denial on a small point (who removed a comment), used to imply that a critic's broader claims are similarly unreliable.<sup class="cite" data-ref="14">[14]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Right-of-reply rebuttal, item 14</span>
+    <p class="quote">"False. I have never worked in a grocery store produce department. Any background check reaching that conclusion is incorrect or based on false information. Provide background check for verification."</p>
+    <p class="annot">One of many single-word "False" responses; the demand that the accuser "provide" proof reverses the evidentiary burden onto the source rather than Baber.<sup class="cite" data-ref="11">[11]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Right-of-reply rebuttal, item 20</span>
+    <p class="quote">"These are blatant, unsupported lies that are reprehensible. I have zero record of fraud, dishonesty, drug addiction, abuse or violence."</p>
+    <p class="annot">Absence of a formal record is offered as proof of innocence, a common move in Deny-stage rhetoric that does not by itself address the underlying claim.<sup class="cite" data-ref="11">[11]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Right-of-reply rebuttal, item 21</span>
+    <p class="quote">"False. No evidence exists because the claim is fabricated. It appears intended only to damage my reputation."</p>
+    <p class="annot">The denial ("False") is immediately paired with a Reverse-stage framing (the claim exists "only to damage my reputation") &mdash; again showing how the three DARVO stages interlock in practice rather than running as separate steps.<sup class="cite" data-ref="11">[11]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Right-of-reply rebuttal, item 24</span>
+    <p class="quote">"This claim is offensive. I was formally diagnosed on the autism spectrum in childhood by qualified medical professionals. Suggesting otherwise is both false and inappropriate."</p>
+    <p class="annot">Compare this categorical claim of formal childhood diagnosis to Baber's own recorded statement on <em>The Missing Podcast</em>, quoted in the main show notes, in which he describes Asperger's only as something "similar to some of my known traits" rather than a diagnosis &mdash; and to his private message to Oranchak stating "I never said I had Asperger's."<sup class="cite" data-ref="15">[15]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Private message to Oranchak, July 2026</span>
+    <p class="quote">"One final point: You have claimed that I use or participate in drugs. This is the first time I have ever been accused of such. I have no record of drug use whatsoever, not even as a teenager&hellip; To even attempt to make that claim is offensive not only me but to my family."</p>
+    <p class="annot">Note the escalation embedded in the denial itself &mdash; from disputing the claim to framing the questioner as having offended Baber's family, a small-scale preview of the Reverse-stage move analyzed at length in Section 6.<sup class="cite" data-ref="9">[9]</sup></p>
+  </div>
+
+  <div class="stage-card deny">
+    <span class="src-tag">Private message to Oranchak, July 2026</span>
+    <p class="quote">"Yes&mdash;I was not fired from the position. There were no accusations or reports of theft surrounding my departure. If any such exist, I invite you to share them."</p>
+    <p class="annot">This denial of termination and theft allegations at a former employer directly contradicts a named, on-the-record witness statement from the business owner, and a second independent witness who corroborates her account &mdash; both cited in the main show notes.<sup class="cite" data-ref="16">[16]</sup></p>
+  </div>
+</section>
+
+<section id="attack">
+  <h2 class="section-h2">5. Attack <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>The Attack stage supplies by far the largest volume of material in the corpora reviewed here &mdash; almost entirely from the suspected sockpuppet accounts rather than the official channel or Baber's own signed correspondence. Below is a representative sample; dozens of similar examples recur across the four accounts.</p>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"And the ignorant have arrived. Larry the liar you mean? The foul mouth former copy editor who attempts to discredit actual experts in their field with word salad?"</p>
+    <p class="annot">One of many attacks on Los Angeles Times researcher Larry Harnisch, a named critic, repeatedly called "Larry the Liar" and mocked as someone who "talks to a box" (a reference to his research-organization practice) rather than engaged on the substance of his claims.<sup class="cite" data-ref="17">[17]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"Copy editor turned box communicator Larry Harnisch made up that claim about Baber in a fit of rage."</p>
+    <p class="annot">Same target, same dismissive framing repeated across multiple threads and months &mdash; a pattern of recurring, personalized ridicule rather than one-off frustration.<sup class="cite" data-ref="18">[18]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"I recommend readers assess this hater's credibility by starting with his comment history. No red flags there&hellip; Take care. I genuinely hope you get the help you so clearly need."</p>
+    <p class="annot">Addressed to a recurring critic ("Imnottheborough"); pathologizing a critic's mental state ("the help you so clearly need") in place of addressing their claims is a textbook Attack-stage move.<sup class="cite" data-ref="19">[19]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"He is a piss ant troll Baber exposed for talking BS a few years back and he got his feelings hurt. How he and a handful of losers run about stalking him&hellip; No one listens to the jacka$$ anymore&hellip;"</p>
+    <p class="annot">Escalating personal insult directed at a named critic, framed as retaliation for having been "exposed," which doubles as an implicit Deny of whatever the critic originally raised.<sup class="cite" data-ref="20">[20]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet account &mdash; nillydilly-w5l</span>
+    <p class="quote">"You are a jealous little boy obsessed with Alex Baber's investigation, trying everything you possibly can to make him look bad. YOU ARE DESPICABLE."</p>
+    <p class="annot">Direct character attack, reframing scrutiny of Baber's claims as personal obsession and jealousy rather than legitimate inquiry.<sup class="cite" data-ref="21">[21]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet account &mdash; MartianMan-ate1</span>
+    <p class="quote">"Your comment is repugnant&hellip; resorting to profanity, insults, and mockery of serious homicide investigations is inappropriate and frankly shameful ma'am."</p>
+    <p class="annot">An example of moral condemnation used as a rhetorical weapon &mdash; casting a specific critic as uniquely disrespectful of victims, which implicitly positions Baber's supporters as the sole legitimate voice for the victims.<sup class="cite" data-ref="22">[22]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Sockpuppet accounts, recurring pattern</span>
+    <p class="quote">"For the love of Webster, please learn how to spell!" &nbsp;&middot;&nbsp; "Numerous experts support his conclusion. If you disagree, address the substance of their arguments rather than resorting to personal attacks. And after you learn to spell correctly, study proper capitalization please."</p>
+    <p class="annot">Repeated mockery of critics' spelling and grammar &mdash; a recurring device across dozens of comments &mdash; functions as what Freyd describes as "ridiculing the person who attempts to hold the offender accountable" rather than engaging their argument.<sup class="cite" data-ref="23">[23]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Official account &mdash; @CCCOA.US_2021</span>
+    <p class="quote">"The two cases tagged 'open' were filed by an individual with a documented history of fraud accusations and remain pending&hellip; Please reference sites such as YELP, Birdseye, and Glassdoor for his documented practices."</p>
+    <p class="annot">Rather than addressing the underlying financial/legal record raised by a critic, the official account redirects to attacking the character of a named source (a dealership owner cited elsewhere as testimony against Baber) &mdash; the only Attack-stage material identified on the official channel, and notably milder in tone than the sockpuppet accounts.<sup class="cite" data-ref="24">[24]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Private message to Oranchak, July 2026</span>
+    <p class="quote">"Your out reach to various newspapers, SWAFS, etc. has been documented for our suit&hellip; You have children, correct? I would ask you to consider what it would feel like if they one day encountered false and damaging statements about you online, presented as fact."</p>
+    <p class="annot">The most direct Attack-stage material in the corpus: an implied lawsuit paired with a reference to Oranchak's own children, matching Freyd's description of an attack "intended to chill and terrify." Analyzed further in <a href="#gaslighting">Section 7</a>.<sup class="cite" data-ref="9">[9]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Cease-and-desist letter, June 1, 2026</span>
+    <p class="quote">"Given your established history of publicly critiquing cipher solutions&hellip; the conduct at issue here appears to extend beyond the bounds of ordinary cryptographic commentary or fair criticism&hellip; may reasonably be viewed as demonstrating a reckless disregard for accuracy and, under the circumstances, could be interpreted as indicative of actual malice."</p>
+    <p class="annot">A formal legal letter, sent by attorney Ben Walter on Baber's behalf, that recasts years of Oranchak's cryptography work as evidence of a personal vendetta and invokes "actual malice" &mdash; the legal standard for defamation of a public figure &mdash; as a threat rather than a demonstrated finding.<sup class="cite" data-ref="10">[10]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Legal threat, June 1, 2026</span>
+    <p class="quote">"Notice: Any negative comments or harassing statements originating from your video claims will be documented for legal purposes."</p>
+    <p class="annot">A blanket warning extended not just to Oranchak but to anyone who might comment critically in response to his reporting &mdash; broadening the chilling effect beyond a single target.<sup class="cite" data-ref="25">[25]</sup></p>
+  </div>
+
+  <div class="stage-card attack">
+    <span class="src-tag">Right-of-reply rebuttal, final statement</span>
+    <p class="quote">"All of the above 'sources' cited were removed from my life for justifiable reasons and now have clear personal grievances. Not a single one of these accusations is supported by any police report, court filing, civil action, or official record&mdash;because none of the alleged misconduct ever occurred."</p>
+    <p class="annot">A single sentence dismisses the motives of all two dozen sources at once &mdash; named and anonymous, employers, family members, and fellow researchers alike &mdash; without addressing any allegation individually.<sup class="cite" data-ref="11">[11]</sup></p>
+  </div>
+</section>
+
+<section id="reverse">
+  <h2 class="section-h2">6. Reverse victim and offender <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>The Reverse stage is the most rhetorically distinctive of the three: rather than simply denying or attacking, it recasts Baber himself &mdash; or his family, or his supporters &mdash; as the party under attack, and the critic or reporter as the aggressor.</p>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Private message to Oranchak, July 2026</span>
+    <p class="quote">"I wish you had listened. Take care&mdash; &hellip; I genuinely had a great deal of respect for you before this. My approach was never personal; it's always been about the cases and about the victims. I wish you would've understood that."</p>
+    <p class="annot">Baber positions himself as the wronged party in what had been a professional relationship, casting Oranchak's reporting as a personal betrayal rather than a response to independently gathered allegations.<sup class="cite" data-ref="9">[9]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Private message to Oranchak, July 2026</span>
+    <p class="quote">"Look, David&mdash;no matter what I say or share with you at this point, it's clear it will make no difference. You're too invested in your position to retract your statements. Your credibility will take a hit. Again, that was never my intention. We will let others deal with this."</p>
+    <p class="annot">The predicted reputational harm is projected entirely onto Oranchak ("your credibility will take a hit"), even though Baber is the subject of the allegations under discussion.<sup class="cite" data-ref="9">[9]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Private message to Oranchak, July 2026</span>
+    <p class="quote">"David, you even questioned my autism&hellip; I would ask you to consider for a moment how it would feel to have someone publicly accuse you of drug use&mdash;especially when the allegation is entirely unfounded. How would that feel to you, David? And how might your own family feel seeing such a serious and baseless claim made against you in public?"</p>
+    <p class="annot">A direct rhetorical inversion: an evidentiary question about self-reported diagnoses and characteristics is reframed as an unprovoked personal attack, then redirected onto Oranchak's own family &mdash; the same move used in the Attack-stage example in Section 5.<sup class="cite" data-ref="9">[9]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Right-of-reply rebuttal, item 8</span>
+    <p class="quote">"Supporters, family, and friends have been harassed over this accusation when showing any support of findings or investigations."</p>
+    <p class="annot">The sockpuppet allegation itself &mdash; the subject of this document &mdash; is reframed as an act of harassment committed against Baber's innocent supporters, rather than a claim to be evaluated on its evidence.<sup class="cite" data-ref="11">[11]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Legal threat, June 21, 2026</span>
+    <p class="quote">"&hellip;sources upon which you relied on have placed you in a difficult position publicly. As the underlying facts continue to be presented, several of their claims have proven either inaccurate, incomplete, or completely fabricated due to personal grievances with me. I sincerely hope you will take this into consideration before matters progress beyond the point where a simple public correction or retraction is sufficient to address the record."</p>
+    <p class="annot">Baber's sources are recast as the deceivers, and Oranchak as their unwitting, at-risk instrument &mdash; while the underlying claims themselves go unaddressed.<sup class="cite" data-ref="26">[26]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Facebook &mdash; "Dahlila Short"</span>
+    <p class="quote">"CCCOA helped my family in February of this year. This appears to be a hate campaign by someone on a personal level. People will follow and support anything without doing their due diligence apparently."</p>
+    <p class="annot">Posted in response to a critical comment thread, this recasts organized scrutiny of Baber's business as a "hate campaign" driven by personal animus &mdash; performing the Reverse stage in the third person, on Baber's behalf.<sup class="cite" data-ref="6">[6]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Facebook &mdash; "Dahlila Short"</span>
+    <p class="quote">"My point exactly. Grow up and appreciate people who help others in need."</p>
+    <p class="annot">A moralizing reversal: critics are cast as ungrateful aggressors against a selfless helper, foreclosing the possibility that the criticism itself might be substantively grounded.<sup class="cite" data-ref="6">[6]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"As others have noted, this situation seems to resemble a targeted campaign or 'witch hunt' rather than a genuine effort to expose fraud, in my opinion."</p>
+    <p class="annot">"Witch hunt" framing recurs across multiple sockpuppet comments and casts organized inquiry into Baber's claims as inherently illegitimate, regardless of its evidentiary basis.<sup class="cite" data-ref="27">[27]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland</span>
+    <p class="quote">"It is both troubling and deeply concerning that social media enables individuals to circulate baseless accusations without any form of accountability or due process&hellip; This is how people who set out to do meaningful, compassionate work are driven to disengage."</p>
+    <p class="annot">Baber is cast purely as a selfless public servant driven away by unaccountable online mobs &mdash; a framing that, notably, appears on an account suspected of being one of the very anonymous voices it describes as unaccountable.<sup class="cite" data-ref="28">[28]</sup></p>
+  </div>
+
+  <div class="stage-card reverse">
+    <span class="src-tag">Sockpuppet account &mdash; JackDoeland (re: Larry Harnisch's book)</span>
+    <p class="quote">"Attempts to use 'smoke &amp; mirrors' to discredit me or any others who support Baber, only underscore a lack of substantive engagement with the evidence&hellip; He is a man who's invested 20+ years into a book focused on a single suspect&hellip; I would let that fact sink in for a moment before attempting to throw more shade on an investigation supported by every single expert."</p>
+    <p class="annot">A critic's decades of independent research are reframed as evidence of bias and personal investment, while Baber's own financial and reputational stake in his conclusions goes unmentioned.<sup class="cite" data-ref="29">[29]</sup></p>
+  </div>
+</section>
+
+<section id="gaslighting">
+  <h2 class="section-h2">7. The gaslighting stage, mapped clause by clause <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>Freyd's passage on gaslighting (quoted in full in Section 2) describes several specific mechanisms. Below, each clause is matched against material already presented above and in the main show notes.</p>
+
+  <table class="matrix">
+    <thead><tr><th>Freyd's description</th><th>Corresponding material</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>"actual abusers threaten, bully and make a nightmare for anyone who holds them accountable"</td>
+        <td>Six documented legal threats and a cease-and-desist letter sent to Oranchak between May and July 2026, catalogued in the main show notes' <a href="index.html#legal-threats">legal threats timeline</a>.<sup class="cite" data-ref="30">[30]</sup></td>
+      </tr>
+      <tr>
+        <td>"typically includes threats of law suits"</td>
+        <td>"Your out reach to various newspapers, SWAFS, etc. has been documented for our suit."<sup class="cite" data-ref="9">[9]</sup> "This claim will result in a separate lawsuit if claimed publicly."<sup class="cite" data-ref="11">[11]</sup> "&hellip;could be interpreted as indicative of actual malice."<sup class="cite" data-ref="10">[10]</sup></td>
+      </tr>
+      <tr>
+        <td>"overt and covert attacks on the whistle-blower's credibility"</td>
+        <td>Repeated sockpuppet-account framing of Oranchak as a "self-admitted amateur" whose sourcing is unreliable, and messenger statements that sources "have a personal grievance towards me and will state anything to damage my credibility."<sup class="cite" data-ref="19">[19]</sup><sup class="cite" data-ref="11">[11]</sup></td>
+      </tr>
+      <tr>
+        <td>"focusing on ridiculing the person who attempts to hold the offender accountable"</td>
+        <td>Recurring mockery of critics' spelling, grammar, and mental state across the sockpuppet accounts (Section 5), rather than engagement with their claims.<sup class="cite" data-ref="23">[23]</sup><sup class="cite" data-ref="19">[19]</sup></td>
+      </tr>
+      <tr>
+        <td>"creates the impression that the abuser is the wronged one, while the victim or concerned observer is the offender"</td>
+        <td>"I genuinely had a great deal of respect for you before this&hellip; I wish you would've understood that."<sup class="cite" data-ref="9">[9]</sup> "CCCOA helped my family&hellip; this appears to be a hate campaign."<sup class="cite" data-ref="6">[6]</sup></td>
+      </tr>
+      <tr>
+        <td>"Figure and ground are completely reversed&hellip; The offender is on the offense and the person attempting to hold the offender accountable is put on the defense"</td>
+        <td>The cease-and-desist letter frames Oranchak's cryptography-critique work as the underlying misconduct, and Baber/CCCOA as the injured party owed legal remedy &mdash; a full institutional-level enactment of this reversal.<sup class="cite" data-ref="10">[10]</sup></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Two details are worth underscoring. First, the "documented for our suit" and "your children" material appear in the <em>same message</em>, back to back &mdash; consistent with Freyd's observation that the threat and the credibility attack function together as one move, not two.<sup class="cite" data-ref="9">[9]</sup> Second, the escalation runs in a consistent direction over time: informal threats in May 2026 (threat1, threat2) are followed by a formal attorney letter in June (cease-and-desist) invoking the "actual malice" defamation standard, followed by a broader warning extended to commenters generally (threat4), and culminating in the explicit lawsuit reference in July tied to outreach toward Baber's own paid events.<sup class="cite" data-ref="30">[30]</sup></p>
+</section>
+
+<section id="conclusion">
+  <h2 class="section-h2">8. Conclusion <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <p>Across five different sources &mdash; an acknowledged official account, four accounts suspected of being connected to Baber, a Facebook persona very likely connected to him, private correspondence, and formal legal letters &mdash; a consistent three-part structure recurs: claims are denied categorically rather than addressed point by point; critics are attacked personally, often with mockery of their spelling, mental state, or motives, rather than engaged on the merits; and Baber (or his family, or his supporters) is consistently repositioned as the victim of a campaign, smear, or hate campaign rather than the subject of independently sourced scrutiny. The clearest and most concerning material &mdash; explicit reference to a lawsuit paired with a reference to Oranchak's children, and a formal "actual malice" letter from an attorney &mdash; sits squarely within the pattern Freyd describes as the gaslighting function of the Attack stage.<sup class="cite" data-ref="1">[1]</sup></p>
+
+  <p>One structural observation is worth flagging on its own: the official <code>@CCCOA.US_2021</code> account is comparatively restrained &mdash; almost entirely Deny-stage material, with only one mild Attack-stage example identified in the material reviewed. Nearly all of the aggressive, personally targeted Attack-stage content originates from the four suspected sockpuppet accounts and the "Dahlila Short" persona. That split is consistent either with a strategy of keeping the official brand voice measured while a separate, deniable set of accounts does the more aggressive work, or with the alternative, more innocent explanation addressed in the caveats below.</p>
+
+  <p><strong>Caveats and counterexamples.</strong></p>
+  <ul class="plain">
+    <li><strong>Attribution is not proof.</strong> The connection between Baber and the four "suspected sockpuppet" YouTube accounts rests on circumstantial evidence &mdash; shared vocabulary, insider-level knowledge, timing, and behavioral overlap &mdash; not a confirmed technical link (IP address, account records, or an admission). If these accounts are not Baber's, then most of the Attack-stage material in Sections 5&ndash;7 reflects the behavior of independent, enthusiastic supporters rather than Baber himself, and the analysis should be read as describing his supporters' rhetoric rather than his own.</li>
+    <li><strong>A DARVO pattern is not a verdict.</strong> Identifying DARVO-shaped rhetoric describes <em>how</em> someone responds to an accusation; it does not by itself establish whether the underlying accusation (car-salesman history, theft, abuse, stolen valor, and so on) is true. A person who is genuinely innocent of a false accusation can also respond with denial, anger, and a sense of persecution that superficially resembles this pattern.</li>
+    <li><strong>Not all pushback is empty of substance.</strong> Several of the sockpuppet comments quoted or referenced here cite specific documents &mdash; grand jury testimony, 1950 census records, USC transcripts &mdash; and engage in genuine (if one-sided) argument about the underlying cases. The DARVO framework applies to the rhetorical pattern layered on top of that material (ad hominem redirection, credibility attacks, victim framing), not to the substantive case research itself, which this document does not evaluate.</li>
+    <li><strong>Most sockpuppet-account content is not attack material.</strong> The majority of comments collected from the four suspected accounts are enthusiastic but unremarkable case commentary, congratulatory remarks, or emoji reactions to podcast episodes &mdash; not hostile exchanges. The Attack- and Reverse-stage examples above are drawn from a minority of threads involving a recurring, small set of named critics.</li>
+    <li><strong>Baber has also responded to direct requests for correction cooperatively at times</strong> &mdash; for example, correcting an error regarding a "1955 image" of Marvin Margolis in an official-account comment rather than denying it &mdash; suggesting the pattern documented here is not exhaustive of how Baber and his associated accounts respond to every piece of criticism.<sup class="cite" data-ref="31">[31]</sup></li>
+  </ul>
+  <p>Read together with the main show notes' documentation of contradictory public statements, undisclosed financial and legal history, and testimony from named and anonymous sources, this analysis is offered as one additional lens: not proof of the underlying allegations, but a documented, heavily-cited pattern in how those allegations have been met.</p>
+</section>
+
+<section id="refs">
+  <h2 class="section-h2">9. References <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+  <ol id="refs-list"></ol>
+</section>
+
+</main>
+
+<footer id="disclaimer">
+  <div class="inner">
+    <h2 class="section-h2">10. Editorial disclaimer &amp; correction policy <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">&uarr; Back to top</a></h2>
+    <dl>
+      <dt>Purpose</dt>
+      <dd>This page applies a published psychological framework (DARVO) to material already documented in the main <a href="index.html">show notes &amp; source index</a>, in order to help viewers, journalists, and platforms evaluate patterns in how criticism of Baber's claims has been met. It is not intended, and should not be used, as a tool for personal retaliation or harassment.</dd>
+
+      <dt>Not a clinical or legal finding</dt>
+      <dd>This analysis identifies rhetorical patterns in Baber's own public and private statements and in statements made by accounts connected to him with varying degrees of certainty. It is not a psychological diagnosis of Baber, and it does not assert that any specific underlying allegation discussed is true. See the caveats in Section 8.</dd>
+
+      <dt>Sockpuppet attribution</dt>
+      <dd>As stated in Section 3, the YouTube accounts other than <code>@CCCOA.US_2021</code> are <em>suspected</em>, not confirmed, to be operated by or on behalf of Baber. That uncertainty applies throughout this document and is not repeated at every individual citation.</dd>
+
+      <dt>No harassment</dt>
+      <dd>This page is not an invitation to contact, monitor, or confront Alex Baber, any account believed to be connected to him, or any person named or described herein. Readers are expected to comply with applicable law regarding harassment and unwanted contact. Independent action taken by a reader is not endorsed by, and is not the responsibility of, this page's author.</dd>
+
+      <dt>Corrections</dt>
+      <dd>Anyone &mdash; including Baber or his representatives &mdash; who identifies a factual error is invited to request a correction by emailing <a href="mailto:doranchak@gmail.com">doranchak@gmail.com</a>. Corrections supported by documentation will be promptly reviewed and, where warranted, made.</dd>
+    </dl>
+    <p style="margin-top:1.5rem;"><a href="index.html">&larr; Back to the main show notes</a> &nbsp;|&nbsp; <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Back to top &uarr;</a></p>
+  </div>
+</footer>
+
+<div id="cite-modal" onclick="if(event.target===this) this.style.display='none';">
+  <div class="box">
+    <h4 id="cite-modal-label">Citation</h4>
+    <p id="cite-modal-text"></p>
+    <a class="close" onclick="document.getElementById('cite-modal').style.display='none';">Close</a>
+  </div>
+</div>
+
+<script>
+const REFS = [
+  { label: "[0]", text: "Unused placeholder to keep indices aligned with the main show notes' citation style." },
+  { label: "[1]", text: "Freyd, J.J. (1997). \"Violations of power, adaptive blindness, and betrayal trauma theory.\" <i>Feminism &amp; Psychology</i>, 7, 22&ndash;32. The full passage quoted in Section 2, including the phrases \"actual abusers threaten, bully and make a nightmare\" and \"Figure and ground are completely reversed,\" is reproduced by Freyd herself on <a href='https://www.jjfreyd.com/darvo' target='_blank'>jjfreyd.com/darvo</a> (\"What is DARVO?\"), the source used for the epigraph quote throughout this document." },
+  { label: "[2]", text: "Harsey, S., Zurbriggen, E.L., &amp; Freyd, J.J. (2017). \"Perpetrator Responses to Victim Confrontation: DARVO and Victim Self-Blame.\" <i>Journal of Aggression, Maltreatment &amp; Trauma</i>, 26(6), 644&ndash;663. <a href='https://doi.org/10.1080/10926771.2017.1320777' target='_blank'>doi.org/10.1080/10926771.2017.1320777</a>" },
+  { label: "[3]", text: "Harsey, S., &amp; Freyd, J.J. (2020). \"Deny, Attack, and Reverse Victim and Offender (DARVO): What Is the Influence on Perceived Perpetrator and Victim Credibility?\" <i>Journal of Aggression, Maltreatment &amp; Trauma</i>, 29(8), 897&ndash;916. <a href='https://doi.org/10.1080/10926771.2020.1774695' target='_blank'>doi.org/10.1080/10926771.2020.1774695</a>" },
+  { label: "[4]", text: "Harsey, S.J., &amp; Freyd, J.J. (2022). \"Defamation and DARVO.\" <i>Journal of Trauma &amp; Dissociation</i>, 23(5), 481&ndash;489. <a href='https://doi.org/10.1080/15299732.2022.2111510' target='_blank'>doi.org/10.1080/15299732.2022.2111510</a> &mdash; discusses how the Attack stage of DARVO frequently manifests as, or overlaps with, threatened or actual defamation litigation against the person raising the original concern." },
+  { label: "[5]", text: "See the main show notes' <a href='index.html#pattern' target='_blank'>\"Sockpuppet accounts\" entry</a>, documenting the shared non-standard word \"distractors\" (in place of \"detractors\") appearing identically in Baber's private Facebook Messenger message and in at least three separate @JackDoeland YouTube comments." },
+  { label: "[6]", text: "\"Dahlila Short\" Facebook profile: <a href='assets/dahlila2.png' target='_blank'>July 12, 2022 post</a> (\"CCCOA helped my family&hellip; this appears to be a hate campaign\") including the reply \"My point exactly. Grow up and appreciate people who help others in need.\"; <a href='assets/dahlila1.png' target='_blank'>five-star review</a> of Cold Case Consultants of America, LLC; <a href='assets/dahlila3.png' target='_blank'>screenshot of the profile's browser address bar</a> showing its URL as facebook.com/alex.baber.73/. Cross-referenced in the main show notes at refs 25&ndash;26." },
+  { label: "[7]", text: "<a href='assets/comment_report_CCCOA.US_2021.html' target='_blank'>comment_report_CCCOA.US_2021.html</a> &mdash; 36 comments (11 unique after removing duplicate scrape entries) by Baber's acknowledged official YouTube account, <a href='https://youtube.com/@CCCOA.US_2021' target='_blank'>@CCCOA.US_2021</a>, all posted beneath a single video." },
+  { label: "[8]", text: "<a href='assets/comment_report_JackDoeland.html' target='_blank'>comment_report_JackDoeland.html</a> (196 unique comments), <a href='assets/comment_report_Hummingbirdshum.html' target='_blank'>comment_report_Hummingbirdshum.html</a> (28 unique), <a href='assets/comment_report_MartianMan-ate1.html' target='_blank'>comment_report_MartianMan-ate1.html</a> (38 unique), and <a href='assets/comment_report_nillydilly-w5l.html' target='_blank'>comment_report_nillydilly-w5l.html</a> (46 unique) &mdash; four YouTube accounts suspected, with the evidence noted in ref [5], of being operated by or on behalf of Baber." },
+  { label: "[9]", text: "A private correspondence archive between Baber and Oranchak, 2024&ndash;2026, including <a href='assets/2026-07-15%20Baber%20on%20Messenger.pdf' target='_blank'>2026-07-15 Baber on Messenger.pdf</a>. All quotes attributed to \"private message to Oranchak\" in this document are drawn from the July 15, 2026 exchange within that archive unless noted otherwise." },
+  { label: "[10]", text: "<a href='assets/threat3.png' target='_blank'>Cease-and-desist letter</a> from attorney Ben Walter on Baber's behalf, June 1, 2026, triggered by right-of-reply correspondence prior to the publication of Part 3." },
+  { label: "[11]", text: "<a href='assets/right-of-reply-responses.pdf' target='_blank'>right-of-reply-responses.pdf</a> &mdash; Baber's full 29-point written rebuttal to allegations submitted for right-of-reply ahead of Part 3's June 2, 2026 publication." },
+  { label: "[12]", text: "<a href='https://www.youtube.com/watch?v=xByjFimpx-M&lc=UgxM8RD_y2oaRPlb5PZ4AaABAg' target='_blank'>Hummingbirdshum comment</a>, August 8, 2026, on \"A Self-Taught Sleuth Solved the World's Most Famous Cold Case?\"" },
+  { label: "[13]", text: "<a href='https://www.youtube.com/watch?v=IMAUL6BKycE&lc=Ugw6M8y7IALhi6Fqcet4AaABAg.AUGOJgvAnRxAUOJTML2Zab' target='_blank'>JackDoeland comment</a>, March 22, 2026, on \"Chapter 10: New Age Sherlock,\" replying to @Imnottheborough." },
+  { label: "[14]", text: "<a href='https://www.youtube.com/watch?v=xByjFimpx-M&lc=Ugwx4BT85gQhU9H1Xkx4AaABAg.A_g5gkhuGGFA_hEXF_xRUZ' target='_blank'>@CCCOA.US_2021 comment</a>, August 19, 2026, on \"A Self-Taught Sleuth Solved the World's Most Famous Cold Case?\"" },
+  { label: "[15]", text: "Compare against the main show notes' \"IQ / neurodiversity claims\" outstanding question and Baber's quoted statement on The Missing Podcast (\"I don't want to use this term here to insult anybody but&hellip;\") and his private message \"I never said I had Asperger's, David&mdash;\", both drawn from the private correspondence archive described in ref [9]." },
+  { label: "[16]", text: "See main show notes ref 17: direct statement from the owner of Austin's Beauty College, corroborated by a second independent named witness, contrasted with Baber's denial in the private correspondence archive described in ref [9] and in the <a href='assets/right-of-reply-responses.pdf' target='_blank'>right-of-reply rebuttal</a>, items 18&ndash;19." },
+  { label: "[17]", text: "<a href='https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmARip0sHnmrZ' target='_blank'>JackDoeland comment</a>, January 22, 2026, on \"Chapter 4: Code Makers and Breakers.\"" },
+  { label: "[18]", text: "<a href='https://www.youtube.com/watch?v=OlKTEFe-obc&lc=Ugx01DNXpdQ2pP-bUbV4AaABAg.ASZi5ypLz23ASZkbBRF_b3' target='_blank'>JackDoeland comment</a>, February 22, 2026, on \"Chapter 6: A Mind For Murder.\"" },
+  { label: "[19]", text: "<a href='https://www.youtube.com/watch?v=OlKTEFe-obc&lc=Ugx01DNXpdQ2pP-bUbV4AaABAg.ASZi5ypLz23ASb6CBomQR-' target='_blank'>JackDoeland comment</a>, February 22, 2026, on \"Chapter 6: A Mind For Murder,\" replying to @Imnottheborough." },
+  { label: "[20]", text: "<a href='https://www.youtube.com/watch?v=IMAUL6BKycE&lc=UgwdZtx4SdeJoDF4ge94AaABAg.ATOrVA0WcIOATSPih4C9nA' target='_blank'>JackDoeland comment</a>, February 22, 2026, on \"Chapter 10: New Age Sherlock.\"" },
+  { label: "[21]", text: "<a href='https://www.youtube.com/watch?v=IMAUL6BKycE&lc=Ugw6M8y7IALhi6Fqcet4AaABAg.AUGOJgvAnRxAULrvB4oQhF' target='_blank'>nillydilly-w5l comment</a>, March 22, 2026, on \"Chapter 10: New Age Sherlock,\" replying to @Imnottheborough." },
+  { label: "[22]", text: "<a href='https://www.youtube.com/watch?v=7C_kCy9pdd8&lc=UgyzY7lIrKeaVnrFwkB4AaABAg.AS09BRMVS-jAUEM-A5XWCX' target='_blank'>MartianMan-ate1 comment</a>, March 22, 2026, on \"Killer In The Code Podcast Episode 1 &mdash; Aha Moments For Alex Baber,\" replying to @TheLittleItalianGirl." },
+  { label: "[23]", text: "<a href='https://www.youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS-yMgyRbxp' target='_blank'>JackDoeland comment</a> (\"for the love of Webster\") and <a href='https://www.youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxf8CC7tLOWWQWuraF4AaABAg.AS-5sB80eo7AS05Z8pDnj0' target='_blank'>a second JackDoeland comment</a> (\"learn to spell correctly, study proper capitalization\"), both January 22, 2026, on \"Chapter 5: The Zodiac Motel.\"" },
+  { label: "[24]", text: "<a href='https://www.youtube.com/watch?v=xByjFimpx-M&lc=Ugwx4BT85gQhU9H1Xkx4AaABAg.A_g5gkhuGGFA_gD5dlCWsn' target='_blank'>@CCCOA.US_2021 comment</a>, August 18&ndash;19, 2026. Cross-referenced with main show notes ref 41 (dealership owner statements) and ref 44 (this same comment, quoted in full)." },
+  { label: "[25]", text: "<a href='assets/threat4.png' target='_blank'>Legal threat</a> from Baber, June 1, 2026, accompanying his right-of-reply responses. Listed in the main show notes' legal threats timeline as item 4." },
+  { label: "[26]", text: "<a href='assets/threat5.png' target='_blank'>Legal threat</a> from Baber, June 21, 2026, sent in response to a correction made regarding The Times of London characterization in Part 3. Listed in the main show notes' legal threats timeline as item 5." },
+  { label: "[27]", text: "<a href='https://www.youtube.com/watch?v=971Edz3PfSo&lc=UgyncSumPrM8vE4MXMN4AaABAg' target='_blank'>JackDoeland comment</a>, August 22, 2025, on \"Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?\"" },
+  { label: "[28]", text: "<a href='https://www.youtube.com/watch?v=971Edz3PfSo&lc=Ugw655alM_YNA52xltZ4AaABAg' target='_blank'>JackDoeland comment</a>, August 22, 2025, on \"Is Alex Baber a legitimate crime investigator? Or is he taking advantage of grieving families?\"" },
+  { label: "[29]", text: "<a href='https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=UgzV_ha4BHkzBB9YAnJ4AaABAg.ARoSldjGN8WASKpK1hDSrZ' target='_blank'>JackDoeland comment</a>, February 22, 2026, on \"Chapter 4: Code Makers and Breakers,\" referring to Larry Harnisch." },
+  { label: "[30]", text: "See the main show notes' <a href='index.html#legal-threats' target='_blank'>full legal threats timeline</a>: <a href='assets/threat1.png' target='_blank'>May 13, 2026</a>, <a href='assets/threat2.png' target='_blank'>May 31, 2026</a>, <a href='assets/threat3.png' target='_blank'>June 1, 2026 (cease-and-desist)</a>, <a href='assets/threat4.png' target='_blank'>June 1, 2026 (second)</a>, <a href='assets/threat5.png' target='_blank'>June 21, 2026</a>, and <a href=\"assets/2026-07-15%20Baber%20on%20Messenger.pdf\" target='_blank'>July 15, 2026</a>." },
+  { label: "[31]", text: "<a href='https://www.youtube.com/watch?v=xByjFimpx-M&lc=Ugxn489NO-u3QTE0RAN4AaABAg.AZnSFdZLZDRAZr4uOAx2PF' target='_blank'>@CCCOA.US_2021 comment</a>, August 1, 2026, addressing a factual question about a 1955 photograph of Marvin Margolis with a substantive, non-hostile explanation rather than denial or attack." },
+];
+
+const refsList = document.getElementById('refs-list');
+REFS.forEach((r, i) => {
+  if (i === 0) return; // skip placeholder [0]
+  const li = document.createElement('li');
+  li.innerHTML = r.label + ' ' + r.text;
+  refsList.appendChild(li);
+});
+
+document.querySelectorAll('sup.cite').forEach(sup => {
+  sup.addEventListener('click', () => {
+    const idx = parseInt(sup.dataset.ref, 10);
+    const ref = REFS[idx];
+    if (!ref) return;
+    document.getElementById('cite-modal-label').textContent = 'Citation ' + ref.label;
+    document.getElementById('cite-modal-text').innerHTML = ref.text;
+    document.getElementById('cite-modal').style.display = 'flex';
+  });
+});
+</script>
+
+</body>
+</html>
