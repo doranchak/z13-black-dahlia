@@ -1,0 +1,333 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Comment Analysis - @CrazyK1</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
+            
+            /* Sortable Table Styling */
+            th { background-color: #f8f9fa; font-weight: 600; cursor: pointer; user-select: none; position: sticky; top: 0; }
+            th:hover { background-color: #e2e8f0; }
+            
+            tr:nth-child(even) { background-color: #fafafa; }
+            a { color: #0066cc; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .nowrap { white-space: nowrap; }
+            
+            /* Highlighting Styling */
+            mark { background-color: #ffeb3b; color: #000; padding: 0 2px; border-radius: 2px; }
+            
+            /* Search box styling */
+            .search-container { margin-bottom: 20px; }
+            #searchInput { padding: 10px; width: 100%; max-width: 400px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; outline: none; }
+            #searchInput:focus { border-color: #0066cc; }
+            
+            /* Summary Styling */
+            .summary-section { margin-top: 40px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb; }
+            .summary-section h3, .summary-section h4 { margin-top: 0; color: #111827; }
+            .summary-section p { margin: 5px 0; }
+            .summary-section ul { padding-left: 20px; }
+        </style>
+    </head>
+    <body>
+        <h2>17 comments by <a href="https://youtube.com/@CrazyK1" target="_blank">@CrazyK1</a> on 6 videos</h2>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search in comments, dates, titles...">
+        </div>
+
+        <table id="commentsTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Video Title ↕</th>
+                    <th onclick="sortTable(1)">Video Date ↕</th>
+                    <th onclick="sortTable(2)">Comment Date ↕</th>
+                    <th onclick="sortTable(3)">Likes ↕</th>
+                    <th onclick="sortTable(4)">Comment Text ↕</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-12</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=79GU3ushtaA&lc=UgzrE4nU8oZXwBrv0Px4AaABAg.AT7BCL7r3DCAT7yS5OIj3X" target="_blank">2026-03-07</a></td>
+                <td>5</td>
+                <td>Perhaps he got the PTSD on a previous murder.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank">Chapter 9: Last Man Standing</a></td>
+                <td class="nowrap">2026-02-12</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=79GU3ushtaA&lc=Ugz7KqgRvRPsU2q-1WR4AaABAg.AT79q9aE3eRAT7xuiK38CF" target="_blank">2026-03-07</a></td>
+                <td>5</td>
+                <td>Calm down, one episode at a time. Be patient. It is wise to get all new info on a topic and then evaluate it slowly. When you rush you could miss something. 👍🏻</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-01-15</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxa9a0vSBuJvRj5SDl4AaABAg.AS7IvX7Xb_LASUYsxi2Gg7" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>Where can I find this info?</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank">Chapter 5: The Zodiac Motel</a></td>
+                <td class="nowrap">2026-01-15</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=uMCmBv7pjgM&lc=Ugxa9a0vSBuJvRj5SDl4AaABAg.AS7IvX7Xb_LASUpEXzV4GG" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>​ @Imnottheborough i found out where for  some of that, but specifically the lies to families.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-01-08</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=Ugx6XHMNnTQFsVUh41t4AaABAg.ARhRNjjIlQPASIP3GNsobu" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>​ @Eidolon180 the detectives wrkn the case for decades believe Baber found some missed evidence and confirmed his research independently. Who would have a higher understanding or more insight than the detectives? If the main people on the case believe new evidence has been found, then who (civilian wise) can factually dispute them? A lot of people out here are barking just to bark. New evidence is new evidence.  Would everyone like to believe it should disappear and Baber just made it up? Patience people, patience.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-01-08</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=Ugx6XHMNnTQFsVUh41t4AaABAg.ARhRNjjIlQPASIPLr2PKXi" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>​ @JackDoeland agreed</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-01-08</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=Ugx6XHMNnTQFsVUh41t4AaABAg.ARhRNjjIlQPASIPWTX88Uy" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>​ @JackDoeland so true.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-01-08</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=UgyXLoJIwB3gttlJ2LN4AaABAg.ARhMdMtO7Z3ASIXgl68YoY" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>He went to the police, they confirmed his findings independently. Have you listened to all the podcast ? That was stated pretty early on.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank">Chapter 4: Code Makers and Breakers</a></td>
+                <td class="nowrap">2026-01-08</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=4hmXxKMtk5g&lc=UgwV1Qs-fX5aQ_T4Dtd4AaABAg.ARhIaB3o7BmASIYioIuyR1" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>​ @JackDoeland thank you. Some people just want to hate. And yes, Baber has flown from coast to coast giving lectures and seminars to Local, state and federal officers many times. I know this as fact!</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-01-06</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=vuKYpKfae6c&lc=Ugy1cXIRsYSrEDS9VGF4AaABAg.ARi67sSamGEASI5eVl2sdc" target="_blank">2026-02-07</a></td>
+                <td>2</td>
+                <td>I agree</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-01-06</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=vuKYpKfae6c&lc=UgwjPVdkkmNmMPrvVS54AaABAg.ARcaQSlkh6UASI5Mob556D" target="_blank">2026-02-07</a></td>
+                <td>0</td>
+                <td>He first strongly believed it when he discovered it but had no proof. It took all these yrs to get enough evidence to make the claim. More cold cases are coming soon by Babers team. ​ @CathyGOdom </td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank">Chapter 3: El Diablo</a></td>
+                <td class="nowrap">2026-01-06</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=vuKYpKfae6c&lc=UgwjPVdkkmNmMPrvVS54AaABAg.ARcaQSlkh6UASI5ZjxeHYu" target="_blank">2026-02-07</a></td>
+                <td>2</td>
+                <td>He is not a charatlan. He has reserched it for years from coast to coast. Cracked the Cypher, that's for sure.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw" target="_blank">Chapter 1: The Hidden Beneath The Hidden</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw&lc=UgyGVVoae6q4iJbHzwR4AaABAg.AR7wveu6N0uAU3i20qcIay" target="_blank">2026-04-07</a></td>
+                <td>1</td>
+                <td>​ @EdEdwardsCiphers it's Gruff the crime dog.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw" target="_blank">Chapter 1: The Hidden Beneath The Hidden</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw&lc=UgwOMno-2UiSgmiAnvF4AaABAg.ARssfamSw_WASHudXXs-a_" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>Do more research, several retired officers wrkd on Babers findings and approved the hypothesis. With their decades of experience on these 2 cases no way someone could BS both of them. To much hands on and detective work over those decades to fool them.</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw" target="_blank">Chapter 1: The Hidden Beneath The Hidden</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw&lc=Ugy4Mp8U-fuqEdG0jHN4AaABAg.AR6jgRd6xgNASHv46Pg6qb" target="_blank">2026-02-07</a></td>
+                <td>1</td>
+                <td>​ @EdEdwardsCiphers what money? From whom?</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw" target="_blank">Chapter 1: The Hidden Beneath The Hidden</a></td>
+                <td class="nowrap">2025-12-23</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=zHKxZAww2Zw&lc=UgwxcDiRpIWqHSEqm4B4AaABAg.AR4hxHD2UgsASHukJcXyBr" target="_blank">2026-02-07</a></td>
+                <td>3</td>
+                <td>​ @EdEdwardsCiphers cash grab from who?</td>
+            </tr>
+        
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=ywO9HsvOB_4" target="_blank">Closing cold cases | NewsNation Prime</a></td>
+                <td class="nowrap">2021-11-25</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=ywO9HsvOB_4&lc=UgwaxTihr0sUjOOG4F94AaABAg" target="_blank">2022-09-07</a></td>
+                <td>1</td>
+                <td>Gonna get to the bottom of it. Finally answers.</td>
+            </tr>
+        
+            </tbody>
+        </table>
+        
+    <div class="summary-section">
+        <h3>Summary</h3>
+        <p><strong>Total Videos Commented On:</strong> 6</p>
+        <p><strong>Total Comments:</strong> 17</p>
+        <p><strong>Total Likes Received:</strong> 28</p>
+        <p><strong>Average Likes per Comment:</strong> 1.65</p>
+        
+        <h4>Video Breakdown:</h4>
+        <ul>
+    
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=79GU3ushtaA" target="_blank"><strong>Chapter 9: Last Man Standing</strong></a><br>
+                Comments: 2 | Likes: 10 | Date Range: 2026-03-07
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=uMCmBv7pjgM" target="_blank"><strong>Chapter 5: The Zodiac Motel</strong></a><br>
+                Comments: 2 | Likes: 2 | Date Range: 2026-02-07
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=4hmXxKMtk5g" target="_blank"><strong>Chapter 4: Code Makers and Breakers</strong></a><br>
+                Comments: 5 | Likes: 5 | Date Range: 2026-02-07
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=vuKYpKfae6c" target="_blank"><strong>Chapter 3: El Diablo</strong></a><br>
+                Comments: 3 | Likes: 4 | Date Range: 2026-02-07
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=zHKxZAww2Zw" target="_blank"><strong>Chapter 1: The Hidden Beneath The Hidden</strong></a><br>
+                Comments: 4 | Likes: 6 | Date Range: 2026-02-07 to 2026-04-07
+            </li>
+        
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=ywO9HsvOB_4" target="_blank"><strong>Closing cold cases | NewsNation Prime</strong></a><br>
+                Comments: 1 | Likes: 1 | Date Range: 2022-09-07
+            </li>
+        </ul></div>
+        <script>
+            // --- Table Search and Highlight Logic ---
+            function searchTable() {
+                let input = document.getElementById("searchInput").value.toLowerCase();
+                let tbody = document.querySelector("#commentsTable tbody");
+                let tr = tbody.getElementsByTagName("tr");
+                
+                // Clear out previous highlights by un-wrapping mark tags
+                document.querySelectorAll("mark").forEach(mark => {
+                    let parent = mark.parentNode;
+                    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                    parent.normalize(); // Merge adjacent text nodes back together
+                });
+
+                // If input is empty, show all rows
+                if(!input) {
+                    for (let i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "";
+                    }
+                    return;
+                }
+
+                // Filter rows and highlight matches safely via text node parsing
+                for (let i = 0; i < tr.length; i++) {
+                    let row = tr[i];
+                    let showRow = false;
+                    
+                    for(let j = 0; j < row.cells.length; j++) {
+                        let cell = row.cells[j];
+                        if(cell.textContent.toLowerCase().includes(input)) {
+                            showRow = true;
+                            highlightNode(cell, input);
+                        }
+                    }
+                    row.style.display = showRow ? "" : "none";
+                }
+            }
+
+            function highlightNode(node, searchText) {
+                // Node type 3 is a Text Node
+                if (node.nodeType === 3) {
+                    let text = node.nodeValue;
+                    let index = text.toLowerCase().indexOf(searchText);
+                    if (index >= 0) {
+                        let before = text.substring(0, index);
+                        let match = text.substring(index, index + searchText.length);
+                        let afterText = text.substring(index + searchText.length);
+                        
+                        node.nodeValue = before;
+                        
+                        let mark = document.createElement('mark');
+                        mark.textContent = match;
+                        node.parentNode.insertBefore(mark, node.nextSibling);
+                        
+                        if (afterText) {
+                            let afterNode = document.createTextNode(afterText);
+                            node.parentNode.insertBefore(afterNode, mark.nextSibling);
+                            highlightNode(afterNode, searchText); // recursively search rest of string
+                        }
+                    }
+                } 
+                // Recursively pass children unless they're already wrapped in <mark>
+                else if (node.nodeType === 1 && node.childNodes && node.tagName !== 'MARK') {
+                    let children = Array.from(node.childNodes);
+                    children.forEach(child => highlightNode(child, searchText));
+                }
+            }
+
+            // --- Table Sorting Logic ---
+            let sortDirection = {}; // Tracks current sorted state (true = asc, false = desc)
+            
+            function sortTable(columnIndex) {
+                let tbody = document.querySelector("#commentsTable tbody");
+                let rows = Array.from(tbody.querySelectorAll("tr"));
+                
+                // Toggle direction based on previous click
+                let isAsc = sortDirection[columnIndex] !== true;
+                sortDirection[columnIndex] = isAsc;
+                
+                rows.sort((a, b) => {
+                    let valA = a.cells[columnIndex].textContent.trim();
+                    let valB = b.cells[columnIndex].textContent.trim();
+                    
+                    // Specific numeric sort for the "Likes" column (index 3)
+                    if (columnIndex === 3) { 
+                         let numA = parseFloat(valA);
+                         let numB = parseFloat(valB);
+                         return isAsc ? numA - numB : numB - numA;
+                    }
+                    
+                    // Alphanumeric sort for Strings & Dates
+                    return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                });
+                
+                // Re-append sorted rows to the table body
+                rows.forEach(row => tbody.appendChild(row));
+            }
+        </script>
+    </body>
+    </html>
+    
