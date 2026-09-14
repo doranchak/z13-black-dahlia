@@ -9,6 +9,14 @@ Assortment of visualizations for Black Dahlia episode of Let's Crack Zodiac.  Cl
 - [Permutation grid](https://doranchak.github.io/z13-black-dahlia/permutation-grid.html): Shows the scale of one permutation found amongst 5,040 permutations.
 - [Permutation keyword samples](https://doranchak.github.io/z13-black-dahlia/permutation-keyword-samples.html): A sampling of keywords that work just as well as "LIABETH" for Baber's Z13 permutation.
 - [Sockpuppet timeline](https://doranchak.github.io/z13-black-dahlia/sock-timeline.html): Experimental visualization of timelines of comments posted by suspected sockpuppet accounts on YouTube.
+- Comment reports:
+  - [CCCOA.US_2021](https://doranchak.github.io/z13-black-dahlia/comment_report_CCCOA.US_2021.html) (official Alex Baber account)
+  - [CrazyK1](https://doranchak.github.io/z13-black-dahlia/comment_report_CrazyK1.html) (suspected sockpuppet)
+  - [Hummingbirdshum](https://doranchak.github.io/z13-black-dahlia/comment_report_Hummingbirdshum.html) (suspected sockpuppet)
+  - [JackDoeland](https://doranchak.github.io/z13-black-dahlia/comment_report_JackDoeland.html) (suspected sockpuppet)
+  - [MartianMan-ate1](https://doranchak.github.io/z13-black-dahlia/comment_report_MartianMan-ate1.html) (suspected sockpuppet)
+  - [minkarobinson3245](https://doranchak.github.io/z13-black-dahlia/comment_report_minkarobinson3245.html) (suspected sockpuppet)
+  - [nillydilly-w5l](https://doranchak.github.io/z13-black-dahlia/comment_report_nillydilly-w5l.html) (suspected sockpuppet)
 - [Z13 substitution key visualizer](https://doranchak.github.io/z13-black-dahlia/substitution-key-visualizer.html): Visualization of how ciphertext and plaintext alphabets could be configured for Z13 via various keywords.
 - [Texas sharpshooter fallacy (variant 1)](https://doranchak.github.io/z13-black-dahlia/texas-sharpshooter-1.html): An animation demonstrating the Texas sharpshooter fallacy. 
 - [Texas sharpshooter fallacy (variant 2)](https://doranchak.github.io/z13-black-dahlia/texas-sharpshooter-2.html): Same animation but without the skewed angle.
