@@ -1,0 +1,180 @@
+
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <title>Comment Analysis - @micky2ears</title>
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 20px; color: #333; }
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            th, td { border: 1px solid #ddd; padding: 12px; text-align: left; vertical-align: top; }
+            
+            /* Sortable Table Styling */
+            th { background-color: #f8f9fa; font-weight: 600; cursor: pointer; user-select: none; position: sticky; top: 0; }
+            th:hover { background-color: #e2e8f0; }
+            
+            tr:nth-child(even) { background-color: #fafafa; }
+            a { color: #0066cc; text-decoration: none; }
+            a:hover { text-decoration: underline; }
+            .nowrap { white-space: nowrap; }
+            
+            /* Highlighting Styling */
+            mark { background-color: #ffeb3b; color: #000; padding: 0 2px; border-radius: 2px; }
+            
+            /* Search box styling */
+            .search-container { margin-bottom: 20px; }
+            #searchInput { padding: 10px; width: 100%; max-width: 400px; font-size: 16px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; outline: none; }
+            #searchInput:focus { border-color: #0066cc; }
+            
+            /* Summary Styling */
+            .summary-section { margin-top: 40px; padding: 20px; background-color: #f8f9fa; border-radius: 8px; border: 1px solid #e5e7eb; }
+            .summary-section h3, .summary-section h4 { margin-top: 0; color: #111827; }
+            .summary-section p { margin: 5px 0; }
+            .summary-section ul { padding-left: 20px; }
+        </style>
+    </head>
+    <body>
+        <h2>1 comments by <a href="https://youtube.com/@micky2ears" target="_blank">@micky2ears</a> on 1 videos</h2>
+        
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search in comments, dates, titles...">
+        </div>
+
+        <table id="commentsTable">
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)">Video Title ↕</th>
+                    <th onclick="sortTable(1)">Video Date ↕</th>
+                    <th onclick="sortTable(2)">Comment Date ↕</th>
+                    <th onclick="sortTable(3)">Likes ↕</th>
+                    <th onclick="sortTable(4)">Comment Text ↕</th>
+                </tr>
+            </thead>
+            <tbody>
+    
+            <tr>
+                <td><a href="https://www.youtube.com/watch?v=ZHuZcJUI1rI" target="_blank">Chapter 13: It Goes Where It Goes</a></td>
+                <td class="nowrap">2026-09-10</td>
+                <td class="nowrap"><a href="https://www.youtube.com/watch?v=ZHuZcJUI1rI&lc=UgzRCIXI0hvk_TDEv9h4AaABAg.Aah5bp6euaTAaiFs2DYYL2" target="_blank">2026-09-13</a></td>
+                <td>5</td>
+                <td>@BridgetteD52 Ive resisted posting anything supportive because of them. There are some people who are just mean.</td>
+            </tr>
+        
+            </tbody>
+        </table>
+        
+    <div class="summary-section">
+        <h3>Summary</h3>
+        <p><strong>Total Videos Commented On:</strong> 1</p>
+        <p><strong>Total Comments:</strong> 1</p>
+        <p><strong>Total Likes Received:</strong> 5</p>
+        <p><strong>Average Likes per Comment:</strong> 5.0</p>
+        
+        <h4>Video Breakdown:</h4>
+        <ul>
+    
+            <li style="margin-bottom: 8px;">
+                <a href="https://www.youtube.com/watch?v=ZHuZcJUI1rI" target="_blank"><strong>Chapter 13: It Goes Where It Goes</strong></a><br>
+                Comments: 1 | Likes: 5 | Date Range: 2026-09-13
+            </li>
+        </ul></div>
+        <script>
+            // --- Table Search and Highlight Logic ---
+            function searchTable() {
+                let input = document.getElementById("searchInput").value.toLowerCase();
+                let tbody = document.querySelector("#commentsTable tbody");
+                let tr = tbody.getElementsByTagName("tr");
+                
+                // Clear out previous highlights by un-wrapping mark tags
+                document.querySelectorAll("mark").forEach(mark => {
+                    let parent = mark.parentNode;
+                    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+                    parent.normalize(); // Merge adjacent text nodes back together
+                });
+
+                // If input is empty, show all rows
+                if(!input) {
+                    for (let i = 0; i < tr.length; i++) {
+                        tr[i].style.display = "";
+                    }
+                    return;
+                }
+
+                // Filter rows and highlight matches safely via text node parsing
+                for (let i = 0; i < tr.length; i++) {
+                    let row = tr[i];
+                    let showRow = false;
+                    
+                    for(let j = 0; j < row.cells.length; j++) {
+                        let cell = row.cells[j];
+                        if(cell.textContent.toLowerCase().includes(input)) {
+                            showRow = true;
+                            highlightNode(cell, input);
+                        }
+                    }
+                    row.style.display = showRow ? "" : "none";
+                }
+            }
+
+            function highlightNode(node, searchText) {
+                // Node type 3 is a Text Node
+                if (node.nodeType === 3) {
+                    let text = node.nodeValue;
+                    let index = text.toLowerCase().indexOf(searchText);
+                    if (index >= 0) {
+                        let before = text.substring(0, index);
+                        let match = text.substring(index, index + searchText.length);
+                        let afterText = text.substring(index + searchText.length);
+                        
+                        node.nodeValue = before;
+                        
+                        let mark = document.createElement('mark');
+                        mark.textContent = match;
+                        node.parentNode.insertBefore(mark, node.nextSibling);
+                        
+                        if (afterText) {
+                            let afterNode = document.createTextNode(afterText);
+                            node.parentNode.insertBefore(afterNode, mark.nextSibling);
+                            highlightNode(afterNode, searchText); // recursively search rest of string
+                        }
+                    }
+                } 
+                // Recursively pass children unless they're already wrapped in <mark>
+                else if (node.nodeType === 1 && node.childNodes && node.tagName !== 'MARK') {
+                    let children = Array.from(node.childNodes);
+                    children.forEach(child => highlightNode(child, searchText));
+                }
+            }
+
+            // --- Table Sorting Logic ---
+            let sortDirection = {}; // Tracks current sorted state (true = asc, false = desc)
+            
+            function sortTable(columnIndex) {
+                let tbody = document.querySelector("#commentsTable tbody");
+                let rows = Array.from(tbody.querySelectorAll("tr"));
+                
+                // Toggle direction based on previous click
+                let isAsc = sortDirection[columnIndex] !== true;
+                sortDirection[columnIndex] = isAsc;
+                
+                rows.sort((a, b) => {
+                    let valA = a.cells[columnIndex].textContent.trim();
+                    let valB = b.cells[columnIndex].textContent.trim();
+                    
+                    // Specific numeric sort for the "Likes" column (index 3)
+                    if (columnIndex === 3) { 
+                         let numA = parseFloat(valA);
+                         let numB = parseFloat(valB);
+                         return isAsc ? numA - numB : numB - numA;
+                    }
+                    
+                    // Alphanumeric sort for Strings & Dates
+                    return isAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                });
+                
+                // Re-append sorted rows to the table body
+                rows.forEach(row => tbody.appendChild(row));
+            }
+        </script>
+    </body>
+    </html>
+    
