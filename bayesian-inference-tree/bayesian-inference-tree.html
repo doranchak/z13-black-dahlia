@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bayesian Inference Tree</title>
+<style>
+  :root {
+    --ink: #1b2a5e;
+    --box-border: #24326b;
+    --box-bg: #ffffff;
+    --era-bg: #eef1fb;
+    --result-bg: #dfe9ff;
+    --title-red: #c0132b;
+    --title-teal: #1a8a86;
+    --arrow: #24326b;
+    --bg: #f4f6fb;
+    --popup-bg: #1b2a5e;
+    --popup-text: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--bg);
+    font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  #page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+
+  header {
+    text-align: center;
+    padding: 8px 16px 4px;
+    flex: 0 0 auto;
+  }
+
+  header h1 {
+    color: var(--title-red);
+    font-size: clamp(18px, 3vw, 28px);
+    letter-spacing: 1px;
+    margin: 0 0 2px;
+  }
+
+  header h2 {
+    color: var(--title-teal);
+    font-size: clamp(12px, 1.8vw, 16px);
+    font-weight: 600;
+    margin: 0 0 2px;
+  }
+
+  header p.instructions {
+    margin: 0;
+    font-size: 11px;
+    color: #556;
+  }
+
+  #stage {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #chart {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 26px;
+    padding: 4px;
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .col .gap-before { margin-top: 16px; }
+
+  svg#arrows {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  .node {
+    box-sizing: border-box;
+    border: 2px solid var(--box-border);
+    border-radius: 9px;
+    background: var(--box-bg);
+    padding: 6px 10px;
+    font-size: 11px;
+    line-height: 1.25;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+    z-index: 2;
+  }
+
+  .node:hover, .node:focus-visible, .node.pinned {
+    box-shadow: 0 0 0 3px rgba(36,50,107,0.25), 0 6px 14px rgba(0,0,0,0.15);
+    transform: translateY(-1px);
+    outline: none;
+    border-color: #6a2fbf;
+  }
+
+  .node.start { font-weight: 700; }
+
+  .node.era {
+    background: var(--era-bg);
+    /* font-weight: 700; */
+  }
+
+  .node.detail { text-align: left; font-weight: 500; }
+  .node.detail strong { display: block; text-align: center; margin-bottom: 1px; }
+
+  /* .node.pairing { font-weight: 700; } */
+
+  .node.method u { text-decoration: underline; }
+  /* .node.method { font-weight: 600; } */
+
+  /* .node.link { font-weight: 600; } */
+
+  /* .node.solution { font-weight: 600; } */
+
+  .node.result {
+    background: var(--result-bg);
+    /* font-weight: 700; */
+    font-size: 12px;
+  }
+
+  /* Popup */
+  #popup {
+    position: fixed;
+    max-width: 860px;
+    background: var(--popup-bg);
+    color: var(--popup-text);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.4;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    z-index: 100;
+    opacity: 0;
+    transform: translateY(4px);
+    pointer-events: none;
+    transition: opacity .12s ease, transform .12s ease;
+  }
+  #popup.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  #popup h3 {
+    margin: 0 0 6px;
+    font-size: 14px;
+    color: #ffd166;
+  }
+  #popup a {
+    color: #8ab4ff;
+  }
+  #popup a:hover {
+    color: #ffd166;
+  }
+  #popup .close-btn {
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    cursor: pointer;
+    color: #ccc;
+    font-size: 14px;
+    line-height: 1;
+  }
+  #popup .close-btn:hover { color: #fff; }
+
+  footer {
+    text-align: center;
+    font-size: 10px;
+    color: #889;
+    padding: 2px 0 4px;
+    flex: 0 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<div id="page">
+
+  <header>
+    <h1>CRYPTANALYSIS VERIFIED</h1>
+    <h2>Bayesian Inference Tree</h2>
+    <p class="instructions">Hover (or tap/click) a shape for additional information. Click elsewhere to dismiss.</p>
+  </header>
+
+  <div id="stage">
+    <div id="chart">
+      <svg id="arrows"></svg>
+
+      <div class="col">
+        <div class="node start" id="n-start" tabindex="0"
+             data-title="Start"
+             data-info="">Start</div>
+      </div>
+
+      <div class="col">
+        <div class="node era" id="n-1947" tabindex="0"
+             data-title="1947 — Black Dahlia"
+             data-info="Margolis changed his name to Merrill in 1958 some eleven years after the Elizabeth Short murder. Margolis was married at the time of the murder as he had wed Edith Bernstein on November 26th 1946.">1947<br>Black Dahlia</div>
+
+        <div class="node era" id="n-2024" tabindex="0"
+             data-title="2024 — Merrill's Son"
+             data-info='Alex made these statements in 2021:<br><br>"I have spoken to [Merrill&apos;s] son"<br><br>"At first very standoffish, I guess, until I identified myself in full details on what I was doing"<br><br>"Um, and when I showed him my evidence, he offered me his DNA"<br><br>"Um but uh Roark is willing to assist us behind the scene"'>2024<br>Merrill's Son</div>
+
+        <div class="node era" id="n-1970" tabindex="0"
+             data-title="1970 — Z13 Cipher"
+             data-info="">1970<br>Z13 Cipher</div>
+      </div>
+
+      <div class="col">
+        <div class="node detail" id="n-detailBD" tabindex="0"
+             data-title="Black Dahlia investigative details"
+             data-info="">ES Roommate/Romance<br>Police report Xboyfriend fear<br>Navy Medic/Surgical<br>Denied/Psych Disability<br>USC med school<br>Lied to police/Left town<br>Grand Jury suspect #22<br>Changed name</div>
+
+        <div class="node detail" id="n-detailElizabeth" tabindex="0"
+             data-title="Elizabeth Short — wound evidence"
+             data-info="Autopsy photographs including wound patterns have been in the public domain for decades (1980’s), the sketch shows no unique information which only the perpetrator would be aware of. These images are easily accessible on the internet and have been featured in a large number of publications and media."><u>Elizabeth Sketch</u>Lacerations<br>Torso only/Blood<br>Glasgow smile</div>
+
+        <div class="node detail" id="n-detailHidden" tabindex="0"
+             data-title="Hidden markers"
+             data-info="The hidden 'Zodiac' could not be validated by an independent forensic examiner, the limited results obtained by said examiner were by means not described by Alex Baber. Also there are differing images of the formation of “Zodiac” which have been published by Alex before any independent analysis was conducted.<br><br>The handwriting analysis stated “Based on the examination and comparison conducted to date it has been determined that Marvin Margolis can not be eliminated as the author… Additionally there is evidence to suggest Marvin Margolis executed the writing exhibited on Q1 and Q3 - Q6 letters. (Confirmed Zodiac correspondence). Obviously this is very different than the purported confirmed handwriting match, even more disconcerting is the fact that in both the questioned documents and Margolis’s writing copies and not originals were used for comparison. The industry standard is for originals from the matching contemporary period to be used. Previously in 2021 Alex has claimed that one of the handwriting experts being used now confirmed a match of the documents analysed to a completely different individual. The claim of Roark (Margolis’s son) recognising Zodiacs handwriting as being his fathers in 2024 becomes a moot point when it is documented that Alex and Roark have been corresponding from 2021 at the latest.<br><br>Whilst it is true that there was a WW2 Japanese bayonet which featured the makers mark of a circled eight that model does not match evidence in the Zodiac case. Aside from the fact that it has never been confirmed what type of knife, nevermind a bayonet, was used at Lake Berryessa information from both witness statements and a autopsy report rule out that type of bayonet as being the murder weapon. The knife used by Zodiac was around 12” in length with a double sided blade where as the claimed bayonet was 20” in length with a single sided blade.">Hidden "Zodiac"<br>Linguistic/Handwriting match<br>Bayonet/Circle 8 symbol</div>
+
+        <div class="node detail" id="n-detailZ13" tabindex="0"
+             data-title="Cipher analysis"
+             data-info='The bio of Robert Rutherford Morris Emmet states:<br>In his time he has supervised the naval training of "nearly 1,000,000 young gentlemen who went through Great Lakes boot camp." Emmet, lounging in a striped gray jacket, gray pants and a white sport shirt now looks to his retirement days with anticipation.'>Crypto Manuals &amp; Z408/Z340<br>Grid based Transposition<br>Substitution/Reversals<br>Z13 repeats match MM<br>Z18 anagram Robert Emmet<br>Bill Robinson (Signal Corps)</div>
+      </div>
+
+      <div class="col">
+        <div class="node pairing" id="n-mmbd" tabindex="0"
+             data-title="Marvin Merrill ↔ Black Dahlia"
+             data-info="">Marvin Merrill (MM)<br>Black Dahlia (BD)</div>
+
+        <div class="node pairing" id="n-mmzk" tabindex="0"
+             data-title="Marvin Merrill ↔ Zodiac Killer"
+             data-info="">Marvin Merrill (MM)<br>Zodiac Killer (ZK)</div>
+      </div>
+
+      <div class="col">
+        <div class="node link" id="n-linkBDZK" tabindex="0"
+             data-title="Linking BD and ZK"
+             data-info="Belli Birthday Call: This is in reference to an internal FBI memo on the 14th January 1970, it is the document itself that is dated the 14th, nowhere in this file does it actually state the date of the phone call, only the date that the information was relayed to the FBI by the San Francisco Police department. At the time there was an individual named Eric Weill who it was proved by SFPD was phoning both Belli’s residence and workplace, along with the infamous call to the Sam Dunbar show. Eric was claiming to be the Zodiac during these phone calls, his date of birth was the 10th January.<br><br>The advert for the Zodiac Motel states Bath, this was a contemporary descriptive term used to indicate a separate washroom. At the time adverts were charged by their number of words and letters. Numerous other adverts included the word bath and at no point does the word bathtub appear in any Zodiac Motel adverts. In fact during 1953 when the owners were trying to sell the motel it was stated that the rooms actually had 'tiled showers'.<br><br>Z Laundry: Presumably this is in reference to the canvas bag which was found. The canvas ice bag was found nearly half a mile from the location where Elizabeth’s body was found. A week after the Elizabeth’s body was found it was reported that Ray Pinker, of the Los Angeles Police Department, who was tasked with examining and testing the canvas bag, had “eliminated a stained ice bag found Tuesday near where the body of the “Black Dahlia” was found as evidence in the murder.”">Link BD and ZK<br>Belli Bday Call<br>Zodiac Motel<br>Z Laundry</div>
+      </div>
+
+      <div class="col">
+        <div class="node method" id="n-baberKPA" tabindex="0"
+             data-title="Baber Method — Known Plaintext Attack"
+             data-info=""><u>Apply Baber Method</u>Known Plaintext Attack<br>1000:1</div>
+
+        <div class="node method gap-before" id="n-baberCOA" tabindex="0"
+             data-title="Baber Method — Ciphertext Only Attack"
+             data-info=""><u>Apply Baber Method</u>Ciphertext Only Attack<br>4192 Resulting Names<br>Winnowing → MM</div>
+      </div>
+
+      <div class="col">
+        <div class="node link" id="n-linkCB" tabindex="0"
+             data-title="Linking Cheri Jo Bates"
+             data-info='“Twitch/scream/squirm” 6 months before Zodiacs first letter the Inside Detective magazine ran a multi page story on the murder of Cheri Jo Bates. This article featured both a photograph of a reproduction of the confession letter and a transcribed version of the letter. The photographic version of the letter featured the incorrect “twich” spelling showing that the misspelling was in the public domain for 18 month before Zodiac used the word.<br><br>No latent print evidence in Cheris case matches the Zodiac case. <br><br>In a 1992 FBI document requesting that their behavioural science unit conduct a profile on the Zodiac case it was stated “Disregard victims Cheri Jo Bates, Riverside PD victim NOT killed Zodiac”'><u>Link CheriJo Bates (CB)</u>twitch/scream/squirm<br>Other Z Evidence<br>Z13 Keyword</div>
+
+        <div class="node solution" id="n-z18" tabindex="0"
+             data-title="Z18 Solution"
+             data-info="">Z18 Solution<br>Elizabeth 999:1<br>CheriJo 99:1</div>
+      </div>
+
+      <div class="col">
+        <div class="node result" id="n-resultBD" tabindex="0"
+             data-title="Result: MM = BD"
+             data-info="">MM BD<br>1M:1</div>
+
+        <div class="node result" id="n-resultZK" tabindex="0"
+             data-title="Result: MM = ZK"
+             data-info="">MM ZK<br>1M:1</div>
+
+        <div class="node result" id="n-resultCB" tabindex="0"
+             data-title="Result: MM = CB"
+             data-info="">MM CB<br>1M:1</div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer>Recreated from tree.pdf — text transcribed from the source flowchart; popup content is placeholder filler.</footer>
+
+</div>
+
+<div id="popup" role="tooltip">
+  <span class="close-btn" id="popup-close">✕</span>
+  <h3 id="popup-title"></h3>
+  <div id="popup-body"></div>
+</div>
+
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var chart = document.getElementById('chart');
+  var svg = document.getElementById('arrows');
+  var popup = document.getElementById('popup');
+  var popupTitle = document.getElementById('popup-title');
+  var popupBody = document.getElementById('popup-body');
+  var popupClose = document.getElementById('popup-close');
+
+  var edges = [
+    ['n-start', 'n-1947'],
+    ['n-start', 'n-2024'],
+    ['n-start', 'n-1970'],
+    ['n-1947', 'n-detailBD'],
+    ['n-2024', 'n-detailElizabeth'],
+    ['n-2024', 'n-detailHidden'],
+    ['n-1970', 'n-detailZ13'],
+    ['n-detailBD', 'n-mmbd'],
+    ['n-detailElizabeth', 'n-mmbd'],
+    ['n-detailHidden', 'n-mmzk'],
+    ['n-detailZ13', 'n-mmzk'],
+    ['n-detailZ13', 'n-baberCOA'],
+    ['n-baberCOA', 'n-linkCB'],
+    ['n-mmbd', 'n-linkBDZK'],
+    ['n-mmzk', 'n-linkBDZK'],
+    ['n-linkBDZK', 'n-baberKPA'],
+    ['n-baberKPA', 'n-linkCB'],
+    ['n-linkCB', 'n-z18'],
+    ['n-z18', 'n-resultBD'],
+    ['n-z18', 'n-resultZK'],
+    ['n-z18', 'n-resultCB']
+  ];
+
+  function setMarker() {
+    var defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    defs.innerHTML =
+      '<marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">' +
+      '<path d="M0,0 L6,3 L0,6 Z" fill="#24326b" />' +
+      '</marker>';
+    svg.appendChild(defs);
+  }
+
+  // offset-based rect: transform-agnostic, relative to #chart (its offsetParent)
+  function rectOf(el) {
+    return {
+      left: el.offsetLeft,
+      top: el.offsetTop,
+      right: el.offsetLeft + el.offsetWidth,
+      bottom: el.offsetTop + el.offsetHeight,
+      width: el.offsetWidth,
+      height: el.offsetHeight
+    };
+  }
+
+  function hPath(x1, y1, x2, y2, midX) {
+    if (Math.abs(y1 - y2) < 1) return 'M ' + x1 + ' ' + y1 + ' L ' + x2 + ' ' + y2;
+    if (midX === undefined) midX = (x1 + x2) / 2;
+    return 'M ' + x1 + ' ' + y1 + ' L ' + midX + ' ' + y1 + ' L ' + midX + ' ' + y2 + ' L ' + x2 + ' ' + y2;
+  }
+
+  function vPath(x1, y1, x2, y2, midY) {
+    if (Math.abs(x1 - x2) < 1) return 'M ' + x1 + ' ' + y1 + ' L ' + x2 + ' ' + y2;
+    if (midY === undefined) midY = (y1 + y2) / 2;
+    return 'M ' + x1 + ' ' + y1 + ' L ' + x1 + ' ' + midY + ' L ' + x2 + ' ' + midY + ' L ' + x2 + ' ' + y2;
+  }
+
+  function drawArrows() {
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    setMarker();
+
+    svg.setAttribute('width', chart.offsetWidth);
+    svg.setAttribute('height', chart.offsetHeight);
+
+    // pass 1: classify direction for each edge and group by (node, side)
+    // so multiple edges sharing a side get spread out instead of overlapping.
+    var info = edges.map(function (pair) {
+      var fromEl = document.getElementById(pair[0]);
+      var toEl = document.getElementById(pair[1]);
+      if (!fromEl || !toEl) return null;
+      var a = rectOf(fromEl);
+      var b = rectOf(toEl);
+      var dir;
+      if (b.left >= a.right - 2) dir = 'right';
+      else if (a.left >= b.right - 2) dir = 'left';
+      else if (b.top >= a.bottom - 2) dir = 'down';
+      else if (a.top >= b.bottom - 2) dir = 'up';
+      else dir = 'right';
+      return { pair: pair, a: a, b: b, dir: dir };
+    });
+
+    var groups = {};
+    function pushGroup(key, idx) {
+      (groups[key] = groups[key] || []).push(idx);
+    }
+    info.forEach(function (e, i) {
+      if (!e) return;
+      var fromSide = (e.dir === 'right') ? 'right' : (e.dir === 'left') ? 'left' : (e.dir === 'down') ? 'bottom' : 'top';
+      pushGroup(e.pair[0] + '|out|' + fromSide, i);
+      var toSide = (e.dir === 'right') ? 'left' : (e.dir === 'left') ? 'right' : (e.dir === 'down') ? 'top' : 'bottom';
+      pushGroup(e.pair[1] + '|in|' + toSide, i);
+    });
+
+    function fraction(key, i) {
+      var arr = groups[key];
+      var idx = arr.indexOf(i);
+      return (idx + 1) / (arr.length + 1);
+    }
+
+    // When two edges share an exit or entry side, their independently-computed
+    // dogleg midpoint often lands at nearly the same coordinate (since the
+    // shared endpoint dominates the average), fusing the two trunks into what
+    // looks like one line. Nudge the midpoint by how far this edge's
+    // fraction sits from the group's center, so shared trunks fan out.
+    var JOG_SPACING = 18;
+    function jogOffset(outFrac, inFrac) {
+      return ((outFrac - 0.5) + (inFrac - 0.5)) * JOG_SPACING;
+    }
+
+    // A box's own edge can sit well inside its column's full footprint when a
+    // sibling in the same .col is wider (e.g. z18 is narrower than linkCB
+    // above it) and the trunk's vertical run actually passes that sibling's
+    // height (e.g. bridging up from z18 to a higher-positioned result box).
+    // Only constrain the jog when a sibling truly occupies that Y-band, so
+    // edges that don't need to cross it keep their full spread.
+    function siblingLimit(colEl, excludeEl, yLo, yHi, wantRight) {
+      var limit = wantRight ? -Infinity : Infinity;
+      var kids = colEl.children;
+      for (var k = 0; k < kids.length; k++) {
+        var sib = kids[k];
+        if (sib === excludeEl || !sib.classList.contains('node')) continue;
+        var r = rectOf(sib);
+        if (r.bottom <= yLo || r.top >= yHi) continue; // no Y overlap with the trunk
+        if (wantRight) { if (r.right > limit) limit = r.right; }
+        else { if (r.left < limit) limit = r.left; }
+      }
+      return limit;
+    }
+
+    info.forEach(function (e, i) {
+      if (!e) return;
+      var a = e.a, b = e.b, dir = e.dir;
+      var fromEl = document.getElementById(e.pair[0]);
+      var toEl = document.getElementById(e.pair[1]);
+      var d;
+
+      if (dir === 'right' || dir === 'left') {
+        var fromSide = dir === 'right' ? 'right' : 'left';
+        var toSide = dir === 'right' ? 'left' : 'right';
+        var startX = dir === 'right' ? a.right : a.left;
+        var endX = dir === 'right' ? b.left : b.right;
+        var outFrac = fraction(e.pair[0] + '|out|' + fromSide, i);
+        var inFrac = fraction(e.pair[1] + '|in|' + toSide, i);
+        var startY = a.top + a.height * outFrac;
+        var endY = b.top + b.height * inFrac;
+        var midX = (startX + endX) / 2 + jogOffset(outFrac, inFrac);
+        var yLo = Math.min(startY, endY);
+        var yHi = Math.max(startY, endY);
+        var fromLimit = dir === 'right'
+          ? siblingLimit(fromEl.parentElement, fromEl, yLo, yHi, true)
+          : siblingLimit(toEl.parentElement, toEl, yLo, yHi, true);
+        var toLimit = dir === 'right'
+          ? siblingLimit(toEl.parentElement, toEl, yLo, yHi, false)
+          : siblingLimit(fromEl.parentElement, fromEl, yLo, yHi, false);
+        var safeMin = Math.max(startX, isFinite(fromLimit) ? fromLimit + 2 : -Infinity);
+        var safeMax = Math.min(endX, isFinite(toLimit) ? toLimit - 2 : Infinity);
+        // A sibling that overlaps this edge's Y-band usually overlaps its
+        // group-mates' bands too (they share the same source/target). Only
+        // clamping the specific edges that individually violate the floor
+        // leaves the others at their independently-computed natural spot,
+        // which can coincidentally land right next to a clamped one. So:
+        // whenever a sibling constrains this side at all, always position
+        // by rank from that boundary, for every edge the constraint applies
+        // to, not just the ones the raw offset would have pushed past it.
+        if (safeMin <= safeMax) {
+          if (isFinite(fromLimit)) {
+            var outArr = groups[e.pair[0] + '|out|' + fromSide];
+            var rank = outArr.indexOf(i);
+            midX = Math.max(midX, Math.min(safeMax, safeMin + rank * 6));
+          }
+          if (isFinite(toLimit)) {
+            var inArr = groups[e.pair[1] + '|in|' + toSide];
+            var rankFromEnd = inArr.length - 1 - inArr.indexOf(i);
+            midX = Math.min(midX, Math.max(safeMin, safeMax - rankFromEnd * 6));
+          }
+        }
+        d = hPath(startX, startY, endX, endY, midX);
+      } else {
+        var fromSideV = dir === 'down' ? 'bottom' : 'top';
+        var toSideV = dir === 'down' ? 'top' : 'bottom';
+        var startY2 = dir === 'down' ? a.bottom : a.top;
+        var endY2 = dir === 'down' ? b.top : b.bottom;
+        var outFracV = fraction(e.pair[0] + '|out|' + fromSideV, i);
+        var inFracV = fraction(e.pair[1] + '|in|' + toSideV, i);
+        var startX2 = a.left + a.width * outFracV;
+        var endX2 = b.left + b.width * inFracV;
+        var midY = (startY2 + endY2) / 2 + jogOffset(outFracV, inFracV);
+        d = vPath(startX2, startY2, endX2, endY2, midY);
+      }
+
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('fill', 'none');
+      path.setAttribute('stroke', '#24326b');
+      path.setAttribute('stroke-width', '1.5');
+      path.setAttribute('stroke-linejoin', 'round');
+      path.setAttribute('marker-end', 'url(#arrowhead)');
+      svg.appendChild(path);
+    });
+  }
+
+  // Scale the whole chart to fit the visible window, no scrolling.
+  function fitToWindow() {
+    chart.style.transform = 'none';
+    chart.style.left = '0px';
+    chart.style.top = '0px';
+    var naturalW = chart.offsetWidth;
+    var naturalH = chart.offsetHeight;
+    if (!naturalW || !naturalH) return;
+
+    var availW = stage.clientWidth - 8;
+    var availH = stage.clientHeight - 8;
+    var scale = Math.min(availW / naturalW, availH / naturalH);
+    if (!isFinite(scale) || scale <= 0) scale = 1;
+    scale = Math.min(scale, 1.4);
+    scale = Math.max(scale, 0.25);
+
+    var left = Math.max(0, (stage.clientWidth - naturalW * scale) / 2);
+    var top = Math.max(0, (stage.clientHeight - naturalH * scale) / 2);
+
+    chart.style.left = left + 'px';
+    chart.style.top = top + 'px';
+    chart.style.transform = 'scale(' + scale + ')';
+  }
+
+  function relayout() {
+    drawArrows();
+    fitToWindow();
+  }
+
+  // Popup logic
+  var pinnedEl = null;
+
+  function positionPopup(el) {
+    var r = el.getBoundingClientRect();
+    var margin = 10;
+    popup.style.left = '0px';
+    popup.style.top = '0px';
+    popup.classList.add('visible');
+    var pw = popup.offsetWidth;
+    var ph = popup.offsetHeight;
+
+    var left = r.left + r.width / 2 - pw / 2;
+    var top = r.bottom + margin;
+
+    if (top + ph > window.innerHeight - 8) {
+      top = r.top - ph - margin;
+    }
+    if (left < 8) left = 8;
+    if (left + pw > window.innerWidth - 8) left = window.innerWidth - pw - 8;
+    if (top < 8) top = 8;
+
+    popup.style.left = left + 'px';
+    popup.style.top = top + 'px';
+  }
+
+  function showPopup(el) {
+    popupTitle.innerHTML = el.getAttribute('data-title') || '';
+    popupBody.innerHTML = el.getAttribute('data-info') || '';
+    positionPopup(el);
+  }
+
+  function hidePopup() {
+    popup.classList.remove('visible');
+  }
+
+  var nodes = Array.prototype.slice.call(document.querySelectorAll('.node'));
+
+  nodes.forEach(function (el) {
+    el.addEventListener('mouseenter', function () {
+      if (!pinnedEl) showPopup(el);
+    });
+    el.addEventListener('mouseleave', function () {
+      if (!pinnedEl) hidePopup();
+    });
+    el.addEventListener('click', function (e) {
+      e.stopPropagation();
+      nodes.forEach(function (n) { n.classList.remove('pinned'); });
+      if (pinnedEl === el) {
+        pinnedEl = null;
+        hidePopup();
+      } else {
+        pinnedEl = el;
+        el.classList.add('pinned');
+        showPopup(el);
+      }
+    });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        el.click();
+      }
+    });
+    el.addEventListener('focus', function () {
+      if (!pinnedEl) showPopup(el);
+    });
+    el.addEventListener('blur', function () {
+      if (!pinnedEl) hidePopup();
+    });
+  });
+
+  popup.addEventListener('click', function (e) { e.stopPropagation(); });
+  popupClose.addEventListener('click', function () {
+    pinnedEl = null;
+    nodes.forEach(function (n) { n.classList.remove('pinned'); });
+    hidePopup();
+  });
+
+  document.addEventListener('click', function () {
+    if (pinnedEl) {
+      pinnedEl.classList.remove('pinned');
+      pinnedEl = null;
+      hidePopup();
+    }
+  });
+
+  var resizeTimer = null;
+  window.addEventListener('resize', function () {
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(relayout, 80);
+  });
+
+  window.addEventListener('load', relayout);
+  relayout();
+  setTimeout(relayout, 150);
+})();
+</script>
+
+</body>
+</html>
