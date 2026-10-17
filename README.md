@@ -1,7 +1,8 @@
 # z13-black-dahlia
 
-Assortment of visualizations for Black Dahlia episode of Let's Crack Zodiac.  Click the links for live demos.
+Assortment of visualizations and other material for Black Dahlia episode of Let's Crack Zodiac.  Click the links for live demos.
 
+- [Show Notes](https://doranchak.github.io/z13-black-dahlia/show-notes/): A document collating sources and references for the videos, focusing primarily on the numerous prominent problems with Alex Baber's theories and credibility.
 - [Columnar transposition visualizer](https://doranchak.github.io/z13-black-dahlia/columnar-transposition-visualizer.html): An animation demonstrating a simple columnar transposition example.
 - [Dots neighborhood visualizer](https://doranchak.github.io/z13-black-dahlia/dots-neighborhood-visualizer.html): Attempt to compare the scale of 100 "things" vs 500,000 "things."
 - [Name animator](https://doranchak.github.io/z13-black-dahlia/name-animator.html): Displays a cluster of random 13-character names whose letter frequencies match the cipher symbol frequencies of Z13.
