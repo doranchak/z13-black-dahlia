@@ -233,6 +233,20 @@
     white-space: nowrap;
   }
   nav.toc a:hover { text-decoration: underline; border-color: var(--accent); }
+  p.qtoc {
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
+    font-size: .82rem;
+    color: var(--muted);
+    margin: -.3rem 0 1.1rem;
+  }
+  p.qtoc .toc-label {
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: .68rem;
+    color: var(--muted);
+  }
+  p.qtoc a { color: var(--accent); }
+  p.qtoc a:hover { text-decoration: underline; }
   h2.section-h2 {
     display: flex;
     justify-content: space-between;
@@ -457,7 +471,9 @@
   <h2 class="section-h2">9. Outstanding questions about Baber's investigation <a class="to-top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">↑ Back to top</a></h2>
   <p>The following are specific, unresolved questions about Baber's investigation and his background, raised during the research for this series and, in many cases, put to Baber directly. They are grouped into categories below; the numbering runs continuously across all categories. Where a question is examined in more detail elsewhere on this page, that section is linked; where an existing citation applies, it is included.</p>
 
-  <div class="qgroup">
+  <p class="qtoc"><span class="toc-label">Categories:</span> <a href="#q-identification">Merrill/Margolis identification</a> | <a href="#q-circumstances">Circumstances of the investigation</a> | <a href="#q-endorsements">Endorsements &amp; media coverage</a> | <a href="#q-other-cases">Links to other cases</a> | <a href="#q-background">Personal background &amp; credentials</a> | <a href="#q-financial">Financial history</a></p>
+
+  <div class="qgroup" id="q-identification">
     <h3>Evidence behind the Merrill/Margolis identification</h3>
     <ul class="qlist">
       <li>Baber has stated, on camera and on multiple occasions, that he first learned the name "Merrill" through decoding the Z13 cipher. What accounts for research materials indicating earlier awareness of the Margolis/Merrill connection? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="8">[8]</sup><sup class="cite" data-ref="11">[11]</sup><sup class="cite" data-ref="12">[12]</sup>
@@ -502,7 +518,7 @@
     </ul>
   </div>
 
-  <div class="qgroup">
+  <div class="qgroup" id="q-circumstances">
     <h3>Circumstances of the investigation</h3>
     <ul class="qlist">
       <li>Why was a story about conducting WWII research reportedly needed to gain Merrill's son's cooperation in 2024, when Baber has separately said he already had that cooperation as of 2021? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="13">[13]</sup>. When did Baber contact Merrill's son with the pretense that he was conducting WWII research?
@@ -517,7 +533,7 @@
     </ul>
   </div>
 
-  <div class="qgroup">
+  <div class="qgroup" id="q-endorsements">
     <h3>Endorsements, institutional credibility, and media coverage</h3>
     <ul class="qlist">
       <li>Baber has said 50 cryptography experts endorse his findings. Publicly, only cryptographers Ed Giorgio, and to a lesser extent Patrick Henry, have spoken to any endorsement, and Connelly describes Giorgio's work as validating only the internal consistency of a method that already assumed Margolis as the suspect. What is the basis for the larger figure?<sup class="cite" data-ref="3">[3]</sup></li>
@@ -532,10 +548,11 @@
       </li>
       <li>CCCOA's website states that "Alex has built a reputation for credibility." How is this reconciled with the financial, legal, and testimonial history documented elsewhere on this page? (See <a href="#financial-legal">Financial and legal history</a> and <a href="#testimony">Source testimony</a>.)<sup class="cite" data-ref="81">[81]</sup></li>
       <li>Why did Baber say Vanity Fair and People Magazine were prepared to run stories on his findings, when direct statements from sources at those outlets describe the opposite? (Examined in detail under <a href="#recent-claims">Recent claims</a>.)<sup class="cite" data-ref="17">[17]</sup><sup class="cite" data-ref="18">[18]</sup></li>
+      <li>Why is Alex Baber, or someone connected with <em>Killer in the Code</em>, promoting the podcast using questionable engagement-farming techniques?<sup class="cite" data-ref="127">[127]</sup></li>
     </ul>
   </div>
 
-  <div class="qgroup">
+  <div class="qgroup" id="q-other-cases">
     <h3>Claims linking the investigation to other cases</h3>
     <ul class="qlist">
       <li>What is the basis for linking a two-person team, including Merrill, to the Zodiac case, the "Lipstick Killer" case, the Atlanta Child Murders, the Oakland Child Murders, the Freeway Phantom murders, and other solved and unsolved homicides?<sup class="cite" data-ref="82">[82]</sup></li>
@@ -553,7 +570,7 @@
     </ul>
   </div>
 
-  <div class="qgroup">
+  <div class="qgroup" id="q-background">
     <h3>Personal background and credentials</h3>
     <ul class="qlist">
       <li>Baber has denied a history of working as a car salesman. How is this reconciled with public motor-vehicle salesman licensing records identified in Pennsylvania (1997) and Tennessee (2018)? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="20">[20]</sup><sup class="cite" data-ref="19">[19]</sup><sup class="cite" data-ref="22">[22]</sup><sup class="cite" data-ref="23">[23]</sup></li>
@@ -577,7 +594,7 @@
     </ul>
   </div>
 
-  <div class="qgroup">
+  <div class="qgroup" id="q-financial">
     <h3>Financial history and money raised</h3>
     <ul class="qlist">
       <li>Baber has said he sold a house in 2007 after being frightened by a phone call attributed to the Zodiac killer, and separately described himself as a victim of the housing crisis. How is this reconciled with a 2009 repossession record for a property in his name? (Examined in detail under <a href="#pattern">Pattern</a>.)<sup class="cite" data-ref="27">[27]</sup></li>
@@ -776,6 +793,7 @@ Patrick Henry, from <a href='https://www.youtube.com/watch?v=4hmXxKMtk5g' target
   { label: "[124]", text: "2021 <i>People</i> Magazine interview: \"Well guess what? This is Mr. Merrill the same year. I did a biometric... or I uh, or actually, facial recognition came back 100%.\"" },
   { label: "[125]", text: "The original photograph of Elizabeth Short standing next to an unidentified man is published by Black Dahlia researcher Larry Harnisch at <a href='https://ladailymirror.com/wp-content/uploads/2012/04/elizabeth_short_nd_man_lapd_01.jpg' target='_blank'><i>LA Daily Mirror</i></a>." },
   { label: "[126]", text: "A screenshot from Baber's 2021 <i>People</i> Magazine interview shows him holding up a printed copy of the photograph that has been altered from the original published by Larry Harnisch (ref <sup class='cite' data-ref='125'>[125]</sup>). (<a href='assets/2021-people-magazine-unknown-man-photo.png' target='_blank'>screenshot</a>)" },
+  { label: "[127]", text: "Nine Instagram accounts promoting <i>Killer in the Code</i> and Baber's investigation — <a href='https://www.instagram.com/decodethekiller/' target='_blank'>@decodethekiller</a>, <a href='https://www.instagram.com/hookedonthecode/' target='_blank'>@hookedonthecode</a>, <a href='https://www.instagram.com/killercodepod/' target='_blank'>@killercodepod</a>, <a href='https://www.instagram.com/killerinthecode_/' target='_blank'>@killerinthecode_</a>, <a href='https://www.instagram.com/killerinthecode/' target='_blank'>@killerinthecode</a>, <a href='https://www.instagram.com/killerinthecodefiles/' target='_blank'>@killerinthecodefiles</a>, <a href='https://www.instagram.com/kitc.podcast/' target='_blank'>@kitc.podcast</a>, <a href='https://www.instagram.com/mcevery_etailmatters/' target='_blank'>@mcevery_etailmatters</a>, and <a href='https://www.instagram.com/theunsolvedcode/' target='_blank'>@theunsolvedcode</a> — post AI-generated (\"AI slop\") content rather than organic material. Follower, following, and engagement analysis across these nine accounts shows them forming a tight, mutually-reinforcing clique around several accounts connected to Alex Baber: <a href='https://www.instagram.com/newera_sherlock/' target='_blank'>@newera_sherlock</a> follows 8 of the 9 accounts, is followed back by 5 of them, and has contributed 34 likes and a comment across them; <a href='https://www.instagram.com/cottonstarcrimescene/' target='_blank'>@cottonstarcrimescene</a> follows 8 of the 9; Lori Halstead (<a href='https://www.instagram.com/lori_beth18/' target='_blank'>@lori_beth18</a>) is linked to 4 of the 9; Linda Whanger Vealey (<a href='https://www.instagram.com/vealeylinda/' target='_blank'>@vealeylinda</a>) is linked to 4 of the 9; and TJ Payne (<a href='https://www.instagram.com/tjtjteej_13/' target='_blank'>@tjtjteej_13</a>) is linked to 3 of the 9. This pattern — AI-generated content accounts cross-promoting each other while clustering tightly around a handful of accounts connected to Baber — is consistent with coordinated engagement-farming rather than organic audience growth." },
 ];
 
 const refsList = document.getElementById('refs-list');
